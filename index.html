@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neil Deshpande — Product Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 0 72px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero-label {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 { margin-bottom: 1rem; }
+  .hero-bio {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+  .hero-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-photo-placeholder {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 1rem;
+    line-height: 1.4;
+  }
+
+  /* ── CASE STUDIES ── */
+  .work-section { padding: 72px 0; }
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .case-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .case-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+
+  .case-cover {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: #1a1a1a;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .case-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .case-cover-placeholder {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 1.5rem;
+    line-height: 1.5;
+  }
+
+  /* Individual cover accent colors */
+  .cover-meta    { background: #0f1923; }
+  .cover-premera { background: #0a2240; }
+  .cover-icon    { background: #1a1035; }
+  .cover-credit  { background: #0d1f14; }
+
+  .case-body { padding: 1.5rem; }
+  .case-company {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.6rem;
+  }
+  .case-company img {
+    height: 20px;
+    width: auto;
+    opacity: 0.7;
+  }
+  .case-company-placeholder {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--border-light);
+    padding: 2px 10px;
+    border-radius: 4px;
+  }
+  .case-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+  .case-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+  .case-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .case-link::after { content: "→"; }
+
+  /* ── FOOTER CTA ── */
+  .footer-cta {
+    padding: 72px 0;
+    text-align: center;
+  }
+  .footer-cta h2 { margin-bottom: 0.5rem; }
+  .footer-cta p { margin-bottom: 1.5rem; }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    background: var(--text);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    margin-left: 0.75rem;
+  }
+  .btn-outline:hover { background: var(--border-light); opacity: 1; }
+
+  @media (max-width: 680px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-photo { width: 100px; height: 100px; order: -1; }
+    .work-grid { grid-template-columns: 1fr; }
+    .btn-outline { margin-left: 0; margin-top: 0.75rem; display: inline-block; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Neil Deshpande</a>
+  <a href="index.html">Portfolio</a>
+  <a href="about.html">About</a>
+  <a href="resume.pdf" target="_blank">Resume</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-label">Senior Product Designer</div>
+        <h1>Hey, I'm Neil! 👋🏽</h1>
+        <p class="hero-bio">I'm a senior product designer with 8+ years of experience across Tech, Finance, Healthcare, and Infrastructure. I've led design and research for B2B, B2C, and enterprise products at GE Healthcare, Meta, Amazon, and Premera Blue Cross.</p>
+      </div>
+      <div class="hero-photo">
+        <!-- Replace with: <img src="photo-neil.jpg" alt="Neil Deshpande"> -->
+        <div class="hero-photo-placeholder">photo-neil.jpg</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WORK -->
+<div class="work-section">
+  <div class="container">
+    <div class="section-label">Selected work</div>
+    <div class="work-grid">
+
+      <!-- Meta -->
+      <a href="meta-case-study.html" class="case-card">
+        <div class="case-cover cover-meta">
+          <!-- Replace with: <img src="cover-meta.jpg" alt="Meta Repair Console"> -->
+          <div class="case-cover-placeholder">cover-meta.jpg<br>1600×1000px</div>
+        </div>
+        <div class="case-body">
+          <div class="case-company">
+            <img src="meta-logo.png" alt="Meta" style="filter:none;height:16px;"/>
+          </div>
+          <div class="case-title">Redesigning how Meta repairs its global data centers</div>
+          <div class="case-desc">Unified 7 fragmented repair systems into a single platform, reducing repair time by 22%.</div>
+          <div class="case-link">Read case study</div>
+        </div>
+      </a>
+
+      <!-- Premera -->
+      <a href="premera.html" class="case-card">
+        <div class="case-cover cover-premera">
+          <!-- Replace with: <img src="cover-premera.jpg" alt="Premera Blue Cross"> -->
+          <div class="case-cover-placeholder">cover-premera.jpg<br>1600×1000px</div>
+        </div>
+        <div class="case-body">
+          <div class="case-company">
+            <span class="case-company-placeholder">Premera Blue Cross</span>
+          </div>
+          <div class="case-title">Making it easier to get help with your health insurance</div>
+          <div class="case-desc">Designed a chatbot that reduced customer service call time by 70% and improved satisfaction by 11%.</div>
+          <div class="case-link">Read case study</div>
+        </div>
+      </a>
+
+      <!-- Icon Library -->
+      <a href="icon-library.html" class="case-card">
+        <div class="case-cover cover-icon">
+          <!-- Replace with: <img src="cover-icon-library.jpg" alt="Icon Library"> -->
+          <div class="case-cover-placeholder">cover-icon-library.jpg<br>1600×1000px</div>
+        </div>
+        <div class="case-body">
+          <div class="case-company">
+            <span class="case-company-placeholder">Pushpay</span>
+          </div>
+          <div class="case-title">Improving a product's search functionality through a redesign</div>
+          <div class="case-desc">Redesigned an icon library of 1,500+ icons, making users find their desired icon 3x faster.</div>
+          <div class="case-link">Read case study</div>
+        </div>
+      </a>
+
+      <!-- Credit Card -->
+      <a href="creditcard.html" class="case-card">
+        <div class="case-cover cover-credit">
+          <!-- Replace with: <img src="cover-creditcard.jpg" alt="Credit Card"> -->
+          <div class="case-cover-placeholder">cover-creditcard.jpg<br>1600×1000px</div>
+        </div>
+        <div class="case-body">
+          <div class="case-company">
+            <span class="case-company-placeholder">MK Transfer</span>
+          </div>
+          <div class="case-title">Reducing the anxiety of a credit card application</div>
+          <div class="case-desc">88% of users reported no anxiety, and 100% said they trusted the app with their finances.</div>
+          <div class="case-link">Read case study</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER CTA -->
+<div class="footer-cta">
+  <div class="container">
+    <h2>Let's work together</h2>
+    <p>I'm currently open to new opportunities. Feel free to reach out.</p>
+    <a href="mailto:deshpande.neil@gmail.com" class="btn">Get in touch</a>
+    <a href="resume.pdf" target="_blank" class="btn btn-outline">View resume</a>
+  </div>
+</div>
+
+<footer>
+  <p>Powered by green tea and a passion for creating new things.</p>
+</footer>
+
+</body>
+</html>

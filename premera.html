@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neil Deshpande — Premera Blue Cross</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  .hero-summary {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  /* META GRID */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  .meta-item { background: var(--surface); padding: 1.25rem; }
+  .meta-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .meta-value { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text); }
+
+  /* RESULT BANNER */
+  .result-banner {
+    background: var(--text);
+    color: #fff;
+    border-radius: 10px;
+    padding: 2rem 2.5rem;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+  }
+  .result-stat .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: #fff;
+  }
+  .result-stat .desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .result-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
+
+  /* SECTIONS */
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  .section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+  }
+  h3 { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.75rem; margin-top: 2rem; }
+  p { margin-bottom: 1.25rem; color: var(--text-secondary); }
+  p:last-child { margin-bottom: 0; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid #d0ccc4;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+  }
+  .pull-quote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin: 0 0 0.4rem;
+  }
+  .pull-quote cite { font-size: 13px; color: var(--text-muted); font-style: normal; }
+
+  /* IMAGE PLACEHOLDER */
+  .img-placeholder {
+    background: var(--border-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    line-height: 1.6;
+  }
+  .img-placeholder.tall { min-height: 200px; }
+  .img-placeholder.wide { min-height: 120px; }
+  .img-placeholder.screen { min-height: 320px; }
+
+  /* FINDING CARDS */
+  .finding {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .finding:last-child { border-bottom: none; }
+  .finding-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    min-width: 2rem;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .finding-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.35rem; color: var(--text); }
+  .finding-body p { font-size: 14px; margin: 0; line-height: 1.6; }
+
+  /* CARD GRID */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .card h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.5rem; color: var(--text); }
+  .card p { font-size: 14px; line-height: 1.6; margin: 0; }
+
+  /* ITERATION STRIP */
+  .iteration-strip {
+    display: flex;
+    gap: 0;
+    margin: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .iter-step {
+    flex: 1;
+    padding: 1.25rem;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+  }
+  .iter-step:last-child { border-right: none; }
+  .iter-step .step-num { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .iter-step h4 { font-size: 14px; font-weight: 500; margin-bottom: 0.35rem; color: var(--text); }
+  .iter-step p { font-size: 13px; line-height: 1.55; margin: 0; }
+
+  /* RESULTS */
+  .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem 1.75rem;
+  }
+  .result-card .big-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .result-card .desc { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* REFLECTION */
+  .reflection { background: #f5f3ef; border-radius: 12px; padding: 2.5rem; margin-top: 2rem; }
+  .reflection h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.75rem; }
+  .reflection h3:not(:first-child) { margin-top: 1.75rem; }
+  .reflection p { font-size: 16px; }
+
+  /* JOURNEY IMAGE (full width within container) */
+  .journey-img {
+    background: var(--border-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 1.5rem 0;
+    padding: 1rem;
+  }
+
+  /* SCREEN PAIR */
+  .screen-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .meta-grid { grid-template-columns: 1fr 1fr; }
+    .result-banner { flex-direction: column; gap: 1.5rem; }
+    .result-divider { width: 100%; height: 1px; }
+    .card-grid, .screen-pair, .results-grid { grid-template-columns: 1fr; }
+    .iteration-strip { flex-direction: column; }
+    .iter-step { border-right: none; border-bottom: 1px solid var(--border); }
+    .iter-step:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Neil Deshpande</a>
+  <a href="index.html">Portfolio</a>
+  <a href="about.html">About</a>
+  <a href="resume.pdf" target="_blank">Resume</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-label">Premera Blue Cross · Healthcare · 2019–2021</div>
+    <h1>Making it easier to get help with your health insurance</h1>
+    <p class="hero-summary">Premera Blue Cross is the largest health insurance company in the Pacific Northwest. I led the design of a chatbot that transformed how customers get help — making a stressful experience significantly faster and more satisfying.</p>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="meta-label">Company</div>
+        <div class="meta-value">Premera Blue Cross</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">My Role</div>
+        <div class="meta-value">Design Lead</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">PM, Researcher, ML & Software Engineers</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Duration</div>
+        <div class="meta-value">6 months</div>
+      </div>
+    </div>
+
+    <div class="result-banner">
+      <div class="result-stat">
+        <div class="num">70%</div>
+        <div class="desc">Reduction in customer<br>service call time</div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-stat">
+        <div class="num">11%</div>
+        <div class="desc">Improvement in<br>customer satisfaction</div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-stat">
+        <div class="num">86%</div>
+        <div class="desc">Of reps found<br>the product helpful</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THE PROBLEM -->
+<section>
+  <div class="container">
+    <div class="section-label">The problem</div>
+    <h2>35% of customers were frustrated calling customer service</h2>
+    <p>Like most health insurance companies, it's difficult for Premera to earn customers' trust and satisfaction. To find opportunities to improve, we routinely sent feedback surveys to our customers. From these surveys, we discovered that 35% of people were frustrated when calling customer service.</p>
+    <p>My team was tasked with understanding what was causing this problem, and designing a solution.</p>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section>
+  <div class="container">
+    <div class="section-label">Research</div>
+    <h2>Researching the problem</h2>
+
+    <h3>Research goals</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Map the existing user journey</h4>
+        <p>Understand all the steps a user had to take to get connected to customer service.</p>
+      </div>
+      <div class="card">
+        <h4>Understand user pain points</h4>
+        <p>What was causing frustration when customers called in?</p>
+      </div>
+      <div class="card">
+        <h4>Understand business constraints</h4>
+        <p>What limitations did we have to design within?</p>
+      </div>
+      <div class="card">
+        <h4>Understand technical constraints</h4>
+        <p>What was feasible for our engineering team to build?</p>
+      </div>
+    </div>
+
+    <h3>Methods</h3>
+    <div class="finding">
+      <div class="finding-num">01</div>
+      <div class="finding-body">
+        <h4>Listened to customer service calls and read feedback surveys</h4>
+        <p>Directly observing the problem helped us understand the full context of a caller's experience before talking to users.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">02</div>
+      <div class="finding-body">
+        <h4>Interviewed callers, customer service reps, and internal stakeholders</h4>
+        <p>Talking to all three groups gave us a full picture — from the customer's frustration to the rep's experience to the business priorities.</p>
+      </div>
+    </div>
+
+    <h3>Existing user journey</h3>
+    <div class="img-placeholder wide">
+      user-journey.png — Full-width journey map showing all steps from call initiation to resolution
+    </div>
+    <p>Our research helped us understand all the steps a user had to take to get connected to customer service.</p>
+
+    <h3>User pain points</h3>
+    <div class="finding">
+      <div class="finding-num">01</div>
+      <div class="finding-body">
+        <h4>Too much time in the automated phone system</h4>
+        <p>It took callers about 3 minutes to go through our automated phone system, due to a strict verification process.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">02</div>
+      <div class="finding-body">
+        <h4>Callers were constantly transferred</h4>
+        <p>After finally getting connected to a representative, callers were often transferred to another person — restarting the frustrating process.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">03</div>
+      <div class="finding-body">
+        <h4>Calling insurance is inherently stressful</h4>
+        <p>Calls ranged from people worried they couldn't afford surgery to people frustrated that their insurance had denied coverage. The emotional stakes were high before the call even began.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">04</div>
+      <div class="finding-body">
+        <h4>Reps needed time to research before they could help</h4>
+        <p>Customer service reps typically spent the first few minutes understanding and researching the caller's problem before being able to help — adding to call time and caller frustration.</p>
+      </div>
+    </div>
+
+    <h3>Understanding constraints</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>Each call cost about $12</h4>
+        <p>The business wanted us to shorten and prevent calls — every minute saved had direct financial impact.</p>
+      </div>
+      <div class="card">
+        <h4>Engineering resources were limited</h4>
+        <p>Our engineering team lacked resources, so the design had to be simple to develop.</p>
+      </div>
+      <div class="card">
+        <h4>Redesigning the phone system wasn't an option</h4>
+        <p>Redesigning the automated phone system would be too expensive, so we had to find a solution that worked around it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IDEATION -->
+<section>
+  <div class="container">
+    <div class="section-label">Ideation</div>
+    <h2>Brainstorming as a team</h2>
+    <p>We presented the research findings to the team and brainstormed ways to solve the problem. Using the team's diverse expertise — engineering, business, data, and design — we generated ideas across different directions.</p>
+
+    <div class="img-placeholder tall">
+      workshop-brainstorm.jpg — Team brainstorming session photo
+    </div>
+
+    <h3>Deciding what to build</h3>
+    <p>When deciding what concepts to design and test, the main factors were the business and technical constraints. After analyzing various potential solutions, the team agreed to explore the idea of utilizing our existing mobile app to verify callers and allow them to skip the automated phone system.</p>
+
+    <div class="img-placeholder wide">
+      engineering-cost-vs-business-goal.png — 2x2 matrix showing engineering cost vs business goal for evaluated concepts
+    </div>
+  </div>
+</section>
+
+<!-- TESTING & ITERATING -->
+<section>
+  <div class="container">
+    <div class="section-label">Testing & iterating</div>
+    <h2>Concept testing: chatbot vs. form</h2>
+    <p>Two of the concepts that stood out were designing a chatbot or a form to replace the phone system. We decided to test both to understand their pros and cons.</p>
+
+    <div class="screen-pair">
+      <div class="img-placeholder tall">
+        concept-chatbot.png — Chatbot concept wireframe/mockup
+      </div>
+      <div class="img-placeholder tall">
+        concept-form.png — Form concept wireframe/mockup
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num" style="color:#1d5c9e;">✓</div>
+      <div class="finding-body">
+        <h4>7 of 10 participants preferred the form</h4>
+        <p>A form felt more professional and was perceived as more efficient. However, the team decided to build the chatbot because it better supported our business goal of reducing calls, while still solving the core user problem.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>A chatbot felt more informal, and users expected to get help without calling.</p>
+    </div>
+
+    <h3>Defining the user flow</h3>
+    <p>I designed multiple chatbot flows, varying in complexity and types of questions asked. In the end, it was about keeping the experience quick and simple for the user.</p>
+
+    <div class="img-placeholder wide">
+      user-flow.png — Chatbot user flow diagram
+    </div>
+
+    <h3>Usability testing: refining the design</h3>
+    <p>After converting the user flow to a prototype, I conducted usability tests to further refine the design. Here are a few of my key findings:</p>
+
+    <div class="iteration-strip">
+      <div class="iter-step">
+        <div class="step-num">Finding 01</div>
+        <h4>Reduce the need for typing</h4>
+        <p>Help the user quickly answer the bot's question by clicking buttons or using their voice instead of typing out responses.</p>
+      </div>
+      <div class="iter-step">
+        <div class="step-num">Finding 02</div>
+        <h4>Keep it short</h4>
+        <p>Users tended to only scan content and often missed information if the message was too long.</p>
+      </div>
+      <div class="iter-step">
+        <div class="step-num">Finding 03</div>
+        <h4>Present the bot's top 3 guesses</h4>
+        <p>When clarifying the user's question, the bot should display its top 3 guesses along with a "Something else" option, so that the user is never trapped.</p>
+      </div>
+      <div class="iter-step">
+        <div class="step-num">Finding 04</div>
+        <h4>Fail gracefully</h4>
+        <p>If the chatbot is unable to understand the user's question the first time, don't try again — just get them to a human.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL DESIGN -->
+<section>
+  <div class="container">
+    <div class="section-label">Final design</div>
+    <h2>High fidelity designs</h2>
+    <p>The final design used the existing Premera mobile app to authenticate callers and route them to the right customer service team — eliminating the painful automated phone system entirely for app users.</p>
+  </div>
+
+  <div class="wide">
+    <div class="img-placeholder screen" style="margin:2rem 0;">
+      hifi-designs.png — High fidelity mockup spread showing the final chatbot screens
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="screen-pair">
+      <div class="img-placeholder tall">
+        screen-chatbot-1.png — Chatbot screen: initial greeting / topic selection
+      </div>
+      <div class="img-placeholder tall">
+        screen-chatbot-2.png — Chatbot screen: top 3 guesses / something else
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section>
+  <div class="container">
+    <div class="section-label">Results</div>
+    <h2>Successfully released on both Android and iOS</h2>
+    <p>We successfully shipped this feature on both the Android and iOS Premera apps. Results were measured against the existing phone system over a 90-day post-launch period.</p>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="big-num">70%</div>
+        <div class="desc">Reduction in customer service call time</div>
+      </div>
+      <div class="result-card">
+        <div class="big-num">11%</div>
+        <div class="desc">Improvement in customer satisfaction scores</div>
+      </div>
+      <div class="result-card">
+        <div class="big-num">86%</div>
+        <div class="desc">Of customer service reps found the product helpful</div>
+      </div>
+    </div>
+
+    <div class="img-placeholder wide" style="margin-top:2rem;">
+      new-journey.png — Updated user journey showing how the chatbot eliminates the major pain points
+    </div>
+
+    <div class="pull-quote" style="margin-top:2rem;">
+      <p>"I think this is an excellent step taken by Premera to help get me off the phone faster."</p>
+      <cite>— App user review</cite>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section>
+  <div class="container">
+    <div class="section-label">Reflection</div>
+    <h2>What I learned</h2>
+
+    <div class="reflection">
+      <h3 style="margin-top:0;">Involving engineers early is critical</h3>
+      <p>Involving the engineers throughout the design process was critical in understanding technical constraints as well as promoting a culture of collaboration. This also helped reduce implementation time since they could start developing while I was still designing.</p>
+
+      <h3>Balancing today's constraints with the ideal future state</h3>
+      <p>One of the biggest challenges with this project was balancing what was possible today with an ideal future state. However, the team is committed to continuously improving the chatbot's functionality so that it can answer more questions and help users without them ever needing to call.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Powered by green tea and a passion for creating new things.</p>
+</footer>
+
+</body>
+</html>

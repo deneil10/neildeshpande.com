@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neil Deshpande — Meta Repair Console</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --text: #1a1a1a;
+    --text-secondary: #555;
+    --text-muted: #888;
+    --bg: #fafaf8;
+    --surface: #ffffff;
+    --border: #e8e6e0;
+    --border-light: #f0ede6;
+    --accent: #1a1a1a;
+    --tag-bg: #f0ede6;
+    --tag-text: #555;
+    --blue-bg: #eef4fb;
+    --blue-text: #1d5c9e;
+    --teal-bg: #e6f5f0;
+    --teal-text: #0d6b50;
+    --amber-bg: #fdf3e3;
+    --amber-text: #8a5a00;
+    --quote-border: #d0ccc4;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav a { color: var(--text-secondary); text-decoration: none; font-size: 15px; }
+  nav a:hover { color: var(--text); }
+  nav .logo { font-weight: 500; font-size: 15px; color: var(--text); margin-right: auto; }
+
+  /* LAYOUT */
+  .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+  .wide { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(10, 10, 12, 0.92) 0%,
+      rgba(10, 10, 12, 0.82) 50%,
+      rgba(10, 10, 12, 0.45) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 0 60px;
+    max-width: 640px;
+  }
+  .hero-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  .hero-summary {
+    font-size: 18px;
+    color: rgba(255,255,255,0.7);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  /* META GRID */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 640px;
+  }
+  .meta-item {
+    background: rgba(255,255,255,0.06);
+    padding: 1.25rem;
+  }
+  .meta-label { font-size: 12px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .meta-value { font-size: 14px; font-weight: 500; line-height: 1.4; color: rgba(255,255,255,0.85); }
+
+  /* RESULT BANNER */
+  .result-banner {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 2rem 2.5rem;
+    margin: 2.5rem 0 0;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    max-width: 640px;
+  }
+  .result-stat .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: #fff;
+  }
+  .result-stat .desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .result-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
+
+  /* SECTIONS */
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+  }
+  h3 { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.75rem; margin-top: 2rem; }
+  p { margin-bottom: 1.25rem; color: var(--text-secondary); }
+  p:last-child { margin-bottom: 0; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--quote-border);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+  }
+  .pull-quote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin: 0 0 0.5rem;
+  }
+  .pull-quote cite { font-size: 13px; color: var(--text-muted); font-style: normal; }
+
+  /* CALLOUT CARDS */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+  .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .card .icon { font-size: 1.25rem; margin-bottom: 0.75rem; }
+  .card h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.5rem; color: var(--text); }
+  .card p { font-size: 14px; line-height: 1.6; margin: 0; }
+
+  .card.blue { background: var(--blue-bg); border-color: #c5d9f0; }
+  .card.teal { background: var(--teal-bg); border-color: #b0ddd0; }
+  .card.amber { background: var(--amber-bg); border-color: #f0dbb0; }
+
+  /* FINDING CARDS */
+  .finding {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .finding:last-child { border-bottom: none; }
+  .finding-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    min-width: 2rem;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .finding-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.35rem; color: var(--text); }
+  .finding-body p { font-size: 14px; margin: 0; line-height: 1.6; }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin: 0 4px 4px 0;
+  }
+
+  /* DIAGRAM WRAPPER */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+  .diagram-caption {
+    padding: 0.875rem 1.25rem;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    line-height: 1.5;
+  }
+  .diagram svg { display: block; width: 100%; }
+
+  /* ITERATION STRIP */
+  .iteration-strip {
+    display: flex;
+    gap: 0;
+    margin: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .iter-step {
+    flex: 1;
+    padding: 1.25rem;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .iter-step:last-child { border-right: none; }
+  .iter-step .step-num { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .iter-step h4 { font-size: 14px; font-weight: 500; margin-bottom: 0.35rem; color: var(--text); }
+  .iter-step p { font-size: 13px; line-height: 1.55; margin: 0; }
+
+  /* DESIGN PRINCIPLES */
+  .principle { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-light); }
+  .principle:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .principle-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+  .principle-num { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--text-muted); }
+  .principle-title { font-size: 1rem; font-weight: 500; color: var(--text); }
+
+  /* BEFORE / AFTER */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+  .compare-block { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .compare-header { padding: 0.875rem 1.25rem; font-size: 13px; font-weight: 500; }
+  .compare-header.before { background: #f7f4f0; color: var(--text-secondary); }
+  .compare-header.after { background: #1a1a1a; color: #fff; }
+  .compare-body { padding: 1.25rem; background: var(--surface); }
+
+  /* REFLECTION */
+  .reflection { background: #f5f3ef; border-radius: 12px; padding: 2.5rem; margin-top: 2rem; }
+  .reflection p { font-size: 16px; }
+
+  /* RESULTS */
+  .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem 1.75rem;
+  }
+  .result-card .big-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .result-card .desc { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* SCREENSHOTS */
+  .screenshot-wrap {
+    margin: 2.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .screenshot-wrap img {
+    width: 100%;
+    display: block;
+  }
+  .screenshot-caption {
+    padding: 0.875rem 1.25rem;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    line-height: 1.55;
+  }
+  .screenshot-caption strong {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .screenshot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  .screenshot-grid .screenshot-wrap {
+    margin: 0;
+  }
+
+.iter-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #e8e6e0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Wireframe side */
+  .iter-visual {
+    border-right: 1px solid #e8e6e0;
+    background: #fafaf8;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .iter-visual svg {
+    width: 100%;
+    display: block;
+  }
+
+  /* Description side */
+  .iter-desc {
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .iter-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #bbb;
+    margin-bottom: 0.5rem;
+  }
+  .iter-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+  .iter-body {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.65;
+    margin-bottom: 0.875rem;
+  }
+  .iter-tag {
+    display: inline-block;
+    font-size: 12px;
+    color: #c05050;
+    background: #fdf3f3;
+    border: 1px solid #f0d0d0;
+    border-radius: 20px;
+    padding: 3px 10px;
+    width: fit-content;
+  }
+  .iter-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .iter-bullets li {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .iter-bullets li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: #ccc;
+  }
+  .iter-tag.green {
+    color: #0d6b50;
+    background: #e6f5f0;
+    border-color: #b0ddd0;
+  }
+
+.findings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .finding-card {
+    background: #fff;
+    border: 1px solid #e8e6e0;
+    border-radius: 12px;
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .finding-num {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #bbb;
+  }
+
+  .finding-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .finding-stat {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #1a1a1a;
+  }
+
+  .finding-stat .unit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #aaa;
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  .finding-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+
+  .finding-desc {
+    border-top: 1px solid #f0ede6;
+    padding-top: 1rem;
+    margin-top: auto;
+  }
+  .finding-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .finding-bullets li {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.55;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .finding-bullets li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: #d0cdc6;
+  }
+
+  .carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid #e8e6e0;
+    background: #fff;
+  }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.35s ease;
+  }
+  .carousel-slide {
+    min-width: 100%;
+    flex-shrink: 0;
+  }
+  .carousel-slide img {
+    width: 100%;
+    display: block;
+  }
+  .carousel-caption {
+    padding: 0.875rem 1.25rem;
+    font-size: 13px;
+    color: #888;
+    border-top: 1px solid #e8e6e0;
+    background: #fafaf8;
+    line-height: 1.55;
+  }
+  .carousel-caption strong {
+    color: #555;
+    font-weight: 500;
+  }
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid #e8e6e0;
+    background: #fafaf8;
+  }
+  .carousel-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .carousel-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d8d5ce;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    transition: background 0.2s;
+  }
+  .carousel-dot.active {
+    background: #1a1a1a;
+  }
+  .carousel-btn {
+    background: none;
+    border: 1px solid #e8e6e0;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 14px;
+    transition: background 0.15s;
+  }
+  .carousel-btn:hover { background: #f5f3ef; }
+  .carousel-btn:disabled { opacity: 0.3; cursor: default; }
+  .carousel-label {
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  @media (max-width: 600px) {
+    .meta-grid { grid-template-columns: 1fr 1fr; }
+    .card-grid, .card-grid-3, .compare-grid, .results-grid { grid-template-columns: 1fr; }
+    .result-banner { flex-direction: column; gap: 1.5rem; }
+    .result-divider { width: 100%; height: 1px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Neil Deshpande</a>
+  <a href="index.html">Portfolio</a>
+  <a href="about.html">About</a>
+  <a href="resume.pdf" target="_blank">Resume</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-image" src="hero.png" alt="Data center repair technician working between server racks"/>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="hero-content">
+    <div class="hero-label">Meta · Internal Tools · 2022–2023</div>
+    <h1>Redesigning how Meta repairs its global data centers</h1>
+    <p class="hero-summary">Meta's data centers keep Facebook, Instagram, and WhatsApp running for billions of people. I helped design Repair Console, a new internal platform to make server repair operations faster, more consistent, and scalable across the world.</p>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="meta-label">Company</div>
+        <div class="meta-value" style="display:flex;align-items:center;gap:8px;">
+          <img src="meta-logo.png" alt="Meta" style="width:22px;height:auto;flex-shrink:0;filter:brightness(0) invert(1);opacity:0.85;"/>
+          Meta
+        </div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">My Role</div>
+        <div class="meta-value">Design Lead, Research Support</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">1 PM, 1 researcher, 11 engineers, 3 designers</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Duration</div>
+        <div class="meta-value">Nov 2022 – Apr 2023 (6 months)</div>
+      </div>
+    </div>
+
+    <div class="result-banner">
+      <div class="result-stat">
+        <div class="num">22%</div>
+        <div class="desc">Reduction in average<br>repair time</div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-stat">
+        <div class="num">31%</div>
+        <div class="desc">Increase in<br>repair accuracy</div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-stat">
+        <div class="num">7→1</div>
+        <div class="desc">Repair ticketing<br>systems consolidated</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<section>
+  <div class="container">
+    <div class="section-label">Context</div>
+    <h2>The repair process wasn't keeping pace with the infrastructure</h2>
+    <p>My team was brought in to redesign how repair operations worked across Meta's global data centers. Every hour a failed server stayed offline was compute capacity unavailable to Meta's products, and with AI workloads growing rapidly, that cost was rising. The process was fragmented, knowledge was siloed, and the system was increasingly unable to scale. I led design for the repair authoring and execution workstream: the part of the platform that determined how technicians actually diagnosed and fixed problems.</p>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section>
+  <div class="container">
+    <div class="section-label">The problem</div>
+    <h2>Seven separate repair systems. Zero shared knowledge.</h2>
+    <p>Meta had 7 separate repair ticketing systems, maintained by 7 separate engineering teams spread across the world. Each was built in isolation, with no visibility across them.</p>
+  </div>
+
+  <!-- FRAGMENTATION DIAGRAM -->
+  <div class="wide" style="margin-top:2rem;">
+    <div class="diagram">
+      <svg viewBox="0 0 860 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#c8c5be" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- ── CENTER NODE: Repair Console ── -->
+      <rect x="330" y="168" width="200" height="64" rx="10" fill="#1a1a1a"/>
+      <text x="430" y="196" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#ffffff">Repair Console</text>
+      <text x="430" y="215" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="rgba(255,255,255,0.5)">One unified platform</text>
+
+      <!-- ── TEAM NODES ── -->
+
+      <!-- Top left: Diagnostics -->
+      <rect x="30" y="30" width="160" height="56" rx="8" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.75"/>
+      <text x="110" y="52" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#444">Diagnostics team</text>
+      <text x="110" y="70" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="#999">Network + hardware</text>
+
+      <!-- Top center: Networking -->
+      <rect x="330" y="20" width="160" height="56" rx="8" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.75"/>
+      <text x="410" y="42" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#444">Networking team</text>
+      <text x="410" y="60" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="#999">Switches + routing</text>
+
+      <!-- Top right: ProdOps -->
+      <rect x="670" y="30" width="160" height="56" rx="8" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.75"/>
+      <text x="750" y="52" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#444">ProdOps team</text>
+      <text x="750" y="70" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="#999">Production operations</text>
+
+      <!-- Middle left: Repair -->
+      <rect x="30" y="172" width="160" height="56" rx="8" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.75"/>
+      <text x="110" y="194" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#444">Repair team</text>
+      <text x="110" y="212" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="#999">On-site technicians</text>
+
+      <!-- Middle right: SiteOps -->
+      <rect x="670" y="172" width="160" height="56" rx="8" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.75"/>
+      <text x="750" y="194" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#444">SiteOps team</text>
+      <text x="750" y="212" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="#999">Facilities + power</text>
+
+      <!-- Bottom left: Smarthands -->
+      <rect x="30" y="314" width="160" height="56" rx="8" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.75"/>
+      <text x="110" y="336" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#444">Smarthands team</text>
+      <text x="110" y="354" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="#999">Physical execution</text>
+
+      <!-- Bottom right: Hardware Ops -->
+      <rect x="670" y="314" width="160" height="56" rx="8" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.75"/>
+      <text x="750" y="336" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#444">Hardware Ops team</text>
+      <text x="750" y="354" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" fill="#999">Components + supply</text>
+
+      <!-- ── ARROWS: all pointing inward to Repair Console ── -->
+
+      <!-- Diagnostics → Repair Console -->
+      <line x1="190" y1="58" x2="328" y2="185" stroke="#d0cdc6" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- Networking → Repair Console (top) -->
+      <line x1="410" y1="76" x2="420" y2="166" stroke="#d0cdc6" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- ProdOps → Repair Console -->
+      <line x1="670" y1="58" x2="532" y2="185" stroke="#d0cdc6" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- Repair → Repair Console (left) -->
+      <line x1="190" y1="200" x2="328" y2="200" stroke="#d0cdc6" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- SiteOps → Repair Console (right) -->
+      <line x1="670" y1="200" x2="532" y2="200" stroke="#d0cdc6" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- Smarthands → Repair Console -->
+      <line x1="190" y1="342" x2="328" y2="215" stroke="#d0cdc6" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- Hardware Ops → Repair Console -->
+      <line x1="670" y1="342" x2="532" y2="215" stroke="#d0cdc6" stroke-width="1" marker-end="url(#arr)"/>
+
+    </svg>
+      <div class="diagram-caption">Seven separate teams, each with their own repair tooling, distributed across Meta's global data centers. Repair Console unified them into a single platform for the first time.</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="pull-quote">
+      <p>"We realized there was a manufacturing problem with chips and identified almost 11,000 bad DIMMs around the world. It took a year to identify the trend, and another year to replace them."</p>
+      <cite>— Repair triage engineer, user interview</cite>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section>
+  <div class="container">
+    <div class="section-label">Research</div>
+    <h2>40+ interviews. 3 continents. The same problems, everywhere.</h2>
+    <p>I supported our lead researcher with interviews, observations, and ticket analysis across Dublin, Berlin, Bay Area, Singapore, and Austin, over 40 people in total, spanning network engineers, repair technicians, team leads, and on-site operators. Despite different regions and roles, every person we talked to was struggling with the same core issues.</p>
+    <p>To make sense of what we'd heard, the researcher and I synthesized the interviews and identified three distinct behavioral patterns in how people approached repair work. Rather than mapping to job titles, these patterns cut across teams — a network engineer and a data center lead might both behave like a Pattern Finder, depending on the day. Defining these personas gave the whole team a shared language for who we were designing for, and made it much easier to pressure-test design decisions against real user needs.</p>
+  </div>
+
+  <!-- USER PERSONAS -->
+  <div class="wide" style="margin-top:2rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+
+      <!-- Persona 01: Pattern Finder -->
+      <div style="border:1px solid #c5d9f0;border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column;">
+        <div style="background:#eef4fb;padding:1.25rem 1.5rem;border-bottom:1px solid #c5d9f0;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#7a9ecc;margin-bottom:0.3rem;">Persona 01 · Diagnostic Tech</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:#1d5c9e;">Pattern Finder</div>
+        </div>
+        <div style="padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:1rem;flex:1;">
+          <div style="font-size:13px;color:#2a5a90;font-style:italic;line-height:1.55;padding-bottom:0.875rem;border-bottom:1px solid #eef4fb;">"Help me understand how what I'm working on relates to a bigger issue"</div>
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Goals</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#c5d9f0;">–</span>Find patterns across multiple failures</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#c5d9f0;">–</span>Diagnose in bulk, not one ticket at a time</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#c5d9f0;">–</span>Prevent duplicate work across teams</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No visibility into what other teams are working on</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Can't escalate or group tickets across the system</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 02: Monitor -->
+      <div style="border:1px solid #b0ddd0;border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column;">
+        <div style="background:#e6f5f0;padding:1.25rem 1.5rem;border-bottom:1px solid #b0ddd0;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#4a9a7a;margin-bottom:0.3rem;">Persona 02 · Team Lead</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:#0d6b50;">Monitor</div>
+        </div>
+        <div style="padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:1rem;flex:1;">
+          <div style="font-size:13px;color:#0d6b50;font-style:italic;line-height:1.55;padding-bottom:0.875rem;border-bottom:1px solid #e6f5f0;">"Help me understand what my team has on for the week"</div>
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Goals</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#b0ddd0;">–</span>Track team workload and open issues at a glance</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#b0ddd0;">–</span>Catch SLA breaches before they escalate</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#b0ddd0;">–</span>Understand fleet health across their region</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Has to dig into individual tickets to get any overview</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No single place to see status across all teams</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 03: Actioner -->
+      <div style="border:1px solid #f0dbb0;border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column;">
+        <div style="background:#fdf3e3;padding:1.25rem 1.5rem;border-bottom:1px solid #f0dbb0;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#aa7a20;margin-bottom:0.3rem;">Persona 03 · Repair Tech</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:#8a5a00;">Actioner</div>
+        </div>
+        <div style="padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:1rem;flex:1;">
+          <div style="font-size:13px;color:#8a5a00;font-style:italic;line-height:1.55;padding-bottom:0.875rem;border-bottom:1px solid #fdf3e3;">"Tell me everything I need to work on, in the order I should do it"</div>
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Goals</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#f0dbb0;">–</span>Know exactly what to do and in what order</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#f0dbb0;">–</span>Start a repair without having to research first</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#f0dbb0;">–</span>Trust that the steps have been validated by an expert</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Spends most of their time on triage, not repair</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Runbooks are generic, outdated, and hard to find</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="container">
+    <h3 style="margin-bottom:0.75rem;">What all three had in common</h3>
+    <p>The personas helped us understand <em>how</em> different people worked. But regardless of which persona we were talking to, the same four systemic problems kept surfacing — not as isolated complaints, but as symptoms of the same broken environment.</p>
+    <div class="finding">
+      <div class="finding-num">01</div>
+      <div class="finding-body">
+        <h4>Duplicate effort</h4>
+        <p>The same failure fixed in Dublin was reinvented from scratch in Singapore the following week. No way to share solutions across teams.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">02</div>
+      <div class="finding-body">
+        <h4>Triage was the biggest time sink</h4>
+        <p>Technicians spent most of their time not repairing, but figuring out where to start. Runbooks were generic, outdated, and scattered.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">03</div>
+      <div class="finding-body">
+        <h4>No single source of truth</h4>
+        <p>Repair history lived across tickets, wikis, messages, and people's heads. When someone left the team, their knowledge left with them.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">04</div>
+      <div class="finding-body">
+        <h4>Processes changed faster than docs could keep up</h4>
+        <p>"We've changed our process 10 times since you last interviewed us." Documentation was increasingly ignored.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN PRINCIPLES -->
+<section>
+  <div class="container">
+    <div class="section-label">Design principles</div>
+    <h2>Three principles to guide every decision</h2>
+    <p>The four pain points pointed to a common root cause: teams were working in isolation, knowledge wasn't being captured, and nothing was built to scale. Before moving into ideation, I ran a working session with the broader design and product team to translate those findings into design principles: filters we'd run every decision through.</p>
+    <div class="card-grid-3" style="margin-top:1.75rem;">
+      <div class="card">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">01</div>
+        <h4>Visibility</h4>
+        <p>Break down siloed work. Give teams a view of the entire repair ecosystem, not just their corner of it.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">02</div>
+        <h4>Codify knowledge</h4>
+        <p>Turn expertise in people's heads into structured, reusable processes the whole system can learn from.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">03</div>
+        <h4>Self-service</h4>
+        <p>Let repair experts evolve workflows themselves, without needing engineering support every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IDEATION -->
+<section>
+  <div class="container">
+    <div class="section-label">Ideation</div>
+    <h2>Two ideas worth testing</h2>
+    <p>I facilitated a series of workshops with engineers, repair technicians, PMs, and subject matter experts, drawing on each discipline's perspective deliberately. Engineers helped us understand what was technically feasible without a full rebuild. Repair technicians told us which pain points cost them the most time. SMEs helped us understand the depth of knowledge we'd need to capture before any of it could be systematized.</p>
+    <p>We used a mix of whiteboarding, sketching, and dot-voting to generate and narrow down concepts, giving everyone a voice before converging on what to explore further. Two ideas kept rising to the top.</p>
+  </div>
+
+  <!-- Workshop photo -->
+  <div class="wide" style="margin-top:1.5rem;margin-bottom:2rem;">
+    <div class="screenshot-wrap">
+      <img src="workshop.png" alt="Cross-functional workshop session at Meta Dublin office" style="max-height:380px;object-fit:cover;object-position:center 40%;"/>
+      <div class="screenshot-caption">One of several cross-functional workshops held across Dublin and the Bay Area, bringing together engineers, repair technicians, and subject matter experts to align on the problem and explore solutions together.</div>
+    </div>
+  </div>
+
+  <!-- Concept cards with illustrations -->
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;">
+
+      <!-- Concept A: Issues / grouping -->
+      <div style="border:1px solid #e8e6e0;border-radius:10px;overflow:hidden;background:#fff;">
+        <div style="background:#eef4fb;padding:1.25rem 1.5rem 0;">
+          <svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+            <defs>
+              <marker id="iarr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#4a7ab0" stroke-width="1.5" stroke-linecap="round"/>
+              </marker>
+            </defs>
+            <!-- 3 individual tickets on left -->
+            <rect x="8" y="12" width="72" height="28" rx="4" fill="#fff" stroke="#b8d4f0" stroke-width="1"/>
+            <rect x="14" y="19" width="36" height="4" rx="1" fill="#c5d9f0"/>
+            <rect x="14" y="26" width="52" height="3" rx="1" fill="#ddeaf8"/>
+            <rect x="14" y="32" width="40" height="3" rx="1" fill="#ddeaf8"/>
+
+            <rect x="8" y="50" width="72" height="28" rx="4" fill="#fff" stroke="#b8d4f0" stroke-width="1"/>
+            <rect x="14" y="57" width="36" height="4" rx="1" fill="#c5d9f0"/>
+            <rect x="14" y="64" width="52" height="3" rx="1" fill="#ddeaf8"/>
+            <rect x="14" y="70" width="40" height="3" rx="1" fill="#ddeaf8"/>
+
+            <rect x="8" y="88" width="72" height="28" rx="4" fill="#fff" stroke="#b8d4f0" stroke-width="1"/>
+            <rect x="14" y="95" width="36" height="4" rx="1" fill="#c5d9f0"/>
+            <rect x="14" y="102" width="52" height="3" rx="1" fill="#ddeaf8"/>
+            <rect x="14" y="108" width="40" height="3" rx="1" fill="#ddeaf8"/>
+
+            <!-- Converging lines -->
+            <line x1="80" y1="26" x2="110" y2="63" stroke="#4a7ab0" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <line x1="80" y1="64" x2="110" y2="64" stroke="#4a7ab0" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <line x1="80" y1="102" x2="110" y2="65" stroke="#4a7ab0" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <line x1="110" y1="64" x2="128" y2="64" stroke="#4a7ab0" stroke-width="1" marker-end="url(#iarr)"/>
+
+            <!-- Grouped Issue on right -->
+            <rect x="132" y="28" width="152" height="72" rx="6" fill="#1d5c9e"/>
+            <text x="146" y="48" font-family="'DM Sans',sans-serif" font-size="9" font-weight="500" fill="#fff">Power Rail Failures</text>
+            <text x="146" y="62" font-family="'DM Sans',sans-serif" font-size="8" fill="rgba(255,255,255,0.65)">3 servers affected</text>
+            <rect x="146" y="70" width="72" height="16" rx="3" fill="rgba(255,255,255,0.15)"/>
+            <text x="182" y="81" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="#fff">Start repair</text>
+          </svg>
+        </div>
+        <div style="padding:1.1rem 1.5rem 1.25rem;">
+          <h4 style="font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:0.35rem;">Grouping repairs into "Issues"</h4>
+          <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">Failures with the same root cause grouped together, enabling bulk diagnosis and eliminating duplicate work.</p>
+        </div>
+      </div>
+
+      <!-- Concept B: Action Plans -->
+      <div style="border:1px solid #e8e6e0;border-radius:10px;overflow:hidden;background:#fff;">
+        <div style="background:#e6f5f0;padding:1.25rem 1.5rem 0;">
+          <svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+            <!-- Document shadow -->
+            <rect x="58" y="12" width="174" height="116" rx="5" fill="#c8e8de" opacity="0.5"/>
+            <!-- Document body -->
+            <rect x="50" y="6" width="174" height="116" rx="5" fill="#fff" stroke="#b0ddd0" stroke-width="1.5"/>
+            <!-- Doc title bar -->
+            <rect x="50" y="6" width="174" height="20" rx="5" fill="#0d6b50"/>
+            <rect x="50" y="18" width="174" height="8" fill="#0d6b50"/>
+            <text x="137" y="20" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8.5" font-weight="500" fill="#fff">T16/T20 Power Failure — Repair Guide</text>
+            <!-- Step rows -->
+            <!-- Step 1 -->
+            <rect x="62" y="34" width="14" height="14" rx="2" fill="#e6f5f0" stroke="#b0ddd0" stroke-width="1"/>
+            <text x="69" y="44" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" font-weight="500" fill="#0d6b50">1</text>
+            <rect x="82" y="37" width="90" height="4" rx="1" fill="#c8e8de"/>
+            <rect x="82" y="44" width="118" height="3" rx="1" fill="#e0ede8"/>
+            <!-- Step 2 -->
+            <rect x="62" y="56" width="14" height="14" rx="2" fill="#e6f5f0" stroke="#b0ddd0" stroke-width="1"/>
+            <text x="69" y="66" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" font-weight="500" fill="#0d6b50">2</text>
+            <rect x="82" y="59" width="100" height="4" rx="1" fill="#c8e8de"/>
+            <rect x="82" y="66" width="80" height="3" rx="1" fill="#e0ede8"/>
+            <!-- Step 3 -->
+            <rect x="62" y="78" width="14" height="14" rx="2" fill="#e6f5f0" stroke="#b0ddd0" stroke-width="1"/>
+            <text x="69" y="88" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" font-weight="500" fill="#0d6b50">3</text>
+            <rect x="82" y="81" width="110" height="4" rx="1" fill="#c8e8de"/>
+            <rect x="82" y="88" width="130" height="3" rx="1" fill="#e0ede8"/>
+            <!-- Step 4 -->
+            <rect x="62" y="100" width="14" height="14" rx="2" fill="#e6f5f0" stroke="#b0ddd0" stroke-width="1"/>
+            <text x="69" y="110" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" font-weight="500" fill="#0d6b50">4</text>
+            <rect x="82" y="103" width="76" height="4" rx="1" fill="#c8e8de"/>
+            <rect x="82" y="110" width="110" height="3" rx="1" fill="#e0ede8"/>
+          </svg>
+        </div>
+        <div style="padding:1.1rem 1.5rem 1.25rem;">
+          <h4 style="font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:0.35rem;">Standardized "Action Plans"</h4>
+          <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">Expert-authored, step-by-step repair plans replacing generic runbooks with validated, structured instructions.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTING & ITERATING -->
+<section>
+  <div class="container">
+    <div class="section-label">Testing & iterating</div>
+    <h2>On-site testing changed our direction</h2>
+    <p>We prototyped early and tested on-site at Meta's data centers. Our first global dashboard was too broad; users were overwhelmed.</p>
+
+    <div class="pull-quote">
+      <p>"I don't need to see what's happening everywhere. I need to know what I'm working on today."</p>
+      <cite>— Repair technician, on-site testing session</cite>
+    </div>
+
+    <p>We pivoted to a hierarchical view (global, regional, and site-level), letting each user type zoom to the right scope. Meanwhile, the Action Plans format went through four rounds of iteration, each one surfacing a new constraint we hadn't anticipated. The biggest tension throughout was flexibility versus structure: plans needed to handle genuinely complex, branching repairs while still being consistent enough to track and eventually automate.</p>
+  </div>
+
+  <div class="wide" style="margin-top:2rem;">
+    <!-- ── ITERATION 01: Free-form wiki editor ── -->
+  <div class="iter-block">
+    <div class="iter-visual">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+        <!-- Browser chrome -->
+        <rect x="0" y="0" width="340" height="220" rx="6" fill="#fff" stroke="#e0ddd6" stroke-width="0.75"/>
+        <rect x="0" y="0" width="340" height="28" rx="6" fill="#f5f3ef"/>
+        <rect x="0" y="20" width="340" height="8" fill="#f5f3ef"/>
+        <circle cx="14" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="26" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="38" cy="14" r="4" fill="#e0ddd6"/>
+        <rect x="54" y="8" width="200" height="12" rx="3" fill="#ede9e2"/>
+
+        <!-- Page title -->
+        <text x="16" y="50" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#333">T16/T20 Power Failure — Repair Guide</text>
+        <line x1="16" y1="56" x2="324" y2="56" stroke="#e8e6e0" stroke-width="0.75"/>
+
+        <!-- Wiki-style body: unstructured text blocks -->
+        <text x="16" y="74" font-family="'DM Sans', sans-serif" font-size="10" fill="#888">Step 1: Check logs</text>
+        <rect x="16" y="79" width="200" height="6" rx="1" fill="#e0ddd6"/>
+        <rect x="16" y="89" width="280" height="6" rx="1" fill="#e0ddd6"/>
+        <rect x="16" y="99" width="240" height="6" rx="1" fill="#e0ddd6"/>
+
+        <text x="16" y="117" font-family="'DM Sans', sans-serif" font-size="10" fill="#888">Step 2: AC Cycle</text>
+        <rect x="16" y="122" width="260" height="6" rx="1" fill="#e0ddd6"/>
+        <rect x="16" y="132" width="180" height="6" rx="1" fill="#e0ddd6"/>
+        <rect x="16" y="142" width="220" height="6" rx="1" fill="#e0ddd6"/>
+        <rect x="16" y="152" width="200" height="6" rx="1" fill="#e0ddd6"/>
+
+        <text x="16" y="170" font-family="'DM Sans', sans-serif" font-size="10" fill="#888">Step 3: If GPU fails, try...</text>
+        <rect x="16" y="175" width="240" height="6" rx="1" fill="#e0ddd6"/>
+        <rect x="16" y="185" width="160" height="6" rx="1" fill="#e0ddd6"/>
+
+
+      </svg>
+    </div>
+    <div class="iter-desc">
+      <div class="iter-label">Iteration 01</div>
+      <div class="iter-title">Free-form wiki editor</div>
+      <ul class="iter-bullets">
+        <li>Experts write repair steps as plain text</li>
+        <li>No consistent format across plans</li>
+        <li>Not machine-readable or trackable</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── ITERATION 02: Structured template ── -->
+  <div class="iter-block">
+    <div class="iter-visual">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="340" height="220" rx="6" fill="#fff" stroke="#e0ddd6" stroke-width="0.75"/>
+        <rect x="0" y="0" width="340" height="28" rx="6" fill="#f5f3ef"/>
+        <rect x="0" y="20" width="340" height="8" fill="#f5f3ef"/>
+        <circle cx="14" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="26" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="38" cy="14" r="4" fill="#e0ddd6"/>
+        <rect x="54" y="8" width="200" height="12" rx="3" fill="#ede9e2"/>
+
+        <!-- Page title -->
+        <text x="16" y="50" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#333">New Action Plan</text>
+        <line x1="16" y1="56" x2="324" y2="56" stroke="#e8e6e0" stroke-width="0.75"/>
+
+        <!-- Field 1: Failure type -->
+        <text x="16" y="72" font-family="'DM Sans', sans-serif" font-size="10" font-weight="500" fill="#555">Failure type</text>
+        <rect x="16" y="76" width="200" height="18" rx="3" fill="#fafaf8" stroke="#d8d5ce" stroke-width="0.75"/>
+        <text x="22" y="89" font-family="'DM Sans', sans-serif" font-size="10" fill="#bbb">e.g. Power Rail Failure</text>
+
+        <!-- Field 2: Steps (rigid numbered list) -->
+        <text x="16" y="110" font-family="'DM Sans', sans-serif" font-size="10" font-weight="500" fill="#555">Steps</text>
+        <rect x="16" y="114" width="308" height="16" rx="3" fill="#fafaf8" stroke="#d8d5ce" stroke-width="0.75"/>
+        <text x="22" y="126" font-family="'DM Sans', sans-serif" font-size="10" fill="#aaa">1. Check logs on host</text>
+        <rect x="16" y="133" width="308" height="16" rx="3" fill="#fafaf8" stroke="#d8d5ce" stroke-width="0.75"/>
+        <text x="22" y="145" font-family="'DM Sans', sans-serif" font-size="10" fill="#aaa">2. AC Cycle chassis</text>
+        <rect x="16" y="152" width="308" height="16" rx="3" fill="#fafaf8" stroke="#d8d5ce" stroke-width="0.75"/>
+        <text x="22" y="164" font-family="'DM Sans', sans-serif" font-size="10" fill="#bbb">3. Add step...</text>
+
+        <!-- Field 3: Expected outcome -->
+        <text x="16" y="184" font-family="'DM Sans', sans-serif" font-size="10" font-weight="500" fill="#555">Expected outcome</text>
+        <rect x="16" y="188" width="200" height="18" rx="3" fill="#fafaf8" stroke="#d8d5ce" stroke-width="0.75"/>
+
+
+      </svg>
+    </div>
+    <div class="iter-desc">
+      <div class="iter-label">Iteration 02</div>
+      <div class="iter-title">Structured template</div>
+      <ul class="iter-bullets">
+        <li>Required fields: failure type, steps, outcome</li>
+        <li>More consistent, but strictly linear</li>
+        <li>Couldn't handle branching repair logic</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── ITERATION 03: Branching tree ── -->
+  <div class="iter-block">
+    <div class="iter-visual">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="tarr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#c4c0b8" stroke-width="1.5" stroke-linecap="round"/>
+          </marker>
+        </defs>
+        <rect x="0" y="0" width="340" height="220" rx="6" fill="#fff" stroke="#e0ddd6" stroke-width="0.75"/>
+        <rect x="0" y="0" width="340" height="28" rx="6" fill="#f5f3ef"/>
+        <rect x="0" y="20" width="340" height="8" fill="#f5f3ef"/>
+        <circle cx="14" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="26" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="38" cy="14" r="4" fill="#e0ddd6"/>
+        <rect x="54" y="8" width="200" height="12" rx="3" fill="#ede9e2"/>
+
+        <text x="16" y="50" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#333">Build Action Plan</text>
+        <line x1="16" y1="56" x2="324" y2="56" stroke="#e8e6e0" stroke-width="0.75"/>
+
+        <!-- Root node -->
+        <rect x="118" y="64" width="104" height="26" rx="5" fill="#e8e6e0" stroke="#c8c5be" stroke-width="0.75"/>
+        <text x="170" y="81" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="10" font-weight="500" fill="#444">Check logs on host</text>
+
+        <!-- Branch question -->
+        <line x1="170" y1="90" x2="170" y2="104" stroke="#c8c5be" stroke-width="1" marker-end="url(#tarr)"/>
+        <rect x="104" y="104" width="132" height="22" rx="4" fill="#f5f3ef" stroke="#d8d5ce" stroke-width="0.75"/>
+        <text x="170" y="119" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="9" fill="#777">What error in the log?</text>
+
+        <!-- Branch left -->
+        <line x1="138" y1="126" x2="80" y2="144" stroke="#c8c5be" stroke-width="1" marker-end="url(#tarr)"/>
+        <rect x="28" y="144" width="104" height="26" rx="5" fill="#eef4fb" stroke="#b8d4f0" stroke-width="0.75"/>
+        <text x="80" y="157" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="9" font-weight="500" fill="#1d5c9e">Power Rail Failure</text>
+        <text x="80" y="168" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="8" fill="#4a7ab0">→ AC Cycle chassis</text>
+
+        <!-- Branch right -->
+        <line x1="202" y1="126" x2="260" y2="144" stroke="#c8c5be" stroke-width="1" marker-end="url(#tarr)"/>
+        <rect x="208" y="144" width="104" height="26" rx="5" fill="#eef4fb" stroke="#b8d4f0" stroke-width="0.75"/>
+        <text x="260" y="157" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="9" font-weight="500" fill="#1d5c9e">GPU Failure</text>
+        <text x="260" y="168" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="8" fill="#4a7ab0">→ GPU Shuffle</text>
+
+        <!-- Sub-branch from left -->
+        <line x1="80" y1="170" x2="80" y2="186" stroke="#c8c5be" stroke-width="1" marker-end="url(#tarr)"/>
+        <rect x="28" y="186" width="104" height="22" rx="5" fill="#eef4fb" stroke="#b8d4f0" stroke-width="0.75"/>
+        <text x="80" y="201" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="9" fill="#1d5c9e">Replace power board</text>
+
+        <!-- Sub-branch from right -->
+        <line x1="260" y1="170" x2="260" y2="186" stroke="#c8c5be" stroke-width="1" marker-end="url(#tarr)"/>
+        <rect x="208" y="186" width="104" height="22" rx="5" fill="#eef4fb" stroke="#b8d4f0" stroke-width="0.75"/>
+        <text x="260" y="201" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="9" fill="#1d5c9e">Replace GPU</text>
+
+
+      </svg>
+    </div>
+    <div class="iter-desc">
+      <div class="iter-label">Iteration 03</div>
+      <div class="iter-title">Tree-based action builder</div>
+      <ul class="iter-bullets">
+        <li>Each node is an action, branches are outcomes</li>
+        <li>Handles complex, multi-path repairs</li>
+        <li>Structured enough to track and automate</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── FINAL CONCEPT ── -->
+  <div class="iter-block">
+    <div class="iter-visual">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="340" height="220" rx="6" fill="#fff" stroke="#e0ddd6" stroke-width="0.75"/>
+        <rect x="0" y="0" width="340" height="28" rx="6" fill="#f5f3ef"/>
+        <rect x="0" y="20" width="340" height="8" fill="#f5f3ef"/>
+        <circle cx="14" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="26" cy="14" r="4" fill="#e0ddd6"/>
+        <circle cx="38" cy="14" r="4" fill="#e0ddd6"/>
+        <rect x="54" y="8" width="200" height="12" rx="3" fill="#ede9e2"/>
+
+        <!-- Slim left nav -->
+        <rect x="0" y="28" width="18" height="192" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.5"/>
+        <rect x="4" y="36" width="10" height="6" rx="2" fill="#d8d5ce"/>
+        <rect x="4" y="48" width="10" height="6" rx="2" fill="#d8d5ce"/>
+        <rect x="4" y="60" width="10" height="6" rx="2" fill="#c8c5be"/>
+
+        <!-- Main step panel -->
+        <rect x="18" y="28" width="196" height="192" fill="#fafaf8"/>
+
+        <!-- Step title -->
+        <text x="28" y="46" font-family="'DM Sans', sans-serif" font-size="10" font-weight="500" fill="#333">Repair Plan</text>
+        <text x="28" y="58" font-family="'DM Sans', sans-serif" font-size="8" fill="#bbb">Zion T16/T20 - Power Failures</text>
+        <line x1="18" y1="62" x2="214" y2="62" stroke="#e8e6e0" stroke-width="0.5"/>
+
+        <!-- Action card: instruction block -->
+        <rect x="26" y="68" width="180" height="46" rx="4" fill="#fff" stroke="#e0ddd6" stroke-width="0.75"/>
+        <text x="34" y="81" font-family="'DM Sans', sans-serif" font-size="9" font-weight="500" fill="#333">Check logs on the host</text>
+        <rect x="34" y="85" width="110" height="4" rx="1" fill="#e8e6e0"/>
+        <rect x="34" y="93" width="140" height="4" rx="1" fill="#e8e6e0"/>
+        <rect x="34" y="101" width="90" height="4" rx="1" fill="#e8e6e0"/>
+
+        <!-- Branch question card -->
+        <rect x="26" y="120" width="180" height="70" rx="4" fill="#fff" stroke="#e0ddd6" stroke-width="0.75"/>
+        <text x="34" y="133" font-family="'DM Sans', sans-serif" font-size="9" font-weight="500" fill="#333">What was the error in the log?</text>
+        <circle cx="34" cy="146" r="3.5" fill="none" stroke="#d8d5ce" stroke-width="1"/>
+        <rect x="42" y="142" width="80" height="4" rx="1" fill="#e0ddd6"/>
+        <circle cx="34" cy="159" r="3.5" fill="none" stroke="#d8d5ce" stroke-width="1"/>
+        <rect x="42" y="155" width="96" height="4" rx="1" fill="#e0ddd6"/>
+        <circle cx="34" cy="172" r="3.5" fill="none" stroke="#d8d5ce" stroke-width="1"/>
+        <rect x="42" y="168" width="70" height="4" rx="1" fill="#e0ddd6"/>
+
+        <!-- Back / Next buttons -->
+        <rect x="26" y="198" width="30" height="14" rx="3" fill="#f5f3ef" stroke="#e0ddd6" stroke-width="0.5"/>
+        <text x="41" y="208" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="7.5" fill="#888">Back</text>
+        <rect x="162" y="198" width="44" height="14" rx="3" fill="#e0ddd6"/>
+        <text x="184" y="208" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="7.5" fill="#666">Next step</text>
+
+        <!-- Divider -->
+        <line x1="214" y1="28" x2="214" y2="220" stroke="#e8e6e0" stroke-width="0.75"/>
+
+        <!-- Right panel: Properties -->
+        <rect x="214" y="28" width="126" height="192" fill="#fff"/>
+        <text x="222" y="44" font-family="'DM Sans', sans-serif" font-size="9" font-weight="500" fill="#333">Plan Properties</text>
+
+        <!-- Tabs -->
+        <text x="222" y="58" font-family="'DM Sans', sans-serif" font-size="8" fill="#bbb">History</text>
+        <text x="256" y="58" font-family="'DM Sans', sans-serif" font-size="8" fill="#888">Entity Info</text>
+        <line x1="222" y1="62" x2="332" y2="62" stroke="#e8e6e0" stroke-width="0.5"/>
+
+        <!-- Entity field rows -->
+        <rect x="222" y="68" width="100" height="6" rx="1" fill="#e8e6e0"/>
+        <rect x="222" y="80" width="70" height="4" rx="1" fill="#ede9e2"/>
+        <line x1="222" y1="88" x2="332" y2="88" stroke="#f0ede6" stroke-width="0.5"/>
+
+        <rect x="222" y="94" width="80" height="6" rx="1" fill="#e8e6e0"/>
+        <rect x="222" y="106" width="60" height="4" rx="1" fill="#ede9e2"/>
+        <line x1="222" y1="114" x2="332" y2="114" stroke="#f0ede6" stroke-width="0.5"/>
+
+        <rect x="222" y="120" width="90" height="6" rx="1" fill="#e8e6e0"/>
+        <rect x="222" y="132" width="75" height="4" rx="1" fill="#ede9e2"/>
+        <line x1="222" y1="140" x2="332" y2="140" stroke="#f0ede6" stroke-width="0.5"/>
+
+        <rect x="222" y="146" width="70" height="6" rx="1" fill="#e8e6e0"/>
+        <rect x="222" y="158" width="50" height="4" rx="1" fill="#ede9e2"/>
+        <line x1="222" y1="166" x2="332" y2="166" stroke="#f0ede6" stroke-width="0.5"/>
+
+        <rect x="222" y="172" width="60" height="6" rx="1" fill="#e8e6e0"/>
+        <rect x="222" y="182" width="50" height="4" rx="1" fill="#ede9e2"/>
+      </svg>
+    </div>
+    <div class="iter-desc">
+      <div class="iter-label">Final concept</div>
+      <div class="iter-title">Two-panel guided execution</div>
+      <ul class="iter-bullets">
+        <li>Step instructions on the left, server context on the right</li>
+        <li>Radio options route to the correct next step</li>
+        <li>Full action history tracked throughout</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+  </div>
+
+  </div>
+
+  <div class="container"><h3>Key usability findings</h3></div>
+
+  <div class="wide" style="margin-top:0;">
+    <div>
+      <div class="findings-grid">
+
+    <!-- Card 1: Preferred over existing approach -->
+    <div class="finding-card">
+      <div class="finding-num">Finding 01</div>
+
+      <svg class="finding-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="8" width="18" height="28" rx="3" fill="#f5f3ef" stroke="#d8d5ce" stroke-width="1.5"/>
+        <rect x="6" y="14" width="10" height="2" rx="1" fill="#d8d5ce"/>
+        <rect x="6" y="19" width="8" height="2" rx="1" fill="#d8d5ce"/>
+        <rect x="6" y="24" width="10" height="2" rx="1" fill="#d8d5ce"/>
+        <rect x="6" y="29" width="6" height="2" rx="1" fill="#d8d5ce"/>
+        <rect x="24" y="8" width="18" height="28" rx="3" fill="#1a1a1a"/>
+        <rect x="28" y="14" width="10" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+        <rect x="28" y="19" width="8" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+        <rect x="28" y="24" width="10" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+        <rect x="28" y="29" width="6" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+        <path d="M19 22 L25 22" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M23 19 L26 22 L23 25" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+      <div>
+        <div class="finding-stat">8 of 10
+          <span class="unit">preferred Repair Console</span>
+        </div>
+      </div>
+
+      <div class="finding-title">Users found it easier to author and execute repairs</div>
+      <div class="finding-desc">
+        <ul class="finding-bullets">
+          <li>Clearer than existing runbooks and ticketing tools</li>
+          <li>Faster to get started on a repair</li>
+          <li>Reduced time spent searching for the right steps</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Card 2: Plan sprawl concern -->
+    <div class="finding-card">
+      <div class="finding-num">Finding 02</div>
+
+      <svg class="finding-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Stack of plans growing -->
+        <rect x="4" y="30" width="36" height="8" rx="2" fill="#e8e6e0" stroke="#d0cdc6" stroke-width="1"/>
+        <rect x="7" y="22" width="30" height="8" rx="2" fill="#d8d5ce" stroke="#c4c0b8" stroke-width="1"/>
+        <rect x="10" y="14" width="24" height="8" rx="2" fill="#c8c5be" stroke="#b4b0a8" stroke-width="1"/>
+        <rect x="13" y="6" width="18" height="8" rx="2" fill="#b8b5ae" stroke="#a4a09a" stroke-width="1"/>
+        <!-- Question mark -->
+        <circle cx="36" cy="8" r="7" fill="#1a1a1a"/>
+        <text x="36" y="12" text-anchor="middle" font-family="'DM Serif Display', serif" font-size="11" fill="#fff">?</text>
+      </svg>
+
+      <div>
+        <div class="finding-stat">5 of 10
+          <span class="unit">had scalability concerns</span>
+        </div>
+      </div>
+
+      <div class="finding-title">Plan maintenance at scale was an open question</div>
+      <div class="finding-desc">
+        <ul class="finding-bullets">
+          <li>Worried plans would go stale as hardware evolved</li>
+          <li>Unclear how to discover the right plan among hundreds</li>
+          <li>Concerned about who owns outdated or duplicate plans</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Card 3: Trust / approval -->
+    <div class="finding-card">
+      <div class="finding-num">Finding 03</div>
+
+      <svg class="finding-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shield -->
+        <path d="M22 4 L38 10 L38 24 C38 33 22 40 22 40 C22 40 6 33 6 24 L6 10 Z" fill="#f5f3ef" stroke="#d0cdc6" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- Checkmark -->
+        <path d="M14 22 L20 28 L30 16" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+      <div>
+        <div class="finding-stat">7 of 10
+          <span class="unit">wanted expert sign-off</span>
+        </div>
+      </div>
+
+      <div class="finding-title">Technicians wanted credibility signals before trusting a plan</div>
+      <div class="finding-desc">
+        <ul class="finding-bullets">
+          <li>Success rate and usage history were the most requested signals</li>
+          <li>Plans authored by recognized experts carried significantly more trust</li>
+          <li>Asked for publishing rules so not anyone could author a plan</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- FINAL DESIGN -->
+<section>
+  <div class="container">
+    <div class="section-label">Final design</div>
+    <h2>Three surfaces, one unified platform</h2>
+    <p>Repair Console brought three surfaces together for the first time, each designed for a specific user persona, all drawing from the same underlying data.</p>
+  </div>
+
+  <div class="container">
+    <h3>Surface 1: Global monitoring, for the Monitor</h3>
+    <p>Designed for team leads who needed situational awareness across their fleet. Three progressive zoom levels let each user type see exactly the right scope: global trends, regional patterns, or a single campus.</p>
+  </div>
+
+  <div class="wide">
+    <div class="carousel" id="monitoring-carousel">
+      <div class="carousel-track" id="monitoring-track">
+
+        <div class="carousel-slide">
+          <img src="Global_Profile__1_.png" alt="Global Health Overview"/>
+          <div class="carousel-caption"><strong>Global view.</strong> All of Meta's data center regions on a world map, color-coded by unavailability. Fleet health bars break down server status by type, and the right panel surfaces the highest-priority issues across the entire fleet.</div>
+        </div>
+
+        <div class="carousel-slide">
+          <img src="Region_Profile.png" alt="US South regional health overview"/>
+          <div class="carousel-caption"><strong>Regional view.</strong> Drilling into US South shows individual data centers plotted on a regional map, color-coded by unavailability. The same fleet health and issues panels update to reflect only this region's data.</div>
+        </div>
+
+        <div class="carousel-slide">
+          <img src="Geo_Profile.png" alt="Site-level campus map"/>
+          <div class="carousel-caption"><strong>Campus/site view.</strong> The deepest zoom renders the actual building layout of a data center campus, each building color-coded by its unavailability rate, something that was completely invisible before.</div>
+        </div>
+
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="monitoring-prev" onclick="carouselMove('monitoring', -1)" disabled>&#8592;</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active" onclick="carouselGoTo('monitoring', 0)"></button>
+          <button class="carousel-dot" onclick="carouselGoTo('monitoring', 1)"></button>
+          <button class="carousel-dot" onclick="carouselGoTo('monitoring', 2)"></button>
+        </div>
+        <button class="carousel-btn" id="monitoring-next" onclick="carouselMove('monitoring', 1)">&#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3>Surface 2: Issue view, for the Pattern Finder</h3>
+    <p>Designed for diagnostic techs who needed to see the bigger picture. Similar failures are automatically grouped into a single Issue, letting teams diagnose once and repair in bulk rather than working ticket by ticket.</p>
+  </div>
+
+  <div class="wide">
+    <div class="screenshot-wrap">
+      <img src="Issue.png" alt="Issue Details screen showing grouped tickets for Zion T16/T20 Power Failures, with status charts, properties panel, and team conversations"/>
+      <div class="screenshot-caption"><strong>Issue Details.</strong> Four tickets are grouped under a single Zion T16/T20 Power Failures issue. The technician sees all affected servers, their priorities and statuses, and how long each has been unresolved, all in one view. The "Start Repair" button launches the Action Plan across the entire group. The Conversations panel (bottom right) was added after user research revealed that teams were coordinating via messaging threads that disappeared. Repair Console needed to be the record of communication, not just of actions.</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3>Surface 3: Action Plans, for the Actioner</h3>
+    <p>Designed for on-site repair techs who needed clear, unambiguous instructions. A branching tree format routes technicians to the right next step based on what they find, with full action history tracked in the right panel throughout.</p>
+  </div>
+
+  <div class="wide">
+    <div class="screenshot-grid">
+      <div class="screenshot-wrap">
+        <img src="Repair_Plan.png" alt="Repair Plan screen showing 'Check logs on host' step with command instructions, a branching question about log errors, and the entity's server details in the right panel"/>
+        <div class="screenshot-caption"><strong>Branching decision step.</strong> "What was the error in the log?" The technician selects from pre-defined outcomes and the plan branches accordingly. The right panel (Entity Info tab) surfaces full server details (type, rack location, data center, state) so the technician never leaves the flow to look up context in another tool.</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="Action_Plan_Executing.png" alt="Repair Plan executing 'Shuffle GPU' step with a diagnosis form and action history timeline on the right"/>
+        <div class="screenshot-caption"><strong>Execution step.</strong> Further into the same plan: the technician is instructed to unplug GPUs one at a time and test powering on. The right panel has switched to History, showing the full path taken so far. This switch was a key insight from usability testing: once execution begins, technicians stop caring about entity details and need the action history to stay oriented.</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- RESULTS -->
+<section>
+  <div class="container">
+    <div class="section-label">Results</div>
+    <h2>Measurable impact across the fleet</h2>
+    <p>We measured performance across teams using Repair Console against teams still on legacy tools. These were the key outcomes.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin:2rem 0;">
+      <div class="result-card">
+        <div class="big-num">22%</div>
+        <div class="desc">Reduction in average repair time, from initial triage to server back online</div>
+      </div>
+      <div class="result-card">
+        <div class="big-num">31%</div>
+        <div class="desc">Increase in repair accuracy, measured by reduction in tickets reopened for the same issue</div>
+      </div>
+      <div class="result-card">
+        <div class="big-num">7→1</div>
+        <div class="desc">Repair ticketing systems consolidated into a single unified platform</div>
+      </div>
+    </div>
+
+    <p>The numbers tell part of the story. The bigger shift was less visible: for the first time, teams across different regions and functions were working from the same data, using the same processes, and building on each other's knowledge rather than starting from scratch. The DIMM defect that once took years to surface would now be detectable in weeks. That kind of compounding improvement is what the platform was really designed for.</p>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section>
+  <div class="container">
+    <div class="section-label">Reflection</div>
+    <h2>What I'd do differently</h2>
+
+    <div class="reflection">
+      <div class="principle" style="padding-bottom:1.5rem;margin-bottom:1.5rem;">
+        <div class="principle-header">
+          <div class="principle-title">Test in context earlier</div>
+        </div>
+        <p>We designed the global dashboard for an idealized user, not the real one. On-site testing surfaced this quickly, but we got there too late. Earlier field research would have saved weeks.</p>
+      </div>
+      <div class="principle" style="padding-bottom:0;margin-bottom:0;">
+        <div class="principle-header">
+          <div class="principle-title">Distributed teams need deliberate design rituals</div>
+        </div>
+        <p>Keeping alignment across Dublin, Berlin, and San Francisco required short weekly syncs I hadn't planned for. Once established, they became one of the most valuable parts of the process.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div style="padding:3rem 0; text-align:center; border-top:1px solid var(--border);">
+  <p style="font-size:13px; color:var(--text-muted);">Powered by green tea and a passion for creating new things.</p>
+</div>
+
+
+<script>
+  const carousels = {};
+
+  function carouselInit(id) {
+    carousels[id] = { index: 0, total: document.querySelectorAll(`#${id}-track .carousel-slide`).length };
+  }
+
+  function carouselMove(id, dir) {
+    if (!carousels[id]) carouselInit(id);
+    const state = carousels[id];
+    state.index = Math.max(0, Math.min(state.total - 1, state.index + dir));
+    carouselApply(id);
+  }
+
+  function carouselGoTo(id, idx) {
+    if (!carousels[id]) carouselInit(id);
+    carousels[id].index = idx;
+    carouselApply(id);
+  }
+
+  function carouselApply(id) {
+    const state = carousels[id];
+    document.getElementById(`${id}-track`).style.transform = `translateX(-${state.index * 100}%)`;
+    document.getElementById(`${id}-prev`).disabled = state.index === 0;
+    document.getElementById(`${id}-next`).disabled = state.index === state.total - 1;
+    document.querySelectorAll(`#${id}-carousel .carousel-dot`).forEach((d, i) => {
+      d.classList.toggle('active', i === state.index);
+    });
+  }
+
+  // Init all carousels on load
+  document.querySelectorAll('.carousel').forEach(el => carouselInit(el.id));
+</script>
+</body>
+</html>
