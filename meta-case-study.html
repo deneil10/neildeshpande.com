@@ -519,35 +519,47 @@
     color: #d0cdc6;
   }
 
+  /* ── CAROUSEL ── */
   .carousel {
-    position: relative;
-    overflow: hidden;
     border-radius: 10px;
     border: 1px solid #e8e6e0;
     background: #fff;
+    overflow: hidden;
   }
+  /* The viewport — clips to one slide at a time */
+  .carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+  /* Portrait: fixed-height viewport crops tall images */
+  .carousel-portrait .carousel-viewport {
+    height: 700px;
+  }
+  /* The sliding track — sits inside viewport, stretches wide */
   .carousel-track {
     display: flex;
     transition: transform 0.35s ease;
+    width: 100%;
   }
+  /* Each slide is exactly as wide as the viewport */
   .carousel-slide {
-    min-width: 100%;
-    flex-shrink: 0;
+    flex: 0 0 100%;
+    width: 100%;
   }
-  .carousel-slide img {
-  width: 100%;
-  display: block;
-}
-.carousel-slide img.portrait {
-  max-height: 560px;
-  object-fit: cover;
-  object-position: top center;
-}
-.carousel-slide img.landscape {
-  max-height: 420px;
-  object-fit: contain;
-  background: #f5f3ef;
-}
+  /* Portrait images: fill the fixed-height viewport, crop from top */
+  .carousel-portrait .carousel-slide img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+  /* Landscape images: natural height, full width */
+  .carousel-landscape .carousel-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
   .carousel-caption {
     padding: 0.875rem 1.25rem;
     font-size: 13px;
@@ -788,7 +800,7 @@
     <div class="section-label">Research</div>
     <h2>40+ interviews. 3 continents. The same problems, everywhere.</h2>
     <p>I supported our lead researcher with interviews, observations, and ticket analysis across Dublin, Berlin, Bay Area, Singapore, and Austin, over 40 people in total, spanning network engineers, repair technicians, team leads, and on-site operators. Despite different regions and roles, every person we talked to was struggling with the same core issues.</p>
-    <p>To make sense of what we'd heard, the researcher and I synthesized the interviews and identified three distinct behavioral patterns in how people approached repair work. Rather than mapping to job titles, these patterns cut across teams; A network engineer and a data center lead might both behave like a Pattern Finder, depending on the day. Defining these personas gave the whole team a shared language for who we were designing for, and made it much easier to pressure-test design decisions against real user needs.</p>
+    <p>To make sense of what we'd heard, the researcher and I synthesized the interviews and identified three distinct behavioral patterns in how people approached repair work. Rather than mapping to job titles, these patterns cut across teams — a network engineer and a data center lead might both behave like a Pattern Finder, depending on the day. Defining these personas gave the whole team a shared language for who we were designing for, and made it much easier to pressure-test design decisions against real user needs.</p>
   </div>
 
   <!-- USER PERSONAS -->
@@ -814,8 +826,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#c5d9f0;">–</span>No visibility into what other teams are working on</li>
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#c5d9f0;">–</span>Can't escalate or group tickets across the system</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No visibility into what other teams are working on</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Can't escalate or group tickets across the system</li>
             </ul>
           </div>
         </div>
@@ -840,8 +852,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#b0ddd0;">–</span>Has to dig into individual tickets to get any overview</li>
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#b0ddd0;">–</span>No single place to see status across all teams</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Has to dig into individual tickets to get any overview</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No single place to see status across all teams</li>
             </ul>
           </div>
         </div>
@@ -866,8 +878,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#f0dbb0;">–</span>Spends most of their time on triage, not repair</li>
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#f0dbb0;">–</span>Runbooks are generic, outdated, and hard to find</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Spends most of their time on triage, not repair</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Runbooks are generic, outdated, and hard to find</li>
             </ul>
           </div>
         </div>
@@ -879,7 +891,7 @@
 
   <div class="container">
     <h3 style="margin-bottom:0.75rem;">What all three had in common</h3>
-    <p>The personas helped us understand <em>how</em> different people worked. But regardless of which persona we were talking to, the same four systemic problems kept surfacing, not as isolated complaints, but as symptoms of the same broken environment.</p>
+    <p>The personas helped us understand <em>how</em> different people worked. But regardless of which persona we were talking to, the same four systemic problems kept surfacing — not as isolated complaints, but as symptoms of the same broken environment.</p>
     <div class="finding">
       <div class="finding-num">01</div>
       <div class="finding-body">
@@ -949,7 +961,7 @@
   <!-- Workshop photo -->
   <div class="wide" style="margin-top:1.5rem;margin-bottom:2rem;">
     <div class="screenshot-wrap">
-      <img src="workshop.jpg" alt="Cross-functional workshop session at Meta Dublin office" style="max-height:380px;object-fit:cover;object-position:center 40%;"/>
+      <img src="workshop.png" alt="Cross-functional workshop session at Meta Dublin office" style="max-height:380px;object-fit:cover;object-position:center 40%;"/>
       <div class="screenshot-caption">One of several cross-functional workshops held across Dublin and the Bay Area, bringing together engineers, repair technicians, and subject matter experts to align on the problem and explore solutions together.</div>
     </div>
   </div>
@@ -1440,26 +1452,22 @@
     <p>Designed for team leads who needed situational awareness across their fleet. Three progressive zoom levels let each user type see exactly the right scope: global trends, regional patterns, or a single campus.</p>
   </div>
 
-  <div class="wide">
-    <div class="carousel" id="monitoring-carousel">
-      <div class="carousel-track" id="monitoring-track">
-
-        <div class="carousel-slide">
-          <img class="portrait" src="Global_Profile.png" alt="Global Health Overview"/>
-          <div class="carousel-caption"><strong>Global view.</strong> All of Meta's data center regions on a world map, color-coded by unavailability. Fleet health bars break down server status by type, and the right panel surfaces the highest-priority issues across the entire fleet.</div>
+  <div class="wide" style="margin-top:2rem;">
+    <div class="carousel carousel-portrait" id="monitoring-carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="monitoring-track">
+          <div class="carousel-slide">
+            <img src="Global_Profile.png" alt="Global Health Overview"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="Region_Profile.png" alt="US South regional health overview"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="Geo_Profile.png" alt="Site-level campus map"/>
+          </div>
         </div>
-
-        <div class="carousel-slide">
-          <img class="portrait" src="Region_Profile.png" alt="US South regional health overview"/>
-          <div class="carousel-caption"><strong>Regional view.</strong> Drilling into US South shows individual data centers plotted on a regional map, color-coded by unavailability. The same fleet health and issues panels update to reflect only this region's data.</div>
-        </div>
-
-        <div class="carousel-slide">
-          <img class="portrait" src="Geo_Profile.png" alt="Site-level campus map"/>
-          <div class="carousel-caption"><strong>Campus/site view.</strong> The deepest zoom renders the actual building layout of a data center campus, each building color-coded by its unavailability rate, something that was completely invisible before.</div>
-        </div>
-
       </div>
+      <div class="carousel-caption" id="monitoring-caption"><strong>Global view.</strong> All of Meta's data center regions on a world map, color-coded by unavailability. Fleet health bars break down server status by type, and the right panel surfaces the highest-priority issues across the entire fleet.</div>
       <div class="carousel-controls">
         <button class="carousel-btn" id="monitoring-prev" onclick="carouselMove('monitoring', -1)" disabled>&#8592;</button>
         <div class="carousel-dots">
@@ -1489,21 +1497,19 @@
     <p>Designed for on-site repair techs who needed clear, unambiguous instructions. A branching tree format routes technicians to the right next step based on what they find, with full action history tracked in the right panel throughout.</p>
   </div>
 
- <div class="wide">
-    <div class="carousel" id="actionplan-carousel">
-      <div class="carousel-track" id="actionplan-track">
-
-        <div class="carousel-slide">
-          <img class="landscape" src="Repair_Plan.png" alt="Repair Plan screen showing branching decision step"/>
-          <div class="carousel-caption"><strong>Branching decision step.</strong> "What was the error in the log?" The technician selects from pre-defined outcomes and the plan branches accordingly. The right panel (Entity Info tab) surfaces full server details (type, rack location, data center, state) so the technician never leaves the flow to look up context in another tool.</div>
+  <div class="wide">
+    <div class="carousel carousel-landscape" id="actionplan-carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="actionplan-track">
+          <div class="carousel-slide">
+            <img src="Repair_Plan.png" alt="Repair Plan screen showing branching decision step"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="Action_Plan_Executing.png" alt="Repair Plan executing Shuffle GPU step"/>
+          </div>
         </div>
-
-        <div class="carousel-slide">
-          <img class="landscape" src="Action_Plan_Executing.png" alt="Repair Plan executing Shuffle GPU step with action history on the right"/>
-          <div class="carousel-caption"><strong>Execution step.</strong> Further into the same plan: the technician is instructed to unplug GPUs one at a time and test powering on. The right panel has switched to History, showing the full path taken so far. This switch was a key insight from usability testing: once execution begins, technicians stop caring about entity details and need the action history to stay oriented.</div>
-        </div>
-
       </div>
+      <div class="carousel-caption" id="actionplan-caption"><strong>Branching decision step.</strong> "What was the error in the log?" The technician selects from pre-defined outcomes and the plan branches accordingly. The right panel surfaces full server details so the technician never leaves the flow to look up context in another tool.</div>
       <div class="carousel-controls">
         <button class="carousel-btn" id="actionplan-prev" onclick="carouselMove('actionplan', -1)" disabled>&#8592;</button>
         <div class="carousel-dots">
@@ -1576,8 +1582,21 @@
 <script>
   const carousels = {};
 
+  const captions = {
+    monitoring: [
+      `<strong>Global view.</strong> All of Meta's data center regions on a world map, color-coded by unavailability. Fleet health bars break down server status by type, and the right panel surfaces the highest-priority issues across the entire fleet.`,
+      `<strong>Regional view.</strong> Drilling into US South shows individual data centers plotted on a regional map, color-coded by unavailability. The same fleet health and issues panels update to reflect only this region's data.`,
+      `<strong>Campus/site view.</strong> The deepest zoom renders the actual building layout of a data center campus, each building color-coded by its unavailability rate, something that was completely invisible before.`
+    ],
+    actionplan: [
+      `<strong>Branching decision step.</strong> "What was the error in the log?" The technician selects from pre-defined outcomes and the plan branches accordingly. The right panel surfaces full server details so the technician never leaves the flow to look up context in another tool.`,
+      `<strong>Execution step.</strong> Further into the same plan: the technician is instructed to unplug GPUs one at a time and test powering on. The right panel has switched to History, showing the full path taken. Once execution begins, technicians need the action history to stay oriented.`
+    ]
+  };
+
   function carouselInit(id) {
-    carousels[id] = { index: 0, total: document.querySelectorAll(`#${id}-track .carousel-slide`).length };
+    const slides = document.querySelectorAll('#' + id + '-track .carousel-slide');
+    carousels[id] = { index: 0, total: slides.length };
   }
 
   function carouselMove(id, dir) {
@@ -1595,16 +1614,24 @@
 
   function carouselApply(id) {
     const state = carousels[id];
-    document.getElementById(`${id}-track`).style.transform = `translateX(-${state.index * 100}%)`;
-    document.getElementById(`${id}-prev`).disabled = state.index === 0;
-    document.getElementById(`${id}-next`).disabled = state.index === state.total - 1;
-    document.querySelectorAll(`#${id}-carousel .carousel-dot`).forEach((d, i) => {
+    const track = document.getElementById(id + '-track');
+    const viewport = track.parentElement;
+    const slideWidth = viewport.offsetWidth;
+    track.style.transform = 'translateX(-' + (state.index * slideWidth) + 'px)';
+    document.getElementById(id + '-prev').disabled = state.index === 0;
+    document.getElementById(id + '-next').disabled = state.index === state.total - 1;
+    document.querySelectorAll('#' + id + '-carousel .carousel-dot').forEach(function(d, i) {
       d.classList.toggle('active', i === state.index);
     });
+    var captionEl = document.getElementById(id + '-caption');
+    if (captionEl && captions[id]) {
+      captionEl.innerHTML = captions[id][state.index];
+    }
   }
 
-  // Init all carousels on load
-  document.querySelectorAll('.carousel').forEach(el => carouselInit(el.id));
+  document.querySelectorAll('.carousel').forEach(function(el) {
+    carouselInit(el.id);
+  });
 </script>
 </body>
 </html>
