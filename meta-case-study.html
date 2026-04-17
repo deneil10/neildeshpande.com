@@ -537,10 +537,17 @@
   .carousel-slide img {
   width: 100%;
   display: block;
-  max-height: 480px;
+}
+.carousel-slide img.portrait {
+  max-height: 560px;
+  object-fit: cover;
+  object-position: top center;
+}
+.carousel-slide img.landscape {
+  max-height: 420px;
   object-fit: contain;
   background: #f5f3ef;
-  }
+}
   .carousel-caption {
     padding: 0.875rem 1.25rem;
     font-size: 13px;
@@ -1438,17 +1445,17 @@
       <div class="carousel-track" id="monitoring-track">
 
         <div class="carousel-slide">
-          <img src="Global_Profile__1_.png" alt="Global Health Overview"/>
+          <img class="portrait" src="Global_Profile.png" alt="Global Health Overview"/>
           <div class="carousel-caption"><strong>Global view.</strong> All of Meta's data center regions on a world map, color-coded by unavailability. Fleet health bars break down server status by type, and the right panel surfaces the highest-priority issues across the entire fleet.</div>
         </div>
 
         <div class="carousel-slide">
-          <img src="Region_Profile.png" alt="US South regional health overview"/>
+          <img class="portrait" src="Region_Profile.png" alt="US South regional health overview"/>
           <div class="carousel-caption"><strong>Regional view.</strong> Drilling into US South shows individual data centers plotted on a regional map, color-coded by unavailability. The same fleet health and issues panels update to reflect only this region's data.</div>
         </div>
 
         <div class="carousel-slide">
-          <img src="Geo_Profile.png" alt="Site-level campus map"/>
+          <img class="portrait" src="Geo_Profile.png" alt="Site-level campus map"/>
           <div class="carousel-caption"><strong>Campus/site view.</strong> The deepest zoom renders the actual building layout of a data center campus, each building color-coded by its unavailability rate, something that was completely invisible before.</div>
         </div>
 
@@ -1487,12 +1494,12 @@
       <div class="carousel-track" id="actionplan-track">
 
         <div class="carousel-slide">
-          <img src="Repair_Plan.png" alt="Repair Plan screen showing branching decision step"/>
+          <img class="landscape" src="Repair_Plan.png" alt="Repair Plan screen showing branching decision step"/>
           <div class="carousel-caption"><strong>Branching decision step.</strong> "What was the error in the log?" The technician selects from pre-defined outcomes and the plan branches accordingly. The right panel (Entity Info tab) surfaces full server details (type, rack location, data center, state) so the technician never leaves the flow to look up context in another tool.</div>
         </div>
 
         <div class="carousel-slide">
-          <img src="Action_Plan_Executing.png" alt="Repair Plan executing Shuffle GPU step with action history on the right"/>
+          <img class="landscape" src="Action_Plan_Executing.png" alt="Repair Plan executing Shuffle GPU step with action history on the right"/>
           <div class="carousel-caption"><strong>Execution step.</strong> Further into the same plan: the technician is instructed to unplug GPUs one at a time and test powering on. The right panel has switched to History, showing the full path taken so far. This switch was a key insight from usability testing: once execution begins, technicians stop caring about entity details and need the action history to stay oriented.</div>
         </div>
 
