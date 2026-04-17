@@ -535,8 +535,11 @@
     flex-shrink: 0;
   }
   .carousel-slide img {
-    width: 100%;
-    display: block;
+  width: 100%;
+  display: block;
+  max-height: 480px;
+  object-fit: contain;
+  background: #f5f3ef;
   }
   .carousel-caption {
     padding: 0.875rem 1.25rem;
@@ -1479,15 +1482,28 @@
     <p>Designed for on-site repair techs who needed clear, unambiguous instructions. A branching tree format routes technicians to the right next step based on what they find, with full action history tracked in the right panel throughout.</p>
   </div>
 
-  <div class="wide">
-    <div class="screenshot-grid">
-      <div class="screenshot-wrap">
-        <img src="Repair_Plan.png" alt="Repair Plan screen showing 'Check logs on host' step with command instructions, a branching question about log errors, and the entity's server details in the right panel"/>
-        <div class="screenshot-caption"><strong>Branching decision step.</strong> "What was the error in the log?" The technician selects from pre-defined outcomes and the plan branches accordingly. The right panel (Entity Info tab) surfaces full server details (type, rack location, data center, state) so the technician never leaves the flow to look up context in another tool.</div>
+ <div class="wide">
+    <div class="carousel" id="actionplan-carousel">
+      <div class="carousel-track" id="actionplan-track">
+
+        <div class="carousel-slide">
+          <img src="Repair_Plan.png" alt="Repair Plan screen showing branching decision step"/>
+          <div class="carousel-caption"><strong>Branching decision step.</strong> "What was the error in the log?" The technician selects from pre-defined outcomes and the plan branches accordingly. The right panel (Entity Info tab) surfaces full server details (type, rack location, data center, state) so the technician never leaves the flow to look up context in another tool.</div>
+        </div>
+
+        <div class="carousel-slide">
+          <img src="Action_Plan_Executing.png" alt="Repair Plan executing Shuffle GPU step with action history on the right"/>
+          <div class="carousel-caption"><strong>Execution step.</strong> Further into the same plan: the technician is instructed to unplug GPUs one at a time and test powering on. The right panel has switched to History, showing the full path taken so far. This switch was a key insight from usability testing: once execution begins, technicians stop caring about entity details and need the action history to stay oriented.</div>
+        </div>
+
       </div>
-      <div class="screenshot-wrap">
-        <img src="Action_Plan_Executing.png" alt="Repair Plan executing 'Shuffle GPU' step with a diagnosis form and action history timeline on the right"/>
-        <div class="screenshot-caption"><strong>Execution step.</strong> Further into the same plan: the technician is instructed to unplug GPUs one at a time and test powering on. The right panel has switched to History, showing the full path taken so far. This switch was a key insight from usability testing: once execution begins, technicians stop caring about entity details and need the action history to stay oriented.</div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="actionplan-prev" onclick="carouselMove('actionplan', -1)" disabled>&#8592;</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active" onclick="carouselGoTo('actionplan', 0)"></button>
+          <button class="carousel-dot" onclick="carouselGoTo('actionplan', 1)"></button>
+        </div>
+        <button class="carousel-btn" id="actionplan-next" onclick="carouselMove('actionplan', 1)">&#8594;</button>
       </div>
     </div>
   </div>
