@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premera Blue Cross Case Study</title>
+<title>Neil Deshpande — Premera Blue Cross</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -221,6 +221,44 @@
     padding: 1rem;
   }
 
+  /* SCREENSHOT SIZING — prevent images from rendering at full resolution */
+  .screenshot-wrap img {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: contain;
+    display: block;
+    border-radius: 6px;
+    background: var(--border-light);
+  }
+  /* Workflow/flow diagrams: wider, shorter */
+  .screenshot-wrap.flow img {
+    max-height: 220px;
+    object-fit: contain;
+  }
+  /* Phone screens: constrain width so portrait screens dont stretch weird */
+  .screenshot-wrap.phone img {
+    max-height: 420px;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  /* Full-width spreads */
+  .screenshot-wrap.wide-spread img {
+    max-height: 340px;
+    object-fit: contain;
+  }
+  /* Usability finding images: smaller inline */
+  .finding-img img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: var(--border-light);
+    display: block;
+  }
+
   /* SCREEN PAIR */
   .screen-pair {
     display: grid;
@@ -255,6 +293,16 @@
     <div class="hero-label">Premera Blue Cross · Healthcare · 2019–2021</div>
     <h1>Making it easier to get help with your health insurance</h1>
     <p class="hero-summary">Premera Blue Cross is the largest health insurance company in the Pacific Northwest. I led the design of a chatbot that transformed how customers get help — making a stressful experience significantly faster and more satisfying.</p>
+
+    <!-- Final screens in hero -->
+    <div style="display:flex;gap:1.25rem;align-items:flex-end;margin-bottom:2.5rem;">
+      <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+        <img src="Final_1.png" alt="Premera chatbot: initial message screen" style="width:100%;height:auto;display:block;"/>
+      </div>
+      <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+        <img src="Final_2.png" alt="Premera chatbot: confirmation and call screen" style="width:100%;height:auto;display:block;"/>
+      </div>
+    </div>
 
     <div class="meta-grid">
       <div class="meta-item">
@@ -347,35 +395,59 @@
     </div>
 
     <h3>Existing user journey</h3>
-    <div class="img-placeholder wide">
-      user-journey.png — Full-width journey map showing all steps from call initiation to resolution
+    <div class="screenshot-wrap flow" style="margin:1.5rem 0;">
+      <img src="old_flow.png" alt="Existing user journey map showing 9 steps from looking up the phone number to connecting to customer service"/>
+      <div class="screenshot-caption">Our research helped us understand all the steps a user had to take to get connected to customer service.</div>
     </div>
     <p>Our research helped us understand all the steps a user had to take to get connected to customer service.</p>
 
     <h3>User pain points</h3>
     <div class="finding">
-      <div class="finding-num">01</div>
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="11" stroke="#c8c4bc" stroke-width="2"/>
+          <line x1="14" y1="8" x2="14" y2="14" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+          <line x1="14" y1="14" x2="18" y2="17" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div class="finding-body">
         <h4>Too much time in the automated phone system</h4>
         <p>It took callers about 3 minutes to go through our automated phone system, due to a strict verification process.</p>
       </div>
     </div>
     <div class="finding">
-      <div class="finding-num">02</div>
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 10 L22 10 M17 6 L22 10 L17 14" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 18 L6 18 M11 14 L6 18 L11 22" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <div class="finding-body">
         <h4>Callers were constantly transferred</h4>
         <p>After finally getting connected to a representative, callers were often transferred to another person — restarting the frustrating process.</p>
       </div>
     </div>
     <div class="finding">
-      <div class="finding-num">03</div>
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 22 C14 22 5 16 5 10 C5 7 7.5 5 10.5 5 C12 5 13.5 5.8 14 7 C14.5 5.8 16 5 17.5 5 C20.5 5 23 7 23 10 C23 16 14 22 14 22Z" stroke="#c8c4bc" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M8 11 L11 11 L12.5 8 L14.5 14 L16 11 L19 11" stroke="#c8c4bc" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <div class="finding-body">
         <h4>Calling insurance is inherently stressful</h4>
         <p>Calls ranged from people worried they couldn't afford surgery to people frustrated that their insurance had denied coverage. The emotional stakes were high before the call even began.</p>
       </div>
     </div>
     <div class="finding">
-      <div class="finding-num">04</div>
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="7" stroke="#c8c4bc" stroke-width="2"/>
+          <line x1="17.5" y1="17.5" x2="23" y2="23" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+          <line x1="9" y1="12" x2="15" y2="12" stroke="#c8c4bc" stroke-width="1.75" stroke-linecap="round"/>
+          <line x1="12" y1="9" x2="12" y2="15" stroke="#c8c4bc" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div class="finding-body">
         <h4>Reps needed time to research before they could help</h4>
         <p>Customer service reps typically spent the first few minutes understanding and researching the caller's problem before being able to help — adding to call time and caller frustration.</p>
@@ -383,7 +455,7 @@
     </div>
 
     <h3>Understanding constraints</h3>
-    <div class="card-grid">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;">
       <div class="card">
         <h4>Each call cost about $12</h4>
         <p>The business wanted us to shorten and prevent calls — every minute saved had direct financial impact.</p>
@@ -407,15 +479,17 @@
     <h2>Brainstorming as a team</h2>
     <p>We presented the research findings to the team and brainstormed ways to solve the problem. Using the team's diverse expertise — engineering, business, data, and design — we generated ideas across different directions.</p>
 
-    <div class="img-placeholder tall">
-      workshop-brainstorm.jpg — Team brainstorming session photo
+    <div class="screenshot-wrap" style="margin:1.5rem 0;">
+      <img src="Workshop_artifact_1.png" alt="Workshop brainstorming sketches and sticky notes"/>
+      <div class="screenshot-caption">Using the team's diverse expertise (engineering, business, data, etc.) to generate ideas.</div>
     </div>
 
     <h3>Deciding what to build</h3>
     <p>When deciding what concepts to design and test, the main factors were the business and technical constraints. After analyzing various potential solutions, the team agreed to explore the idea of utilizing our existing mobile app to verify callers and allow them to skip the automated phone system.</p>
 
-    <div class="img-placeholder wide">
-      engineering-cost-vs-business-goal.png — 2x2 matrix showing engineering cost vs business goal for evaluated concepts
+    <div class="screenshot-wrap" style="margin:1.5rem 0;">
+      <img src="Workshop_artifact_2.png" alt="2x2 matrix mapping concepts by engineering cost vs business goal"/>
+      <div class="screenshot-caption">Engineering cost vs. business goal — used to evaluate which concepts to explore further.</div>
     </div>
   </div>
 </section>
@@ -427,12 +501,14 @@
     <h2>Concept testing: chatbot vs. form</h2>
     <p>Two of the concepts that stood out were designing a chatbot or a form to replace the phone system. We decided to test both to understand their pros and cons.</p>
 
-    <div class="screen-pair">
-      <div class="img-placeholder tall">
-        concept-chatbot.png — Chatbot concept wireframe/mockup
+    <div class="screen-pair" style="margin:1.5rem 0;">
+      <div class="screenshot-wrap">
+        <img src="concept_chat.png" alt="Chatbot concept wireframe"/>
+        <div class="screenshot-caption">A chatbot felt more informal, and users expected to get help without calling.</div>
       </div>
-      <div class="img-placeholder tall">
-        concept-form.png — Form concept wireframe/mockup
+      <div class="screenshot-wrap">
+        <img src="concept_form.png" alt="Form concept wireframe"/>
+        <div class="screenshot-caption">A form felt more professional and was perceived as more efficient.</div>
       </div>
     </div>
 
@@ -451,33 +527,52 @@
     <h3>Defining the user flow</h3>
     <p>I designed multiple chatbot flows, varying in complexity and types of questions asked. In the end, it was about keeping the experience quick and simple for the user.</p>
 
-    <div class="img-placeholder wide">
-      user-flow.png — Chatbot user flow diagram
+    <div class="screenshot-wrap" style="margin:1.5rem 0;">
+      <img src="chatbot_flow.png" alt="Chatbot user flow showing branching paths based on ML confidence"/>
+      <div class="screenshot-caption">I designed multiple chatbot flows, varying in complexity. In the end, it was about keeping the experience quick and simple for the user.</div>
     </div>
 
     <h3>Usability testing: refining the design</h3>
     <p>After converting the user flow to a prototype, I conducted usability tests to further refine the design. Here are a few of my key findings:</p>
 
-    <div class="iteration-strip">
-      <div class="iter-step">
-        <div class="step-num">Finding 01</div>
+    <div class="finding">
+      <div class="finding-num">01</div>
+      <div class="finding-body">
         <h4>Reduce the need for typing</h4>
         <p>Help the user quickly answer the bot's question by clicking buttons or using their voice instead of typing out responses.</p>
+        <div class="screenshot-wrap" style="margin:1rem 0 0;">
+          <img src="testing_buttons.png" alt="Usability test finding: reduce need for typing"/>
+        </div>
       </div>
-      <div class="iter-step">
-        <div class="step-num">Finding 02</div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">02</div>
+      <div class="finding-body">
         <h4>Keep it short</h4>
         <p>Users tended to only scan content and often missed information if the message was too long.</p>
+        <div class="screenshot-wrap" style="margin:1rem 0 0;">
+          <img src="testing_shorten.png" alt="Usability test finding: keep messages short"/>
+        </div>
       </div>
-      <div class="iter-step">
-        <div class="step-num">Finding 03</div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">03</div>
+      <div class="finding-body">
         <h4>Present the bot's top 3 guesses</h4>
         <p>When clarifying the user's question, the bot should display its top 3 guesses along with a "Something else" option, so that the user is never trapped.</p>
+        <div class="screenshot-wrap" style="margin:1rem 0 0;">
+          <img src="testing_guess.png" alt="Usability test finding: show top 3 guesses"/>
+        </div>
       </div>
-      <div class="iter-step">
-        <div class="step-num">Finding 04</div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">04</div>
+      <div class="finding-body">
         <h4>Fail gracefully</h4>
         <p>If the chatbot is unable to understand the user's question the first time, don't try again — just get them to a human.</p>
+        <div class="screenshot-wrap" style="margin:1rem 0 0;">
+          <img src="testing_failedGuess.png" alt="Usability test finding: fail gracefully"/>
+        </div>
       </div>
     </div>
   </div>
@@ -492,21 +587,12 @@
   </div>
 
   <div class="wide">
-    <div class="img-placeholder screen" style="margin:2rem 0;">
-      hifi-designs.png — High fidelity mockup spread showing the final chatbot screens
+    <div class="screenshot-wrap wide-spread" style="margin:2rem 0;">
+      <img src="hifi.png" alt="High fidelity designs showing the complete chatbot flow across 4 screens"/>
+      <div class="screenshot-caption">High fidelity designs showing the full chatbot experience: open app, start chatting, confirm guess, and call.</div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="screen-pair">
-      <div class="img-placeholder tall">
-        screen-chatbot-1.png — Chatbot screen: initial greeting / topic selection
-      </div>
-      <div class="img-placeholder tall">
-        screen-chatbot-2.png — Chatbot screen: top 3 guesses / something else
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- RESULTS -->
@@ -531,8 +617,9 @@
       </div>
     </div>
 
-    <div class="img-placeholder wide" style="margin-top:2rem;">
-      new-journey.png — Updated user journey showing how the chatbot eliminates the major pain points
+    <div class="screenshot-wrap flow" style="margin-top:2rem;">
+      <img src="improved_user_flow.png" alt="Improved user flow showing old 9-step journey replaced by new 4-step chatbot flow"/>
+      <div class="screenshot-caption">The new design eliminated the major pain points when calling customer service.</div>
     </div>
 
     <div class="pull-quote" style="margin-top:2rem;">
@@ -548,7 +635,11 @@
     <div class="section-label">Reflection</div>
     <h2>What I learned</h2>
 
-    <div class="reflection">
+  <div class="screenshot-wrap" style="margin-bottom:2rem;border-radius:10px;overflow:hidden;">
+    <img src="neil_premera.jpg" alt="Neil presenting Premera Scout at a Digital CX conference" style="width:100%;max-height:420px;object-fit:cover;object-position:center 20%;display:block;"/>
+    <div class="screenshot-caption">Presenting Premera Scout at a Digital CX conference — one of the more memorable moments from this project.</div>
+  </div>
+  <div class="reflection">
       <h3 style="margin-top:0;">Involving engineers early is critical</h3>
       <p>Involving the engineers throughout the design process was critical in understanding technical constraints as well as promoting a culture of collaboration. This also helped reduce implementation time since they could start developing while I was still designing.</p>
 
