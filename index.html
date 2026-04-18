@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neil Deshpande Portfolio</title>
+<title>Neil Deshpande — Product Designer</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -60,7 +60,7 @@
   .work-section { padding: 72px 0; }
   .work-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* update to 1fr when adding more case studies */
     gap: 1.5rem;
     margin-top: 2.5rem;
   }
@@ -150,6 +150,24 @@
   }
   .case-link::after { content: "→"; }
 
+  /* PROJECT TAGS */
+  .case-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .case-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    background: var(--border-light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+
   /* ── FOOTER CTA ── */
   .footer-cta {
     padding: 72px 0;
@@ -204,7 +222,7 @@
         <p class="hero-bio">I'm a senior product designer with 8+ years of experience across Tech, Finance, Healthcare, and Infrastructure. I've led design and research for B2B, B2C, and enterprise products at GE Healthcare, Meta, Amazon, and Premera Blue Cross.</p>
       </div>
       <div class="hero-photo">
-        <img src="photo-neil.jpg" alt="Photo of Neil Deshpande">
+        <img src="photo-neil.jpg" alt="Neil Deshpande"/>
       </div>
     </div>
   </div>
@@ -219,12 +237,16 @@
       <!-- Meta -->
       <a href="meta-case-study.html" class="case-card">
         <div class="case-cover cover-meta">
-          <!-- Replace with: <img src="cover-meta.jpg" alt="Meta Repair Console"> -->
-          <div class="case-cover-placeholder">cover-meta.jpg<br>1600×1000px</div>
+          <img src="cover-meta.jpg" alt="Data center technician working in a server room"/>
         </div>
         <div class="case-body">
           <div class="case-company">
             <img src="meta-logo.png" alt="Meta" style="filter:none;height:16px;"/>
+          </div>
+          <div class="case-tags">
+            <span class="case-tag">Enterprise</span>
+            <span class="case-tag">Web</span>
+            <span class="case-tag">Internal Tools</span>
           </div>
           <div class="case-title">Redesigning how Meta repairs its global data centers</div>
           <div class="case-desc">Unified 7 fragmented repair systems into a single platform, reducing repair time by 22%.</div>
@@ -235,12 +257,16 @@
       <!-- Premera -->
       <a href="premera.html" class="case-card">
         <div class="case-cover cover-premera">
-          <!-- Replace with: <img src="cover-premera.jpg" alt="Premera Blue Cross"> -->
-          <div class="case-cover-placeholder">cover-premera.jpg<br>1600×1000px</div>
+          <img src="cover-premera.jpg" alt="Premera chatbot interface showing conversation flow"/>
         </div>
         <div class="case-body">
           <div class="case-company">
-            <span class="case-company-placeholder">Premera Blue Cross</span>
+            <img src="premera-logo.png" alt="Premera Blue Cross" style="height:20px;width:auto;opacity:0.8;"/>
+          </div>
+          <div class="case-tags">
+            <span class="case-tag">B2C</span>
+            <span class="case-tag">Mobile</span>
+            <span class="case-tag">AI</span>
           </div>
           <div class="case-title">Making it easier to get help with your health insurance</div>
           <div class="case-desc">Designed a chatbot that reduced customer service call time by 70% and improved satisfaction by 11%.</div>
@@ -248,10 +274,9 @@
         </div>
       </a>
 
-      <!-- Icon Library -->
+      <!-- Icon Library — coming soon
       <a href="icon-library.html" class="case-card">
         <div class="case-cover cover-icon">
-          <!-- Replace with: <img src="cover-icon-library.jpg" alt="Icon Library"> -->
           <div class="case-cover-placeholder">cover-icon-library.jpg<br>1600×1000px</div>
         </div>
         <div class="case-body">
@@ -263,11 +288,11 @@
           <div class="case-link">Read case study</div>
         </div>
       </a>
+      -->
 
-      <!-- Credit Card -->
+      <!-- Credit Card — coming soon
       <a href="creditcard.html" class="case-card">
         <div class="case-cover cover-credit">
-          <!-- Replace with: <img src="cover-creditcard.jpg" alt="Credit Card"> -->
           <div class="case-cover-placeholder">cover-creditcard.jpg<br>1600×1000px</div>
         </div>
         <div class="case-body">
@@ -279,6 +304,7 @@
           <div class="case-link">Read case study</div>
         </div>
       </a>
+      -->
 
     </div>
   </div>
