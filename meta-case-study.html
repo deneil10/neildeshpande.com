@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meta Case Study</title>
+<title>Neil Deshpande — Meta Repair Console</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -619,9 +619,18 @@
     color: #aaa;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 680px) {
     .meta-grid { grid-template-columns: 1fr 1fr; }
     .card-grid, .card-grid-3, .compare-grid, .results-grid { grid-template-columns: 1fr; }
+    /* Inline-style grids that need mobile overrides */
+    [style*="grid-template-columns:1fr 1fr 1fr"],
+    [style*="grid-template-columns: 1fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    [style*="grid-template-columns:1fr 1fr"],
+    [style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
     .result-banner { flex-direction: column; gap: 1.5rem; }
     .result-divider { width: 100%; height: 1px; }
   }
@@ -800,7 +809,7 @@
     <div class="section-label">Research</div>
     <h2>40+ interviews. 3 continents. The same problems, everywhere.</h2>
     <p>I supported our lead researcher with interviews, observations, and ticket analysis across Dublin, Berlin, Bay Area, Singapore, and Austin, over 40 people in total, spanning network engineers, repair technicians, team leads, and on-site operators. Despite different regions and roles, every person we talked to was struggling with the same core issues.</p>
-    <p>To make sense of what we'd heard, the researcher and I synthesized the interviews and identified three distinct behavioral patterns in how people approached repair work. Rather than mapping to job titles, these patterns cut across teams, because a network engineer and a data center lead might both behave like a Pattern Finder, depending on the day. Defining these personas gave the whole team a shared language for who we were designing for, and made it much easier to pressure-test design decisions against real user needs.</p>
+    <p>To make sense of what we'd heard, the researcher and I synthesized the interviews and identified three distinct behavioral patterns in how people approached repair work. Rather than mapping to job titles, these patterns cut across teams — a network engineer and a data center lead might both behave like a Pattern Finder, depending on the day. Defining these personas gave the whole team a shared language for who we were designing for, and made it much easier to pressure-test design decisions against real user needs.</p>
   </div>
 
   <!-- USER PERSONAS -->
@@ -826,8 +835,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No visibility into what other teams are working on</li>
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Can't escalate or group tickets across the system</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No visibility into what other teams are working on</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Can't escalate or group tickets across the system</li>
             </ul>
           </div>
         </div>
@@ -852,8 +861,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Has to dig into individual tickets to get any overview</li>
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No single place to see status across all teams</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Has to dig into individual tickets to get any overview</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No single place to see status across all teams</li>
             </ul>
           </div>
         </div>
@@ -878,8 +887,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Spends most of their time on triage, not repair</li>
-              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Runbooks are generic, outdated, and hard to find</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Spends most of their time on triage, not repair</li>
+              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Runbooks are generic, outdated, and hard to find</li>
             </ul>
           </div>
         </div>
@@ -891,7 +900,7 @@
 
   <div class="container">
     <h3 style="margin-bottom:0.75rem;">What all three had in common</h3>
-    <p>The personas helped us understand <em>how</em> different people worked. But regardless of which persona we were talking to, the same four systemic problems kept surfacing, not as isolated complaints, but as symptoms of the same broken environment.</p>
+    <p>The personas helped us understand <em>how</em> different people worked. But regardless of which persona we were talking to, the same four systemic problems kept surfacing — not as isolated complaints, but as symptoms of the same broken environment.</p>
     <div class="finding">
       <div class="finding-num">01</div>
       <div class="finding-body">
