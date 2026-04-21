@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neil Deshpande — Premera Blue Cross</title>
+<title>Neil Deshpande - Premera Blue Cross</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
 
-  /* HERO — matches Meta case study */
+  /* HERO - matches Meta case study */
   .hero {
     position: relative;
     border-bottom: 1px solid var(--border);
@@ -61,7 +61,7 @@
     margin-bottom: 2.5rem;
   }
 
-  /* META GRID — dark treatment for photo hero */
+  /* META GRID - dark treatment for photo hero */
   .meta-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -150,7 +150,7 @@
     padding-top: 2px;
   }
   .finding-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.35rem; color: var(--text); }
-  .finding-body p { font-size: 14px; margin: 0; line-height: 1.6; }
+  .finding-body p { font-size: 15px; margin: 0; line-height: 1.6; }
 
   /* CARD GRID */
   .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
@@ -222,7 +222,7 @@
     padding: 1rem;
   }
 
-  /* SCREENSHOT WRAP — matches Meta case study style */
+  /* SCREENSHOT WRAP - matches Meta case study style */
   .screenshot-wrap {
     border-radius: 10px;
     overflow: hidden;
@@ -317,6 +317,50 @@
       grid-template-columns: 1fr !important;
     }
   }
+  /* ZOOMABLE IMAGES */
+  .zoomable { cursor: zoom-in; transition: opacity 0.15s; }
+  .zoomable:hover { opacity: 0.9; }
+
+  /* PHOTO MODAL */
+  #photo-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.85);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    cursor: zoom-out;
+  }
+  #photo-modal.open { display: flex; }
+  #photo-modal img {
+    max-width: min(90vw, 900px);
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    cursor: default;
+  }
+  #photo-modal-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.5rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  #photo-modal-close:hover { background: rgba(255,255,255,0.22); }
 </style>
 </head>
 <body>
@@ -341,7 +385,7 @@
         <div class="meta-item">
           <div class="meta-label">Company</div>
           <div class="meta-value" style="display:flex;align-items:center;gap:8px;">
-            <img src="premera-logo.png" alt="Premera Blue Cross" style="height:16px;width:auto;flex-shrink:0;filter:brightness(0) invert(1);opacity:0.85;"/>
+            <img src="premera-logo.png" alt="Premera Blue Cross" style="height:36px;width:auto;flex-shrink:0;filter:brightness(0) invert(1);opacity:0.85;"/>
           </div>
         </div>
         <div class="meta-item">
@@ -350,7 +394,7 @@
         </div>
         <div class="meta-item">
           <div class="meta-label">Team</div>
-          <div class="meta-value">PM, Researcher, ML & Software Engineers</div>
+          <div class="meta-value">1 PM, 1 researcher, 5 engineers, 1 designer</div>
         </div>
         <div class="meta-item">
           <div class="meta-label">Duration</div>
@@ -360,6 +404,24 @@
     </div>
   </div>
 </div>
+
+<!-- THE PROBLEM -->
+<section>
+  <div class="container">
+    <div class="section-label">The problem</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+      <div>
+        <h2 style="margin-bottom:1.25rem;">35% of customers were frustrated calling customer service</h2>
+        <p>Like most health insurance companies, it's difficult for Premera to earn customers' trust and satisfaction. To find opportunities to improve, we routinely sent feedback surveys to our customers. From these surveys, we discovered that 35% of people were frustrated when calling customer service.</p>
+        <p>My team was tasked with understanding what was causing this problem, and designing a solution.</p>
+      </div>
+      <div class="screenshot-wrap" style="margin:0;cursor:zoom-in;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+        <img src="Final_1.png" alt="Premera chatbot: initial message screen" style="width:100%;height:auto;display:block;" class="zoomable"/>
+        <div class="screenshot-caption">The solution: a chatbot in the Premera app that routes customers to the right representative before they ever pick up the phone.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- IMPACT STRIP -->
 <div style="border-bottom: 1px solid var(--border); background: var(--bg);">
@@ -383,31 +445,8 @@
         <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Of customer service reps found the product helpful</div>
       </div>
     </div>
-
-    <!-- Final designs -->
-    <div style="padding-bottom: 2.5rem;">
-      <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem;">Final design</div>
-      <div style="display: flex; gap: 1.25rem; align-items: flex-start;">
-        <div style="flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border);">
-          <img src="Final_1.png" alt="Premera chatbot: initial message screen" style="width:100%;height:auto;display:block;"/>
-        </div>
-        <div style="flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border);">
-          <img src="Final_2.png" alt="Premera chatbot: confirmation and call screen" style="width:100%;height:auto;display:block;"/>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
-
-<!-- THE PROBLEM -->
-<section>
-  <div class="container">
-    <div class="section-label">The problem</div>
-    <h2>35% of customers were frustrated calling customer service</h2>
-    <p>Like most health insurance companies, it's difficult for Premera to earn customers' trust and satisfaction. To find opportunities to improve, we routinely sent feedback surveys to our customers. From these surveys, we discovered that 35% of people were frustrated when calling customer service.</p>
-    <p>My team was tasked with understanding what was causing this problem, and designing a solution.</p>
-  </div>
-</section>
 
 <!-- RESEARCH -->
 <section>
@@ -501,7 +540,7 @@
     </div>
 
     <div class="screenshot-wrap flow" style="margin:1.5rem 0;">
-      <img src="old_flow.png" alt="Existing user journey map showing 9 steps from looking up the phone number to connecting to customer service"/>
+      <img class="zoomable" src="old_flow.png" alt="Existing user journey map showing 9 steps from looking up the phone number to connecting to customer service"/>
       <div class="screenshot-caption"><strong>Existing user journey.</strong> 9 steps standing between a frustrated customer and getting help, including verification, hold times, and repeated transfers.</div>
     </div>
 
@@ -584,7 +623,7 @@
     <p>We presented the research findings to the team and brainstormed ways to solve the problem. Using the team's diverse expertise in engineering, business, data, and design, we generated ideas across different directions.</p>
 
     <div class="screenshot-wrap" style="margin:1.5rem 0;">
-      <img src="Workshop_artifact_1.png" alt="Workshop brainstorming sketches and sticky notes"/>
+      <img class="zoomable" src="Workshop_artifact_1.png" alt="Workshop brainstorming sketches and sticky notes"/>
       <div class="screenshot-caption">Using the team's diverse expertise (engineering, business, data, etc.) to generate ideas.</div>
     </div>
 
@@ -592,7 +631,7 @@
     <p>When deciding what concepts to design and test, the main factors were the business and technical constraints. After analyzing various potential solutions, the team agreed to explore the idea of utilizing our existing mobile app to verify callers and allow them to skip the automated phone system.</p>
 
     <div class="screenshot-wrap" style="margin:1.5rem 0;">
-      <img src="Workshop_artifact_2.png" alt="2x2 matrix mapping concepts by engineering cost vs business goal"/>
+      <img class="zoomable" src="Workshop_artifact_2.png" alt="2x2 matrix mapping concepts by engineering cost vs business goal"/>
       <div class="screenshot-caption">Engineering cost vs. business goal, used to evaluate which concepts to explore further.</div>
     </div>
   </div>
@@ -607,11 +646,11 @@
 
     <div class="screen-pair" style="margin:1.5rem 0;">
       <div class="screenshot-wrap">
-        <img src="concept_chat.png" alt="Chatbot concept wireframe"/>
+        <img class="zoomable" src="concept_chat.png" alt="Chatbot concept wireframe"/>
         <div class="screenshot-caption">A chatbot felt more informal, and users expected to get help without calling.</div>
       </div>
       <div class="screenshot-wrap">
-        <img src="concept_form.png" alt="Form concept wireframe"/>
+        <img class="zoomable" src="concept_form.png" alt="Form concept wireframe"/>
         <div class="screenshot-caption">A form felt more professional and was perceived as more efficient.</div>
       </div>
     </div>
@@ -632,7 +671,7 @@
     <p>I designed multiple chatbot flows, varying in complexity and types of questions asked. In the end, it was about keeping the experience quick and simple for the user.</p>
 
     <div class="screenshot-wrap" style="margin:1.5rem 0;">
-      <img src="chatbot_flow.png" alt="Chatbot user flow showing branching paths based on ML confidence"/>
+      <img class="zoomable" src="chatbot_flow.png" alt="Chatbot user flow showing branching paths based on ML confidence"/>
       <div class="screenshot-caption">I designed multiple chatbot flows, varying in complexity. In the end, it was about keeping the experience quick and simple for the user.</div>
     </div>
 
@@ -647,14 +686,14 @@
         <p style="font-size:14px;line-height:1.65;">Help the user quickly answer the bot's question by clicking buttons or using their voice instead of typing out responses.</p>
       </div>
       <div class="screenshot-wrap" style="margin:0;">
-        <img src="testing_buttons.png" alt="Before and after showing button options replacing free-text input"/>
+        <img class="zoomable" src="testing_buttons.png" alt="Before and after showing button options replacing free-text input"/>
       </div>
     </div>
 
     <!-- Finding 02: image left, text right -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
       <div class="screenshot-wrap" style="margin:0;">
-        <img src="testing_shorten.png" alt="Before and after showing shortened bot messages"/>
+        <img class="zoomable" src="testing_shorten.png" alt="Before and after showing shortened bot messages"/>
       </div>
       <div>
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 02</div>
@@ -671,14 +710,14 @@
         <p style="font-size:14px;line-height:1.65;">When clarifying the user's question, the bot should display its top 3 guesses along with a "Something else" option, so that the user is never trapped.</p>
       </div>
       <div class="screenshot-wrap" style="margin:0;">
-        <img src="testing_guess.png" alt="Bot presenting top 3 guesses to the user"/>
+        <img class="zoomable" src="testing_guess.png" alt="Bot presenting top 3 guesses to the user"/>
       </div>
     </div>
 
     <!-- Finding 04: image left, text right -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;">
       <div class="screenshot-wrap" style="margin:0;">
-        <img src="testing_failedGuess.png" alt="Bot failing gracefully and routing user to a human"/>
+        <img class="zoomable" src="testing_failedGuess.png" alt="Bot failing gracefully and routing user to a human"/>
       </div>
       <div>
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 04</div>
@@ -699,7 +738,7 @@
 
   <div class="wide">
     <div class="screenshot-wrap wide-spread" style="margin:2rem 0;">
-      <img src="hifi.png" alt="High fidelity designs showing the complete chatbot flow across 4 screens"/>
+      <img class="zoomable" src="hifi.png" alt="High fidelity designs showing the complete chatbot flow across 4 screens"/>
       <div class="screenshot-caption">High fidelity designs showing the full chatbot experience: open app, start chatting, confirm guess, and call.</div>
     </div>
   </div>
@@ -729,13 +768,13 @@
     </div>
 
     <div class="screenshot-wrap flow" style="margin-top:2rem;">
-      <img src="improved_user_flow.png" alt="Improved user flow showing old 9-step journey replaced by new 4-step chatbot flow"/>
+      <img class="zoomable" src="improved_user_flow.png" alt="Improved user flow showing old 9-step journey replaced by new 4-step chatbot flow"/>
       <div class="screenshot-caption">The new design eliminated the major pain points when calling customer service.</div>
     </div>
 
     <div class="pull-quote" style="margin-top:2rem;">
       <p>"I think this is an excellent step taken by Premera to help get me off the phone faster."</p>
-      <cite>— App user review</cite>
+      <cite>- App user review</cite>
     </div>
   </div>
 </section>
@@ -746,23 +785,81 @@
     <div class="section-label">Reflection</div>
     <h2>What I learned</h2>
 
-  <div class="screenshot-wrap" style="margin-bottom:2rem;border-radius:10px;overflow:hidden;">
-    <img src="neil_premera.jpg" alt="Neil presenting Premera Scout at a Digital CX conference" style="width:100%;max-height:420px;object-fit:cover;object-position:center 20%;display:block;"/>
-    <div class="screenshot-caption">Presenting Premera Scout at a Digital CX conference — one of the more memorable moments from this project.</div>
-  </div>
-  <div class="reflection">
+  <div style="display:grid;grid-template-columns:1fr 220px;gap:2.5rem;align-items:stretch;">
+    <div class="screenshot-wrap" style="margin:0;padding:1.25rem;display:flex;flex-direction:column;justify-content:center;">
       <h3 style="margin-top:0;">Involving engineers early is critical</h3>
       <p>Involving the engineers throughout the design process was critical in understanding technical constraints as well as promoting a culture of collaboration. This also helped reduce implementation time since they could start developing while I was still designing.</p>
 
       <h3>Balancing today's constraints with the ideal future state</h3>
-      <p>One of the biggest challenges with this project was balancing what was possible today with an ideal future state. However, the team is committed to continuously improving the chatbot's functionality so that it can answer more questions and help users without them ever needing to call.</p>
+      <p style="margin-bottom:0;">One of the biggest challenges with this project was balancing what was possible today with an ideal future state. However, the team is committed to continuously improving the chatbot's functionality so that it can answer more questions and help users without them ever needing to call.</p>
     </div>
+    <div class="screenshot-wrap" style="margin:0;cursor:zoom-in;display:flex;flex-direction:column;">
+      <img src="neil_premera.jpg" alt="Neil presenting Premera Scout at a Digital CX conference" style="width:100%;flex:1;object-fit:cover;object-position:center 20%;display:block;min-height:0;" class="zoomable"/>
+      <div class="screenshot-caption">Presenting Premera Scout at a Digital CX conference - one of the more memorable moments from this project.</div>
+    </div>
+  </div>
   </div>
 </section>
 
 <footer>
   <p>Powered by green tea and a passion for creating new things.</p>
 </footer>
+
+<!-- PHOTO MODAL -->
+<div id="photo-modal" role="dialog" aria-modal="true" aria-label="Image preview">
+  <button id="photo-modal-close" aria-label="Close">&#x2715;</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0;max-width:min(90vw,900px);">
+    <img id="photo-modal-img" src="" alt="" style="max-width:100%;max-height:80vh;object-fit:contain;border-radius:8px 8px 0 0;box-shadow:none;display:block;"/>
+    <div id="photo-modal-caption" style="width:100%;background:rgba(255,255,255,0.07);border-radius:0 0 8px 8px;padding:0.75rem 1.25rem;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.55;box-shadow:0 24px 80px rgba(0,0,0,0.6);display:none;"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const modal = document.getElementById('photo-modal');
+  const modalImg = document.getElementById('photo-modal-img');
+  const modalCaption = document.getElementById('photo-modal-caption');
+  const closeBtn = document.getElementById('photo-modal-close');
+
+  function openModal(src, alt, caption) {
+    modalImg.src = src;
+    modalImg.alt = alt || '';
+    if (caption) {
+      modalCaption.textContent = caption;
+      modalCaption.style.display = 'block';
+    } else {
+      modalCaption.style.display = 'none';
+    }
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('img.zoomable').forEach(function(img) {
+    img.addEventListener('click', function() {
+      var caption = '';
+      var wrap = img.closest('.screenshot-wrap');
+      if (wrap) {
+        var capEl = wrap.querySelector('.screenshot-caption');
+        if (capEl) caption = capEl.textContent.trim();
+      }
+      openModal(img.src, img.alt, caption);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+})();
+</script>
 
 </body>
 </html>
