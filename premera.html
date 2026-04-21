@@ -8,16 +8,41 @@
 <link rel="stylesheet" href="shared.css">
 <style>
 
-  /* HERO */
+  /* HERO — matches Meta case study */
   .hero {
-    padding: 80px 0 60px;
+    position: relative;
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(10, 10, 12, 0.92) 0%,
+      rgba(10, 10, 12, 0.82) 50%,
+      rgba(10, 10, 12, 0.45) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 0 60px;
+    max-width: 640px;
   }
   .hero-label {
     font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: rgba(255,255,255,0.5);
     margin-bottom: 1.5rem;
   }
   .hero h1 {
@@ -26,54 +51,30 @@
     font-weight: 400;
     line-height: 1.2;
     margin-bottom: 1.5rem;
-    color: var(--text);
+    color: #fff;
   }
   .hero-summary {
     font-size: 18px;
-    color: var(--text-secondary);
-    max-width: 600px;
+    color: rgba(255,255,255,0.7);
+    max-width: 560px;
     line-height: 1.7;
     margin-bottom: 2.5rem;
   }
 
-  /* META GRID */
+  /* META GRID — dark treatment for photo hero */
   .meta-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 2rem;
+    max-width: 640px;
   }
-  .meta-item { background: var(--surface); padding: 1.25rem; }
-  .meta-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
-  .meta-value { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text); }
-
-  /* RESULT BANNER */
-  .result-banner {
-    background: var(--text);
-    color: #fff;
-    border-radius: 10px;
-    padding: 2rem 2.5rem;
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-  }
-  .result-stat .num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.4rem;
-    font-weight: 400;
-    color: #fff;
-  }
-  .result-stat .desc {
-    font-size: 13px;
-    color: rgba(255,255,255,0.65);
-    margin-top: 2px;
-    line-height: 1.4;
-  }
-  .result-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
+  .meta-item { background: rgba(255,255,255,0.06); padding: 1.25rem; }
+  .meta-label { font-size: 12px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .meta-value { font-size: 14px; font-weight: 500; line-height: 1.4; color: rgba(255,255,255,0.85); }
 
   /* SECTIONS */
   section { padding: 72px 0; border-bottom: 1px solid var(--border); }
@@ -221,7 +222,30 @@
     padding: 1rem;
   }
 
-  /* SCREENSHOT SIZING — prevent images from rendering at full resolution */
+  /* SCREENSHOT WRAP — matches Meta case study style */
+  .screenshot-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin: 1.5rem 0;
+  }
+  .screenshot-caption {
+    padding: 0.875rem 1.25rem;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    line-height: 1.55;
+    font-style: normal;
+  }
+  .screenshot-caption strong {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  /* SCREENSHOT SIZING */
   .screenshot-wrap img {
     width: 100%;
     height: auto;
@@ -267,7 +291,13 @@
     margin: 2rem 0;
   }
 
+  .metrics-strip > div[style*="width: 1px"] { display: none; }
+
   @media (max-width: 680px) {
+    .metrics-strip { flex-direction: column !important; gap: 1.5rem; padding: 0 0 2rem 0 !important; }
+    [style*="grid-template-columns:1fr 1fr"][style*="align-items:center"] { grid-template-columns: 1fr !important; }
+    .metrics-strip > div[style*="width: 1px"] { display: none; }
+    .metrics-strip > div[style*="flex: 1"] { padding: 0 !important; }
     .meta-grid { grid-template-columns: 1fr 1fr; }
     .result-banner { flex-direction: column; gap: 1.5rem; }
     .result-divider { width: 100%; height: 1px; }
@@ -300,54 +330,70 @@
 
 <!-- HERO -->
 <div class="hero">
+  <img class="hero-image" src="premera-hero.jpg" alt="Person smiling while using their phone"/>
+  <div class="hero-overlay"></div>
   <div class="container">
-    <div class="hero-label">Premera Blue Cross · Healthcare · 2019–2021</div>
-    <h1>Making it easier to get help with your health insurance</h1>
-    <p class="hero-summary">Premera Blue Cross is the largest health insurance company in the Pacific Northwest. I led the design of a chatbot that transformed how customers get help — making a stressful experience significantly faster and more satisfying.</p>
-
-    <!-- Final screens in hero -->
-    <div style="display:flex;gap:1.25rem;align-items:flex-end;margin-bottom:2.5rem;">
-      <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
-        <img src="Final_1.png" alt="Premera chatbot: initial message screen" style="width:100%;height:auto;display:block;"/>
+    <div class="hero-content">
+      <div class="hero-label">Premera Blue Cross · Healthcare · 2019–2021</div>
+      <h1>Making it easier to get help with your health insurance</h1>
+      <p class="hero-summary">Premera Blue Cross is the largest health insurance company in the Pacific Northwest. I led the design of a chatbot that transformed how customers get help, making a stressful experience significantly faster and more satisfying.</p>
+      <div class="meta-grid">
+        <div class="meta-item">
+          <div class="meta-label">Company</div>
+          <div class="meta-value" style="display:flex;align-items:center;gap:8px;">
+            <img src="premera-logo.png" alt="Premera Blue Cross" style="height:16px;width:auto;flex-shrink:0;filter:brightness(0) invert(1);opacity:0.85;"/>
+          </div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">My Role</div>
+          <div class="meta-value">Design Lead, Research Support</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Team</div>
+          <div class="meta-value">PM, Researcher, ML & Software Engineers</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Duration</div>
+          <div class="meta-value">6 months</div>
+        </div>
       </div>
-      <div style="flex:1;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
-        <img src="Final_2.png" alt="Premera chatbot: confirmation and call screen" style="width:100%;height:auto;display:block;"/>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT STRIP -->
+<div style="border-bottom: 1px solid var(--border); background: var(--bg);">
+  <div class="container">
+    <div style="padding-top: 2.5rem;">
+      <div class="section-label">Impact</div>
+    </div>
+    <div class="metrics-strip" style="display: flex; align-items: flex-start; padding: 0 0 2.5rem 0; gap: 0;">
+      <div style="flex: 1; padding-right: 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">70%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Reduction in customer service call time</div>
+      </div>
+      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
+      <div style="flex: 1; padding: 0 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">11%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Improvement in customer satisfaction</div>
+      </div>
+      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
+      <div style="flex: 1; padding-left: 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">86%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Of customer service reps found the product helpful</div>
       </div>
     </div>
 
-    <div class="meta-grid">
-      <div class="meta-item">
-        <div class="meta-label">Company</div>
-        <div class="meta-value">Premera Blue Cross</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">My Role</div>
-        <div class="meta-value">Design Lead</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Team</div>
-        <div class="meta-value">PM, Researcher, ML & Software Engineers</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Duration</div>
-        <div class="meta-value">6 months</div>
-      </div>
-    </div>
-
-    <div class="result-banner">
-      <div class="result-stat">
-        <div class="num">70%</div>
-        <div class="desc">Reduction in customer<br>service call time</div>
-      </div>
-      <div class="result-divider"></div>
-      <div class="result-stat">
-        <div class="num">11%</div>
-        <div class="desc">Improvement in<br>customer satisfaction</div>
-      </div>
-      <div class="result-divider"></div>
-      <div class="result-stat">
-        <div class="num">86%</div>
-        <div class="desc">Of reps found<br>the product helpful</div>
+    <!-- Final designs -->
+    <div style="padding-bottom: 2.5rem;">
+      <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.25rem;">Final design</div>
+      <div style="display: flex; gap: 1.25rem; align-items: flex-start;">
+        <div style="flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border);">
+          <img src="Final_1.png" alt="Premera chatbot: initial message screen" style="width:100%;height:auto;display:block;"/>
+        </div>
+        <div style="flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border);">
+          <img src="Final_2.png" alt="Premera chatbot: confirmation and call screen" style="width:100%;height:auto;display:block;"/>
+        </div>
       </div>
     </div>
   </div>
@@ -368,49 +414,96 @@
   <div class="container">
     <div class="section-label">Research</div>
     <h2>Researching the problem</h2>
+    <p>Before jumping into solutions, we needed to fully understand the problem from multiple angles. I partnered with our lead researcher to dig into both the customer experience and the business context, ensuring our eventual design would address root causes rather than surface symptoms.</p>
 
     <h3>Research goals</h3>
     <div class="card-grid">
-      <div class="card">
-        <h4>Map the existing user journey</h4>
-        <p>Understand all the steps a user had to take to get connected to customer service.</p>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 20 L32 20 M8 12 L32 12 M8 28 L24 28" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="32" cy="28" r="6" stroke="#c8c4bc" stroke-width="2"/>
+            <line x1="36.2" y1="32.2" x2="40" y2="36" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Map the existing user journey</h4>
+          <p>Understand all the steps a user had to take to get connected to customer service.</p>
+        </div>
       </div>
-      <div class="card">
-        <h4>Understand user pain points</h4>
-        <p>What was causing frustration when customers called in?</p>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 28 C20 28 6 20 6 12 C6 8 9 6 12.5 6 C14.5 6 16.5 7 18 9 C19.5 7 21.5 6 23.5 6 C27 6 30 8 30 12 C30 20 20 28 20 28Z" stroke="#c8c4bc" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M12 13 L15.5 13 L17 10 L19.5 16 L21 13 L25 13" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Understand user pain points</h4>
+          <p>What was causing frustration when customers called in?</p>
+        </div>
       </div>
-      <div class="card">
-        <h4>Understand business constraints</h4>
-        <p>What limitations did we have to design within?</p>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="24" height="24" rx="5" stroke="#c8c4bc" stroke-width="2.5"/>
+            <line x1="14" y1="20" x2="26" y2="20" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="14" x2="20" y2="26" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Understand business constraints</h4>
+          <p>What limitations did we have to design within?</p>
+        </div>
       </div>
-      <div class="card">
-        <h4>Understand technical constraints</h4>
-        <p>What was feasible for our engineering team to build?</p>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="14" width="24" height="18" rx="4" stroke="#c8c4bc" stroke-width="2.5"/>
+            <path d="M14 14 L14 10 C14 8 16 6 20 6 C24 6 26 8 26 10 L26 14" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="20" cy="23" r="3" stroke="#c8c4bc" stroke-width="2"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Understand technical constraints</h4>
+          <p>What was feasible for our engineering team to build?</p>
+        </div>
       </div>
     </div>
 
     <h3>Methods</h3>
     <div class="finding">
-      <div class="finding-num">01</div>
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 4 C9 4 5 8 5 13 C5 18 9 22 14 22 C19 22 23 18 23 13 C23 8 19 4 14 4Z" stroke="#c8c4bc" stroke-width="2"/>
+          <path d="M9 13 L12 16 L19 9" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="14" y1="22" x2="14" y2="26" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+          <line x1="10" y1="26" x2="18" y2="26" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div class="finding-body">
         <h4>Listened to customer service calls and read feedback surveys</h4>
         <p>Directly observing the problem helped us understand the full context of a caller's experience before talking to users.</p>
       </div>
     </div>
     <div class="finding">
-      <div class="finding-num">02</div>
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="5" stroke="#c8c4bc" stroke-width="2"/>
+          <circle cx="20" cy="18" r="5" stroke="#c8c4bc" stroke-width="2"/>
+          <path d="M14 7 Q20 7 20 13" stroke="#c8c4bc" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
       <div class="finding-body">
         <h4>Interviewed callers, customer service reps, and internal stakeholders</h4>
-        <p>Talking to all three groups gave us a full picture — from the customer's frustration to the rep's experience to the business priorities.</p>
+        <p>Talking to all three groups gave us a full picture, from the customer's frustration to the rep's experience to the business priorities.</p>
       </div>
     </div>
 
-    <h3>Existing user journey</h3>
     <div class="screenshot-wrap flow" style="margin:1.5rem 0;">
       <img src="old_flow.png" alt="Existing user journey map showing 9 steps from looking up the phone number to connecting to customer service"/>
-      <div class="screenshot-caption">Our research helped us understand all the steps a user had to take to get connected to customer service.</div>
+      <div class="screenshot-caption"><strong>Existing user journey.</strong> 9 steps standing between a frustrated customer and getting help, including verification, hold times, and repeated transfers.</div>
     </div>
-    <p>Our research helped us understand all the steps a user had to take to get connected to customer service.</p>
 
     <h3>User pain points</h3>
     <div class="finding">
@@ -435,7 +528,7 @@
       </div>
       <div class="finding-body">
         <h4>Callers were constantly transferred</h4>
-        <p>After finally getting connected to a representative, callers were often transferred to another person — restarting the frustrating process.</p>
+        <p>After finally getting connected to a representative, callers were often transferred to another person, restarting the frustrating process.</p>
       </div>
     </div>
     <div class="finding">
@@ -461,7 +554,7 @@
       </div>
       <div class="finding-body">
         <h4>Reps needed time to research before they could help</h4>
-        <p>Customer service reps typically spent the first few minutes understanding and researching the caller's problem before being able to help — adding to call time and caller frustration.</p>
+        <p>Customer service reps typically spent the first few minutes understanding and researching the caller's problem before being able to help, adding to call time and caller frustration.</p>
       </div>
     </div>
 
@@ -469,7 +562,7 @@
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;">
       <div class="card">
         <h4>Each call cost about $12</h4>
-        <p>The business wanted us to shorten and prevent calls — every minute saved had direct financial impact.</p>
+        <p>The business wanted us to shorten and prevent calls. Every minute saved had direct financial impact.</p>
       </div>
       <div class="card">
         <h4>Engineering resources were limited</h4>
@@ -488,7 +581,7 @@
   <div class="container">
     <div class="section-label">Ideation</div>
     <h2>Brainstorming as a team</h2>
-    <p>We presented the research findings to the team and brainstormed ways to solve the problem. Using the team's diverse expertise — engineering, business, data, and design — we generated ideas across different directions.</p>
+    <p>We presented the research findings to the team and brainstormed ways to solve the problem. Using the team's diverse expertise in engineering, business, data, and design, we generated ideas across different directions.</p>
 
     <div class="screenshot-wrap" style="margin:1.5rem 0;">
       <img src="Workshop_artifact_1.png" alt="Workshop brainstorming sketches and sticky notes"/>
@@ -500,7 +593,7 @@
 
     <div class="screenshot-wrap" style="margin:1.5rem 0;">
       <img src="Workshop_artifact_2.png" alt="2x2 matrix mapping concepts by engineering cost vs business goal"/>
-      <div class="screenshot-caption">Engineering cost vs. business goal — used to evaluate which concepts to explore further.</div>
+      <div class="screenshot-caption">Engineering cost vs. business goal, used to evaluate which concepts to explore further.</div>
     </div>
   </div>
 </section>
@@ -546,44 +639,51 @@
     <h3>Usability testing: refining the design</h3>
     <p>After converting the user flow to a prototype, I conducted usability tests to further refine the design. Here are a few of my key findings:</p>
 
-    <div class="finding">
-      <div class="finding-num">01</div>
-      <div class="finding-body">
-        <h4>Reduce the need for typing</h4>
-        <p>Help the user quickly answer the bot's question by clicking buttons or using their voice instead of typing out responses.</p>
-        <div class="screenshot-wrap" style="margin:1rem 0 0;">
-          <img src="testing_buttons.png" alt="Usability test finding: reduce need for typing"/>
-        </div>
+    <!-- Finding 01: text left, image right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 01</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Reduce the need for typing</h4>
+        <p style="font-size:14px;line-height:1.65;">Help the user quickly answer the bot's question by clicking buttons or using their voice instead of typing out responses.</p>
+      </div>
+      <div class="screenshot-wrap" style="margin:0;">
+        <img src="testing_buttons.png" alt="Before and after showing button options replacing free-text input"/>
       </div>
     </div>
-    <div class="finding">
-      <div class="finding-num">02</div>
-      <div class="finding-body">
-        <h4>Keep it short</h4>
-        <p>Users tended to only scan content and often missed information if the message was too long.</p>
-        <div class="screenshot-wrap" style="margin:1rem 0 0;">
-          <img src="testing_shorten.png" alt="Usability test finding: keep messages short"/>
-        </div>
+
+    <!-- Finding 02: image left, text right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
+      <div class="screenshot-wrap" style="margin:0;">
+        <img src="testing_shorten.png" alt="Before and after showing shortened bot messages"/>
+      </div>
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 02</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Keep it short</h4>
+        <p style="font-size:14px;line-height:1.65;">Users tended to only scan content and often missed information if the message was too long.</p>
       </div>
     </div>
-    <div class="finding">
-      <div class="finding-num">03</div>
-      <div class="finding-body">
-        <h4>Present the bot's top 3 guesses</h4>
-        <p>When clarifying the user's question, the bot should display its top 3 guesses along with a "Something else" option, so that the user is never trapped.</p>
-        <div class="screenshot-wrap" style="margin:1rem 0 0;">
-          <img src="testing_guess.png" alt="Usability test finding: show top 3 guesses"/>
-        </div>
+
+    <!-- Finding 03: text left, image right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 03</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Present the bot's top 3 guesses</h4>
+        <p style="font-size:14px;line-height:1.65;">When clarifying the user's question, the bot should display its top 3 guesses along with a "Something else" option, so that the user is never trapped.</p>
+      </div>
+      <div class="screenshot-wrap" style="margin:0;">
+        <img src="testing_guess.png" alt="Bot presenting top 3 guesses to the user"/>
       </div>
     </div>
-    <div class="finding">
-      <div class="finding-num">04</div>
-      <div class="finding-body">
-        <h4>Fail gracefully</h4>
-        <p>If the chatbot is unable to understand the user's question the first time, don't try again — just get them to a human.</p>
-        <div class="screenshot-wrap" style="margin:1rem 0 0;">
-          <img src="testing_failedGuess.png" alt="Usability test finding: fail gracefully"/>
-        </div>
+
+    <!-- Finding 04: image left, text right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;">
+      <div class="screenshot-wrap" style="margin:0;">
+        <img src="testing_failedGuess.png" alt="Bot failing gracefully and routing user to a human"/>
+      </div>
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 04</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Fail gracefully</h4>
+        <p style="font-size:14px;line-height:1.65;">If the chatbot is unable to understand the user's question the first time, don't try again. Just get them to a human.</p>
       </div>
     </div>
   </div>
@@ -594,7 +694,7 @@
   <div class="container">
     <div class="section-label">Final design</div>
     <h2>High fidelity designs</h2>
-    <p>The final design used the existing Premera mobile app to authenticate callers and route them to the right customer service team — eliminating the painful automated phone system entirely for app users.</p>
+    <p>The final design used the existing Premera mobile app to authenticate callers and route them to the right customer service team, eliminating the painful automated phone system entirely for app users.</p>
   </div>
 
   <div class="wide">
