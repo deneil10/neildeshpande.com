@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premera Blue Cross Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shared.css">
+<style>
+
+  /* HERO - matches Meta case study */
+  .hero {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(10, 10, 12, 0.92) 0%,
+      rgba(10, 10, 12, 0.82) 50%,
+      rgba(10, 10, 12, 0.45) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 0 60px;
+    max-width: 640px;
+  }
+  .hero-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  .hero-summary {
+    font-size: 18px;
+    color: rgba(255,255,255,0.7);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  /* META GRID - dark treatment for photo hero */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 640px;
+  }
+  .meta-item { background: rgba(255,255,255,0.06); padding: 1.25rem; }
+  .meta-label { font-size: 12px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .meta-value { font-size: 14px; font-weight: 500; line-height: 1.4; color: rgba(255,255,255,0.85); }
+
+  /* SECTIONS */
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  .section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+  }
+  h3 { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.75rem; margin-top: 2rem; }
+  p { margin-bottom: 1.25rem; color: var(--text-secondary); }
+  p:last-child { margin-bottom: 0; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid #d0ccc4;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+  }
+  .pull-quote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin: 0 0 0.4rem;
+  }
+  .pull-quote cite { font-size: 13px; color: var(--text-muted); font-style: normal; }
+
+  /* IMAGE PLACEHOLDER */
+  .img-placeholder {
+    background: var(--border-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    line-height: 1.6;
+  }
+  .img-placeholder.tall { min-height: 200px; }
+  .img-placeholder.wide { min-height: 120px; }
+  .img-placeholder.screen { min-height: 320px; }
+
+  /* FINDING CARDS */
+  .finding {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .finding:last-child { border-bottom: none; }
+  .finding-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    min-width: 2rem;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .finding-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.35rem; color: var(--text); }
+  .finding-body p { font-size: 15px; margin: 0; line-height: 1.6; }
+
+  /* CARD GRID */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .card h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.5rem; color: var(--text); }
+  .card p { font-size: 14px; line-height: 1.6; margin: 0; }
+
+  /* ITERATION STRIP */
+  .iteration-strip {
+    display: flex;
+    gap: 0;
+    margin: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .iter-step {
+    flex: 1;
+    padding: 1.25rem;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+  }
+  .iter-step:last-child { border-right: none; }
+  .iter-step .step-num { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .iter-step h4 { font-size: 14px; font-weight: 500; margin-bottom: 0.35rem; color: var(--text); }
+  .iter-step p { font-size: 13px; line-height: 1.55; margin: 0; }
+
+  /* RESULTS */
+  .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem 1.75rem;
+  }
+  .result-card .big-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .result-card .desc { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* REFLECTION */
+  .reflection { background: #f5f3ef; border-radius: 12px; padding: 2.5rem; margin-top: 2rem; }
+  .reflection h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.75rem; }
+  .reflection h3:not(:first-child) { margin-top: 1.75rem; }
+  .reflection p { font-size: 16px; }
+
+  /* JOURNEY IMAGE (full width within container) */
+  .journey-img {
+    background: var(--border-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 1.5rem 0;
+    padding: 1rem;
+  }
+
+  /* SCREENSHOT WRAP - matches Meta case study style */
+  .screenshot-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin: 1.5rem 0;
+  }
+  .screenshot-caption {
+    padding: 0.875rem 1.25rem;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    line-height: 1.55;
+    font-style: normal;
+  }
+  .screenshot-caption strong {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  /* SCREENSHOT SIZING */
+  .screenshot-wrap img {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: contain;
+    display: block;
+    border-radius: 6px;
+    background: var(--border-light);
+  }
+  /* Workflow/flow diagrams: wider, shorter */
+  .screenshot-wrap.flow img {
+    max-height: 220px;
+    object-fit: contain;
+  }
+  /* Phone screens: constrain width so portrait screens dont stretch weird */
+  .screenshot-wrap.phone img {
+    max-height: 420px;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  /* Full-width spreads */
+  .screenshot-wrap.wide-spread img {
+    max-height: 340px;
+    object-fit: contain;
+  }
+  /* Usability finding images: smaller inline */
+  .finding-img img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: var(--border-light);
+    display: block;
+  }
+
+  /* SCREEN PAIR */
+  .screen-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .metrics-strip > div[style*="width: 1px"] { display: none; }
+
+  @media (max-width: 680px) {
+    .metrics-strip { flex-direction: column !important; gap: 1.5rem; padding: 0 0 2rem 0 !important; }
+    [style*="grid-template-columns:1fr 1fr"][style*="align-items:center"] { grid-template-columns: 1fr !important; }
+    .metrics-strip > div[style*="width: 1px"] { display: none; }
+    .metrics-strip > div[style*="flex: 1"] { padding: 0 !important; }
+    .meta-grid { grid-template-columns: 1fr 1fr; }
+    .result-banner { flex-direction: column; gap: 1.5rem; }
+    .result-divider { width: 100%; height: 1px; }
+    .card-grid, .screen-pair, .results-grid { grid-template-columns: 1fr; }
+    .iteration-strip { flex-direction: column; }
+    .iter-step { border-right: none; border-bottom: 1px solid var(--border); }
+    .iter-step:last-child { border-bottom: none; }
+    /* Inline-style grids */
+    [style*="grid-template-columns:1fr 1fr 1fr"],
+    [style*="grid-template-columns: repeat(3,1fr)"],
+    [style*="grid-template-columns:repeat(3,1fr)"],
+    [style*="grid-template-columns: 1fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    [style*="grid-template-columns:1fr 1fr"],
+    [style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  /* ZOOMABLE IMAGES */
+  .zoomable { cursor: zoom-in; transition: opacity 0.15s; }
+  .zoomable:hover { opacity: 0.9; }
+
+  /* PHOTO MODAL */
+  #photo-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.85);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    cursor: zoom-out;
+  }
+  #photo-modal.open { display: flex; }
+  #photo-modal img {
+    max-width: min(90vw, 900px);
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    cursor: default;
+  }
+  #photo-modal-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.5rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  #photo-modal-close:hover { background: rgba(255,255,255,0.22); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Neil Deshpande</a>
+  <a href="/">Portfolio</a>
+  <a href="/about/">About</a>
+  <a href="/resume.pdf" target="_blank">Resume</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-image" src="/premera-hero.jpg" alt="Person smiling while using their phone"/>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-label">Premera Blue Cross · Healthcare · 2019–2021</div>
+      <h1>Making it easier to get help with your health insurance</h1>
+      <p class="hero-summary">Premera Blue Cross is the largest health insurance company in the Pacific Northwest. I led the design of a chatbot that transformed how customers get help, making a stressful experience significantly faster and more satisfying.</p>
+      <div class="meta-grid">
+        <div class="meta-item">
+          <div class="meta-label">Company</div>
+          <div class="meta-value" style="display:flex;align-items:center;gap:8px;">
+            <img src="/premera-logo.png" alt="Premera Blue Cross" style="height:36px;width:auto;flex-shrink:0;filter:brightness(0) invert(1);opacity:0.85;"/>
+          </div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">My Role</div>
+          <div class="meta-value">Design Lead, Research Support</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Team</div>
+          <div class="meta-value">1 PM, 1 researcher, 5 engineers, 1 designer</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Duration</div>
+          <div class="meta-value">6 months</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THE PROBLEM -->
+<section>
+  <div class="container">
+    <div class="section-label">The problem</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+      <div>
+        <h2 style="margin-bottom:1.25rem;">35% of customers were frustrated calling customer service</h2>
+        <p>Like most health insurance companies, it's difficult for Premera to earn customers' trust and satisfaction. To find opportunities to improve, we routinely sent feedback surveys to our customers. From these surveys, we discovered that 35% of people were frustrated when calling customer service.</p>
+        <p>My team was tasked with understanding what was causing this problem, and designing a solution.</p>
+      </div>
+      <div class="screenshot-wrap" style="margin:0;cursor:zoom-in;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+        <img src="/Final_1.png" alt="Premera chatbot: initial message screen" style="width:100%;height:auto;display:block;" class="zoomable"/>
+        <div class="screenshot-caption">The solution: a chatbot in the Premera app that routes customers to the right representative before they ever pick up the phone.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT STRIP -->
+<div style="border-bottom: 1px solid var(--border); background: var(--bg);">
+  <div class="container">
+    <div style="padding-top: 2.5rem;">
+      <div class="section-label">Impact</div>
+    </div>
+    <div class="metrics-strip" style="display: flex; align-items: flex-start; padding: 0 0 2.5rem 0; gap: 0;">
+      <div style="flex: 1; padding-right: 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">70%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Reduction in customer service call time</div>
+      </div>
+      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
+      <div style="flex: 1; padding: 0 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">11%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Improvement in customer satisfaction</div>
+      </div>
+      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
+      <div style="flex: 1; padding-left: 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">86%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Of customer service reps found the product helpful</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH -->
+<section>
+  <div class="container">
+    <div class="section-label">Research</div>
+    <h2>Researching the problem</h2>
+    <p>Before jumping into solutions, we needed to fully understand the problem from multiple angles. I partnered with our lead researcher to dig into both the customer experience and the business context, ensuring our eventual design would address root causes rather than surface symptoms.</p>
+
+    <h3>Research goals</h3>
+    <div class="card-grid">
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 20 L32 20 M8 12 L32 12 M8 28 L24 28" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="32" cy="28" r="6" stroke="#c8c4bc" stroke-width="2"/>
+            <line x1="36.2" y1="32.2" x2="40" y2="36" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Map the existing user journey</h4>
+          <p>Understand all the steps a user had to take to get connected to customer service.</p>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 28 C20 28 6 20 6 12 C6 8 9 6 12.5 6 C14.5 6 16.5 7 18 9 C19.5 7 21.5 6 23.5 6 C27 6 30 8 30 12 C30 20 20 28 20 28Z" stroke="#c8c4bc" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M12 13 L15.5 13 L17 10 L19.5 16 L21 13 L25 13" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Understand user pain points</h4>
+          <p>What was causing frustration when customers called in?</p>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="24" height="24" rx="5" stroke="#c8c4bc" stroke-width="2.5"/>
+            <line x1="14" y1="20" x2="26" y2="20" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="14" x2="20" y2="26" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Understand business constraints</h4>
+          <p>What limitations did we have to design within?</p>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:#f5f3ef;padding:1.25rem;display:flex;justify-content:center;align-items:center;min-height:80px;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="14" width="24" height="18" rx="4" stroke="#c8c4bc" stroke-width="2.5"/>
+            <path d="M14 14 L14 10 C14 8 16 6 20 6 C24 6 26 8 26 10 L26 14" stroke="#c8c4bc" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="20" cy="23" r="3" stroke="#c8c4bc" stroke-width="2"/>
+          </svg>
+        </div>
+        <div style="padding:1.25rem 1.5rem;">
+          <h4>Understand technical constraints</h4>
+          <p>What was feasible for our engineering team to build?</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Methods</h3>
+    <div class="finding">
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 4 C9 4 5 8 5 13 C5 18 9 22 14 22 C19 22 23 18 23 13 C23 8 19 4 14 4Z" stroke="#c8c4bc" stroke-width="2"/>
+          <path d="M9 13 L12 16 L19 9" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="14" y1="22" x2="14" y2="26" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+          <line x1="10" y1="26" x2="18" y2="26" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="finding-body">
+        <h4>Listened to customer service calls and read feedback surveys</h4>
+        <p>Directly observing the problem helped us understand the full context of a caller's experience before talking to users.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="5" stroke="#c8c4bc" stroke-width="2"/>
+          <circle cx="20" cy="18" r="5" stroke="#c8c4bc" stroke-width="2"/>
+          <path d="M14 7 Q20 7 20 13" stroke="#c8c4bc" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
+      <div class="finding-body">
+        <h4>Interviewed callers, customer service reps, and internal stakeholders</h4>
+        <p>Talking to all three groups gave us a full picture, from the customer's frustration to the rep's experience to the business priorities.</p>
+      </div>
+    </div>
+
+    <div class="screenshot-wrap flow" style="margin:1.5rem 0;">
+      <img class="zoomable" src="/old_flow.png" alt="Existing user journey map showing 9 steps from looking up the phone number to connecting to customer service"/>
+      <div class="screenshot-caption"><strong>Existing user journey.</strong> 9 steps standing between a frustrated customer and getting help, including verification, hold times, and repeated transfers.</div>
+    </div>
+
+    <h3>User pain points</h3>
+    <div class="finding">
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="11" stroke="#c8c4bc" stroke-width="2"/>
+          <line x1="14" y1="8" x2="14" y2="14" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+          <line x1="14" y1="14" x2="18" y2="17" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="finding-body">
+        <h4>Too much time in the automated phone system</h4>
+        <p>It took callers about 3 minutes to go through our automated phone system, due to a strict verification process.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 10 L22 10 M17 6 L22 10 L17 14" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 18 L6 18 M11 14 L6 18 L11 22" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="finding-body">
+        <h4>Callers were constantly transferred</h4>
+        <p>After finally getting connected to a representative, callers were often transferred to another person, restarting the frustrating process.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 22 C14 22 5 16 5 10 C5 7 7.5 5 10.5 5 C12 5 13.5 5.8 14 7 C14.5 5.8 16 5 17.5 5 C20.5 5 23 7 23 10 C23 16 14 22 14 22Z" stroke="#c8c4bc" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M8 11 L11 11 L12.5 8 L14.5 14 L16 11 L19 11" stroke="#c8c4bc" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="finding-body">
+        <h4>Calling insurance is inherently stressful</h4>
+        <p>Calls ranged from people worried they couldn't afford surgery to people frustrated that their insurance had denied coverage. The emotional stakes were high before the call even began.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="7" stroke="#c8c4bc" stroke-width="2"/>
+          <line x1="17.5" y1="17.5" x2="23" y2="23" stroke="#c8c4bc" stroke-width="2" stroke-linecap="round"/>
+          <line x1="9" y1="12" x2="15" y2="12" stroke="#c8c4bc" stroke-width="1.75" stroke-linecap="round"/>
+          <line x1="12" y1="9" x2="12" y2="15" stroke="#c8c4bc" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="finding-body">
+        <h4>Reps needed time to research before they could help</h4>
+        <p>Customer service reps typically spent the first few minutes understanding and researching the caller's problem before being able to help, adding to call time and caller frustration.</p>
+      </div>
+    </div>
+
+    <h3>Understanding constraints</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;">
+      <div class="card">
+        <h4>Each call cost about $12</h4>
+        <p>The business wanted us to shorten and prevent calls. Every minute saved had direct financial impact.</p>
+      </div>
+      <div class="card">
+        <h4>Engineering resources were limited</h4>
+        <p>Our engineering team lacked resources, so the design had to be simple to develop.</p>
+      </div>
+      <div class="card">
+        <h4>Redesigning the phone system wasn't an option</h4>
+        <p>Redesigning the automated phone system would be too expensive, so we had to find a solution that worked around it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IDEATION -->
+<section>
+  <div class="container">
+    <div class="section-label">Ideation</div>
+    <h2>Brainstorming as a team</h2>
+    <p>We presented the research findings to the team and brainstormed ways to solve the problem. Using the team's diverse expertise in engineering, business, data, and design, we generated ideas across different directions.</p>
+
+    <div class="screenshot-wrap" style="margin:1.5rem 0;">
+      <img class="zoomable" src="/Workshop_artifact_1.png" alt="Workshop brainstorming sketches and sticky notes"/>
+      <div class="screenshot-caption">Using the team's diverse expertise (engineering, business, data, etc.) to generate ideas.</div>
+    </div>
+
+    <h3>Deciding what to build</h3>
+    <p>When deciding what concepts to design and test, the main factors were the business and technical constraints. After analyzing various potential solutions, the team agreed to explore the idea of utilizing our existing mobile app to verify callers and allow them to skip the automated phone system.</p>
+
+    <div class="screenshot-wrap" style="margin:1.5rem 0;">
+      <img class="zoomable" src="/Workshop_artifact_2.png" alt="2x2 matrix mapping concepts by engineering cost vs business goal"/>
+      <div class="screenshot-caption">Engineering cost vs. business goal, used to evaluate which concepts to explore further.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTING & ITERATING -->
+<section>
+  <div class="container">
+    <div class="section-label">Testing & iterating</div>
+    <h2>Concept testing: chatbot vs. form</h2>
+    <p>Two of the concepts that stood out were designing a chatbot or a form to replace the phone system. We decided to test both to understand their pros and cons.</p>
+
+    <div class="screen-pair" style="margin:1.5rem 0;">
+      <div class="screenshot-wrap">
+        <img class="zoomable" src="/concept_chat.png" alt="Chatbot concept wireframe"/>
+        <div class="screenshot-caption">A chatbot felt more informal, and users expected to get help without calling.</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img class="zoomable" src="/concept_form.png" alt="Form concept wireframe"/>
+        <div class="screenshot-caption">A form felt more professional and was perceived as more efficient.</div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num" style="color:#1d5c9e;">✓</div>
+      <div class="finding-body">
+        <h4>7 of 10 participants preferred the form</h4>
+        <p>A form felt more professional and was perceived as more efficient. However, the team decided to build the chatbot because it better supported our business goal of reducing calls, while still solving the core user problem.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>A chatbot felt more informal, and users expected to get help without calling.</p>
+    </div>
+
+    <h3>Defining the user flow</h3>
+    <p>I designed multiple chatbot flows, varying in complexity and types of questions asked. In the end, it was about keeping the experience quick and simple for the user.</p>
+
+    <div class="screenshot-wrap" style="margin:1.5rem 0;">
+      <img class="zoomable" src="/chatbot_flow.png" alt="Chatbot user flow showing branching paths based on ML confidence"/>
+      <div class="screenshot-caption">I designed multiple chatbot flows, varying in complexity. In the end, it was about keeping the experience quick and simple for the user.</div>
+    </div>
+
+    <h3>Usability testing: refining the design</h3>
+    <p>After converting the user flow to a prototype, I conducted usability tests to further refine the design. Here are a few of my key findings:</p>
+
+    <!-- Finding 01: text left, image right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 01</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Reduce the need for typing</h4>
+        <p style="font-size:14px;line-height:1.65;">Help the user quickly answer the bot's question by clicking buttons or using their voice instead of typing out responses.</p>
+      </div>
+      <div class="screenshot-wrap" style="margin:0;">
+        <img class="zoomable" src="/testing_buttons.png" alt="Before and after showing button options replacing free-text input"/>
+      </div>
+    </div>
+
+    <!-- Finding 02: image left, text right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
+      <div class="screenshot-wrap" style="margin:0;">
+        <img class="zoomable" src="/testing_shorten.png" alt="Before and after showing shortened bot messages"/>
+      </div>
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 02</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Keep it short</h4>
+        <p style="font-size:14px;line-height:1.65;">Users tended to only scan content and often missed information if the message was too long.</p>
+      </div>
+    </div>
+
+    <!-- Finding 03: text left, image right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 03</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Present the bot's top 3 guesses</h4>
+        <p style="font-size:14px;line-height:1.65;">When clarifying the user's question, the bot should display its top 3 guesses along with a "Something else" option, so that the user is never trapped.</p>
+      </div>
+      <div class="screenshot-wrap" style="margin:0;">
+        <img class="zoomable" src="/testing_guess.png" alt="Bot presenting top 3 guesses to the user"/>
+      </div>
+    </div>
+
+    <!-- Finding 04: image left, text right -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;">
+      <div class="screenshot-wrap" style="margin:0;">
+        <img class="zoomable" src="/testing_failedGuess.png" alt="Bot failing gracefully and routing user to a human"/>
+      </div>
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 04</div>
+        <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Fail gracefully</h4>
+        <p style="font-size:14px;line-height:1.65;">If the chatbot is unable to understand the user's question the first time, don't try again. Just get them to a human.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL DESIGN -->
+<section>
+  <div class="container">
+    <div class="section-label">Final design</div>
+    <h2>High fidelity designs</h2>
+    <p>The final design used the existing Premera mobile app to authenticate callers and route them to the right customer service team, eliminating the painful automated phone system entirely for app users.</p>
+  </div>
+
+  <div class="wide">
+    <div class="screenshot-wrap wide-spread" style="margin:2rem 0;">
+      <img class="zoomable" src="/hifi.png" alt="High fidelity designs showing the complete chatbot flow across 4 screens"/>
+      <div class="screenshot-caption">High fidelity designs showing the full chatbot experience: open app, start chatting, confirm guess, and call.</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- RESULTS -->
+<section>
+  <div class="container">
+    <div class="section-label">Results</div>
+    <h2>Successfully released on both Android and iOS</h2>
+    <p>We successfully shipped this feature on both the Android and iOS Premera apps. Results were measured against the existing phone system over a 90-day post-launch period.</p>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="big-num">70%</div>
+        <div class="desc">Reduction in customer service call time</div>
+      </div>
+      <div class="result-card">
+        <div class="big-num">11%</div>
+        <div class="desc">Improvement in customer satisfaction scores</div>
+      </div>
+      <div class="result-card">
+        <div class="big-num">86%</div>
+        <div class="desc">Of customer service reps found the product helpful</div>
+      </div>
+    </div>
+
+    <div class="screenshot-wrap" style="margin-top:2rem;">
+      <img class="zoomable" src="/improved_user_flow.png" alt="Improved user flow showing old 9-step journey replaced by new 4-step chatbot flow" style="width:100%;height:auto;max-height:none;object-fit:contain;display:block;"/>
+      <div class="screenshot-caption">The new design eliminated the major pain points when calling customer service.</div>
+    </div>
+
+    <div class="pull-quote" style="margin-top:2rem;">
+      <p>"I think this is an excellent step taken by Premera to help get me off the phone faster."</p>
+      <cite>- App user review</cite>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section>
+  <div class="container">
+    <div class="section-label">Reflection</div>
+    <h2>What I learned</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 220px;gap:2.5rem;align-items:stretch;">
+    <div class="screenshot-wrap" style="margin:0;padding:1.25rem;display:flex;flex-direction:column;justify-content:center;">
+      <h3 style="margin-top:0;">Involving engineers early is critical</h3>
+      <p>Involving the engineers throughout the design process was critical in understanding technical constraints as well as promoting a culture of collaboration. This also helped reduce implementation time since they could start developing while I was still designing.</p>
+
+      <h3>Balancing today's constraints with the ideal future state</h3>
+      <p style="margin-bottom:0;">One of the biggest challenges with this project was balancing what was possible today with an ideal future state. However, the team is committed to continuously improving the chatbot's functionality so that it can answer more questions and help users without them ever needing to call.</p>
+    </div>
+    <div class="screenshot-wrap" style="margin:0;cursor:zoom-in;display:flex;flex-direction:column;">
+      <img src="/neil_premera.jpg" alt="Neil presenting Premera Scout at a Digital CX conference" style="width:100%;flex:1;object-fit:cover;object-position:center 20%;display:block;min-height:0;" class="zoomable"/>
+      <div class="screenshot-caption">Presenting Premera Scout at a Digital CX conference - one of the more memorable moments from this project.</div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<footer>
+  <p>Powered by green tea and a passion for creating new things.</p>
+</footer>
+
+<!-- PHOTO MODAL -->
+<div id="photo-modal" role="dialog" aria-modal="true" aria-label="Image preview">
+  <button id="photo-modal-close" aria-label="Close">&#x2715;</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0;max-width:min(90vw,900px);">
+    <img id="photo-modal-img" src="" alt="" style="max-width:100%;max-height:80vh;object-fit:contain;border-radius:8px 8px 0 0;box-shadow:none;display:block;"/>
+    <div id="photo-modal-caption" style="width:100%;background:rgba(255,255,255,0.07);border-radius:0 0 8px 8px;padding:0.75rem 1.25rem;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.55;box-shadow:0 24px 80px rgba(0,0,0,0.6);display:none;"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const modal = document.getElementById('photo-modal');
+  const modalImg = document.getElementById('photo-modal-img');
+  const modalCaption = document.getElementById('photo-modal-caption');
+  const closeBtn = document.getElementById('photo-modal-close');
+
+  function openModal(src, alt, caption) {
+    modalImg.src = src;
+    modalImg.alt = alt || '';
+    if (caption) {
+      modalCaption.textContent = caption;
+      modalCaption.style.display = 'block';
+    } else {
+      modalCaption.style.display = 'none';
+    }
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('img.zoomable').forEach(function(img) {
+    img.addEventListener('click', function() {
+      var caption = '';
+      var wrap = img.closest('.screenshot-wrap');
+      if (wrap) {
+        var capEl = wrap.querySelector('.screenshot-caption');
+        if (capEl) caption = capEl.textContent.trim();
+      }
+      openModal(img.src, img.alt, caption);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+})();
+</script>
+
+</body>
+</html>
