@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neil Deshpande — Meta Repair Console</title>
+<title>Neil Deshpande: Meta Repair Console</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -616,6 +616,66 @@
     .metrics-strip-inner { flex-direction: column !important; }
     .metrics-divider { width: 100% !important; height: 1px; align-self: auto !important; }
   }
+
+  /* IMAGE MODAL */
+  .img-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,12,0.88);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    cursor: zoom-out;
+  }
+  .img-modal-overlay.open { display: flex; }
+  .img-modal-inner {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: default;
+  }
+  .img-modal-img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px 8px 0 0;
+    display: block;
+  }
+  .img-modal-caption {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 0.875rem 1.25rem;
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.55;
+    width: 100%;
+  }
+  .img-modal-caption strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+  .img-modal-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.5rem;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .img-modal-close:hover { background: rgba(255,255,255,0.1); }
+  .carousel-slide img, .screenshot-wrap.modal-trigger img { cursor: zoom-in; }
 </style>
 </head>
 <body>
@@ -788,7 +848,7 @@
   <div class="container">
     <div class="pull-quote">
       <p>"We realized there was a manufacturing problem with chips and identified almost 11,000 bad DIMMs around the world. It took a year to identify the trend, and another year to replace them."</p>
-      <cite>— Repair triage engineer, user interview</cite>
+      <cite>Repair triage engineer, user interview</cite>
     </div>
   </div>
 </section>
@@ -799,7 +859,7 @@
     <div class="section-label">Research</div>
     <h2>40+ interviews. 3 continents. The same problems, everywhere.</h2>
     <p>I supported our lead researcher with interviews, observations, and ticket analysis across Dublin, Berlin, Bay Area, Singapore, and Austin, over 40 people in total, spanning network engineers, repair technicians, team leads, and on-site operators. Despite different regions and roles, every person we talked to was struggling with the same core issues.</p>
-    <p>To make sense of what we'd heard, the researcher and I synthesized the interviews and identified three distinct behavioral patterns in how people approached repair work. Rather than mapping to job titles, these patterns cut across teams — a network engineer and a data center lead might both behave like a Pattern Finder, depending on the day. Defining these personas gave the whole team a shared language for who we were designing for, and made it much easier to pressure-test design decisions against real user needs.</p>
+    <p>To make sense of what we'd heard, the researcher and I synthesized the interviews and identified three distinct behavioral patterns in how people approached repair work. Rather than mapping to job titles, these patterns cut across teams. A network engineer and a data center lead might both behave like a Pattern Finder, depending on the day. Defining these personas gave the whole team a shared language for who we were designing for, and made it much easier to pressure-test design decisions against real user needs.</p>
   </div>
 
   <!-- USER PERSONAS -->
@@ -828,8 +888,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No visibility into what other teams are working on</li>
-              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Can't escalate or group tickets across the system</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No visibility into what other teams are working on</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Can't escalate or group tickets across the system</li>
             </ul>
           </div>
         </div>
@@ -857,8 +917,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Has to dig into individual tickets to get any overview</li>
-              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No single place to see status across all teams</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Has to dig into individual tickets to get any overview</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>No single place to see status across all teams</li>
             </ul>
           </div>
         </div>
@@ -886,8 +946,8 @@
           <div>
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#aaa;margin-bottom:0.4rem;">Pain points</div>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem;">
-              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Spends most of their time on triage, not repair</li>
-              <li style="font-size:13px;color:#888;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Runbooks are generic, outdated, and hard to find</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Spends most of their time on triage, not repair</li>
+              <li style="font-size:13px;color:#444;padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:#e0ddd6;">–</span>Runbooks are generic, outdated, and hard to find</li>
             </ul>
           </div>
         </div>
@@ -899,7 +959,7 @@
 
   <div class="container">
     <h3 style="margin-bottom:0.75rem;">What all three had in common</h3>
-    <p>The personas helped us understand <em>how</em> different people worked. But regardless of which persona we were talking to, the same four systemic problems kept surfacing — not as isolated complaints, but as symptoms of the same broken environment.</p>
+    <p>The personas helped us understand <em>how</em> different people worked. But regardless of which persona we were talking to, the same four systemic problems kept surfacing, not as isolated complaints, but as symptoms of the same broken environment.</p>
     <div class="finding">
       <div class="finding-num">01</div>
       <div class="finding-body">
@@ -1049,7 +1109,7 @@
             <!-- Doc title bar -->
             <rect x="50" y="6" width="174" height="20" rx="5" fill="#0d6b50"/>
             <rect x="50" y="18" width="174" height="8" fill="#0d6b50"/>
-            <text x="137" y="20" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8.5" font-weight="500" fill="#fff">T16/T20 Power Failure — Repair Guide</text>
+            <text x="137" y="20" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8.5" font-weight="500" fill="#fff">T16/T20 Power Failure: Repair Guide</text>
             <!-- Step rows -->
             <!-- Step 1 -->
             <rect x="62" y="34" width="14" height="14" rx="2" fill="#e6f5f0" stroke="#b0ddd0" stroke-width="1"/>
@@ -1092,7 +1152,7 @@
 
     <div class="pull-quote">
       <p>"I don't need to see what's happening everywhere. I need to know what I'm working on today."</p>
-      <cite>— Repair technician, on-site testing session</cite>
+      <cite>Repair technician, on-site testing session</cite>
     </div>
 
     <p>We pivoted to a hierarchical view (global, regional, and site-level), letting each user type zoom to the right scope. Meanwhile, the Action Plans format went through four rounds of iteration, each one surfacing a new constraint we hadn't anticipated. The biggest tension throughout was flexibility versus structure: plans needed to handle genuinely complex, branching repairs while still being consistent enough to track and eventually automate.</p>
@@ -1113,7 +1173,7 @@
         <rect x="54" y="8" width="200" height="12" rx="3" fill="#ede9e2"/>
 
         <!-- Page title -->
-        <text x="16" y="50" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#333">T16/T20 Power Failure — Repair Guide</text>
+        <text x="16" y="50" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#333">T16/T20 Power Failure: Repair Guide</text>
         <line x1="16" y1="56" x2="324" y2="56" stroke="#e8e6e0" stroke-width="0.75"/>
 
         <!-- Wiki-style body: unstructured text blocks -->
@@ -1499,7 +1559,7 @@
   </div>
 
   <div class="wide">
-    <div class="screenshot-wrap">
+    <div class="screenshot-wrap modal-trigger">
       <img src="Issue.png" alt="Issue Details screen showing grouped tickets for Zion T16/T20 Power Failures, with status charts, properties panel, and team conversations"/>
       <div class="screenshot-caption"><strong>Issue Details.</strong> Four tickets are grouped under a single Zion T16/T20 Power Failures issue. The technician sees all affected servers, their priorities and statuses, and how long each has been unresolved, all in one view. The "Start Repair" button launches the Action Plan across the entire group. The Conversations panel (bottom right) was added after user research revealed that teams were coordinating via messaging threads that disappeared. Repair Console needed to be the record of communication, not just of actions.</div>
     </div>
@@ -1645,6 +1705,55 @@
   document.querySelectorAll('.carousel').forEach(function(el) {
     carouselInit(el.id);
   });
+
+  // ── IMAGE MODAL ──
+  function openModal(src, captionHTML) {
+    document.getElementById('imgModalImg').src = src;
+    document.getElementById('imgModalCaption').innerHTML = captionHTML;
+    document.getElementById('imgModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('imgModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Carousel slide images
+  document.querySelectorAll('.carousel-slide img').forEach(function(img) {
+    img.addEventListener('click', function() {
+      var carousel = img.closest('.carousel');
+      var id = carousel ? carousel.id.replace('-carousel', '') : null;
+      var captionHTML = img.alt;
+      if (id && captions[id] && carousels[id]) {
+        captionHTML = captions[id][carousels[id].index];
+      }
+      openModal(img.src, captionHTML);
+    });
+  });
+
+  // Issue.png standalone screenshot
+  document.querySelectorAll('.screenshot-wrap.modal-trigger').forEach(function(wrap) {
+    var img = wrap.querySelector('img');
+    var captionEl = wrap.querySelector('.screenshot-caption');
+    if (img) {
+      img.addEventListener('click', function() {
+        openModal(img.src, captionEl ? captionEl.innerHTML : img.alt);
+      });
+    }
+  });
 </script>
+
+<!-- IMAGE MODAL -->
+<div id="imgModal" class="img-modal-overlay" onclick="closeModal()">
+  <button class="img-modal-close" onclick="event.stopPropagation();closeModal()">&#215;</button>
+  <div class="img-modal-inner" onclick="event.stopPropagation()">
+    <img class="img-modal-img" id="imgModalImg" src="" alt=""/>
+    <div class="img-modal-caption" id="imgModalCaption"></div>
+  </div>
+</div>
+
 </body>
 </html>
