@@ -628,6 +628,10 @@
   .sidebar-nav.above-hero {
     opacity: 0 !important;
     pointer-events: none !important;
+  }
+  .sidebar-nav.modal-open {
+    opacity: 0 !important;
+    pointer-events: none !important;
   }  .sidebar-nav ul {
     list-style: none;
     padding: 0;
@@ -1813,10 +1817,14 @@
     document.getElementById('imgModalCaption').innerHTML = captionHTML;
     document.getElementById('imgModal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    var sb = document.getElementById('sidebarNav');
+    if (sb) sb.classList.add('modal-open');
   }
   function closeModal() {
     document.getElementById('imgModal').classList.remove('open');
     document.body.style.overflow = '';
+    var sb = document.getElementById('sidebarNav');
+    if (sb) sb.classList.remove('modal-open');
   }
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeModal();
