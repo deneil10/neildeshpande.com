@@ -597,6 +597,84 @@
 
   .metrics-strip > div[style*="width: 1px"] { display: none; }
 
+  /* SIDEBAR NAV */
+  /* SIDEBAR LAYOUT */
+  .case-study-body {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+  }
+  .case-study-content {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* SIDEBAR */
+  .sidebar-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 2rem;
+    width: 130px;
+    z-index: 9999;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: block !important;
+    transition: opacity 0.25s ease;
+    background: var(--bg);
+    padding: 0.75rem 0;
+  }
+  .sidebar-nav.above-hero {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }  .sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 11px;
+    letter-spacing: 0.01em;
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    padding: 5px 0;
+    transition: color 0.2s, font-weight 0.1s;
+    line-height: 1.3;
+    white-space: nowrap;
+    font-weight: 400;
+  }
+  .sidebar-nav li a .tick {
+    display: block;
+    width: 12px;
+    height: 1px;
+    background: var(--border);
+    flex-shrink: 0;
+    transition: width 0.25s ease, background 0.25s ease;
+  }
+  .sidebar-nav li a:hover { color: var(--text-secondary) !important; }
+  .sidebar-nav li a:hover .tick { background: var(--text-muted); width: 16px; }
+  .sidebar-nav.no-hover li a:hover { color: var(--text-muted) !important; }
+  .sidebar-nav.no-hover li a:hover .tick { background: var(--border); width: 12px; }
+  .sidebar-nav li a.active {
+    color: var(--text) !important;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  .sidebar-nav li a.active .tick {
+    width: 22px;
+    background: var(--text);
+  }
+
+  @media (max-width: 1150px) {
+    .sidebar-nav { display: none !important; }
+  }
+
   @media (max-width: 680px) {
     .metrics-strip { flex-direction: column !important; gap: 1.5rem; padding: 2rem 0 !important; }
     .metrics-strip > div[style*="width: 1px"] { display: none; }
@@ -747,8 +825,27 @@
   </div>
 </div>
 
+<!-- SIDEBAR NAV (fixed, appears after hero) -->
+<div class="sidebar-nav above-hero" id="sidebarNav">
+  <ul>
+    <li><a href="#section-context"><span class="tick"></span>Context</a></li>
+    <li><a href="#section-problem"><span class="tick"></span>The problem</a></li>
+    <li><a href="#section-research"><span class="tick"></span>Research</a></li>
+    <li><a href="#section-principles"><span class="tick"></span>Principles</a></li>
+    <li><a href="#section-ideation"><span class="tick"></span>Ideation</a></li>
+    <li><a href="#section-testing"><span class="tick"></span>Testing</a></li>
+    <li><a href="#section-final"><span class="tick"></span>Final design</a></li>
+    <li><a href="#section-results"><span class="tick"></span>Results</a></li>
+    <li><a href="#section-reflection"><span class="tick"></span>Reflection</a></li>
+  </ul>
+</div>
+
+<!-- CONTENT WRAPPER -->
+<div class="case-study-body">
+  <div class="case-study-content">
+
 <!-- CONTEXT -->
-<section>
+<section id="section-context">
   <div class="container">
     <div class="section-label">Context</div>
     <h2>The repair process wasn't keeping pace with the infrastructure</h2>
@@ -757,7 +854,7 @@
 </section>
 
 <!-- THE PROBLEM -->
-<section>
+<section id="section-problem">
   <div class="container">
     <div class="section-label">The problem</div>
     <h2>Seven separate repair systems. Zero shared knowledge.</h2>
@@ -854,7 +951,8 @@
 </section>
 
 <!-- RESEARCH -->
-<section>
+<!-- RESEARCH -->
+<section id="section-research">
   <div class="container">
     <div class="section-label">Research</div>
     <h2>40+ interviews. 3 continents. The same problems, everywhere.</h2>
@@ -992,7 +1090,7 @@
 </section>
 
 <!-- DESIGN PRINCIPLES -->
-<section>
+<section id="section-principles">
   <div class="container">
     <div class="section-label">Design principles</div>
     <h2>Three principles to guide every decision</h2>
@@ -1033,7 +1131,7 @@
 </section>
 
 <!-- IDEATION -->
-<section>
+<section id="section-ideation">
   <div class="container">
     <div class="section-label">Ideation</div>
     <h2>Two ideas worth testing</h2>
@@ -1144,7 +1242,7 @@
 </section>
 
 <!-- TESTING & ITERATING -->
-<section>
+<section id="section-testing">
   <div class="container">
     <div class="section-label">Testing & iterating</div>
     <h2>On-site testing changed our direction</h2>
@@ -1513,7 +1611,7 @@
 </section>
 
 <!-- FINAL DESIGN -->
-<section>
+<section id="section-final">
   <div class="container">
     <div class="section-label">Final design</div>
     <h2>Three surfaces, one unified platform</h2>
@@ -1598,7 +1696,7 @@
 
 
 <!-- RESULTS -->
-<section>
+<section id="section-results">
   <div class="container">
     <div class="section-label">Results</div>
     <h2>Measurable impact across the fleet</h2>
@@ -1624,7 +1722,7 @@
 </section>
 
 <!-- REFLECTION -->
-<section>
+<section id="section-reflection">
   <div class="container">
     <div class="section-label">Reflection</div>
     <h2>What I'd do differently</h2>
@@ -1651,6 +1749,9 @@
   <p style="font-size:13px; color:var(--text-muted);">Powered by green tea and a passion for creating new things.</p>
 </div>
 
+
+  </div><!-- /.case-study-content -->
+</div><!-- /.case-study-body -->
 
 <script>
   const carousels = {};
@@ -1744,6 +1845,98 @@
       });
     }
   });
+
+
+  // SIDEBAR VISIBILITY — show only below hero
+  (function() {
+    var sidebar = document.getElementById('sidebarNav');
+    var hero = document.querySelector('.hero');
+    function update() {
+      var heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
+      sidebar.classList.toggle('above-hero', heroBottom > 0);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+
+  // SCROLL SPY
+  (function() {
+    var sectionIds = [
+      'section-context','section-problem','section-research','section-principles',
+      'section-ideation','section-testing','section-final','section-results','section-reflection'
+    ];
+    var sidebar = document.getElementById('sidebarNav');
+    var links = {};
+    sectionIds.forEach(function(id) {
+      var a = document.querySelector('#sidebarNav a[href="#' + id + '"]');
+      if (a) links[id] = a;
+    });
+
+    function setActive(id) {
+      Object.keys(links).forEach(function(lid) {
+        links[lid].classList.toggle('active', lid === id);
+      });
+    }
+
+    // Scrolling lock — while true, observer won't override the clicked active state
+    var isScrolling = false;
+    var scrollTimer = null;
+
+    function onScrollEnd() {
+      isScrolling = false;
+      sidebar.classList.remove('no-hover');
+    }
+
+    window.addEventListener('scroll', function() {
+      if (isScrolling) {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(onScrollEnd, 150);
+      }
+    }, { passive: true });
+
+    // IntersectionObserver for natural scrolling
+    var visible = {};
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        visible[entry.target.id] = entry.isIntersecting;
+      });
+      if (isScrolling) return; // don't override click-locked active state
+      var active = null;
+      sectionIds.forEach(function(id) {
+        if (!active && visible[id]) active = id;
+      });
+      if (active) setActive(active);
+    }, {
+      rootMargin: '-10% 0px -60% 0px',
+      threshold: 0
+    });
+
+    sectionIds.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    // Click: lock active state + disable hover during scroll
+    document.querySelectorAll('#sidebarNav a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var href = a.getAttribute('href');
+        var target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          var id = href.replace('#', '');
+          setActive(id);
+          // Lock active and disable hover
+          isScrolling = true;
+          sidebar.classList.add('no-hover');
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(onScrollEnd, 150);
+          var navHeight = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 70;
+          var targetTop = target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: targetTop - navHeight - 16, behavior: 'smooth' });
+        }
+      });
+    });
+  })();
 </script>
 
 <!-- IMAGE MODAL -->
