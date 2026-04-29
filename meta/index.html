@@ -1788,19 +1788,6 @@
 function carouselInit(id) {
     const slides = document.querySelectorAll('#' + id + '-track .carousel-slide');
     carousels[id] = { index: 0, total: slides.length };
-
-    // Set initial viewport height to first slide's image
-    var firstImg = slides[0] && slides[0].querySelector('img');
-    var viewport = document.querySelector('#' + id + ' .carousel-viewport');
-    if (firstImg && viewport) {
-      if (firstImg.complete) {
-        viewport.style.height = firstImg.offsetHeight + 'px';
-      } else {
-        firstImg.onload = function() {
-          viewport.style.height = firstImg.offsetHeight + 'px';
-        };
-      }
-    }
   }
 
   function carouselMove(id, dir) {
@@ -1849,6 +1836,18 @@ function carouselApply(id) {
 
   document.querySelectorAll('.carousel').forEach(function(el) {
     carouselInit(el.id);
+  });
+
+   // Set initial carousel viewport heights after all images have loaded
+  window.addEventListener('load', function() {
+    document.querySelectorAll('.carousel').forEach(function(el) {
+      var firstSlide = el.querySelector('.carousel-slide');
+      var firstImg = firstSlide && firstSlide.querySelector('img');
+      var viewport = el.querySelector('.carousel-viewport');
+      if (firstImg && viewport) {
+        viewport.style.height = firstImg.offsetHeight + 'px';
+      }
+    });
   });
 
   // ── IMAGE MODAL ──
