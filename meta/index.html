@@ -812,40 +812,11 @@
   </div>
 </div>
 
-<!-- METRICS STRIP -->
-<div style="border-bottom: 1px solid var(--border); background: var(--bg);">
-  <div class="container">
-    <div style="padding-top: 2.5rem;">
-      <div class="section-label">Impact</div>
-     <div style="margin-bottom: 2rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border);">
-        <div class="screenshot-wrap modal-trigger" style="margin-bottom: 2rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border);">
-        <img src="/hifi-meta.jpg" alt="High-fidelity design" style="width: 100%; height: 480px; object-fit: contain; background: #fafaf8; display: block; cursor: zoom-in;"/>
-        <div class="screenshot-caption">Final design showing the dashboard view for a repair technician</div>
-</div>
-    </div>
-    <div class="metrics-strip" style="display: flex; align-items: center; padding: 0 0 2.5rem 0; gap: 0;">
-      <div style="flex: 1; padding-right: 2rem;">
-        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">22%</div>
-        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Reduction in average repair time</div>
-      </div>
-      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
-      <div style="flex: 1; padding: 0 2rem;">
-        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">31%</div>
-        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Increase in repair accuracy</div>
-      </div>
-      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
-      <div style="flex: 1; padding-left: 2rem;">
-        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">7→1</div>
-        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Repair ticketing systems consolidated</div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- SIDEBAR NAV (fixed, appears after hero) -->
 <div class="sidebar-nav above-hero" id="sidebarNav">
   <ul>
     <li><a href="#section-context"><span class="tick"></span>Context</a></li>
+    <li><a href="#section-impact"><span class="tick"></span>Impact</a></li>
     <li><a href="#section-problem"><span class="tick"></span>The problem</a></li>
     <li><a href="#section-research"><span class="tick"></span>Research</a></li>
     <li><a href="#section-principles"><span class="tick"></span>Principles</a></li>
@@ -869,7 +840,39 @@
     <p>My team was brought in to redesign how repair operations worked across Meta's global data centers. Every hour a failed server stayed offline was compute capacity unavailable to Meta's products, and with AI workloads growing rapidly, that cost was rising. The process was fragmented, knowledge was siloed, and the system was increasingly unable to scale. I led design for the repair authoring and execution workstream: the part of the platform that determined how technicians actually diagnosed and fixed problems.</p>
   </div>
 </section>
-
+   
+<!-- METRICS STRIP -->
+<section id="section-context">
+  <div style="border-bottom: 1px solid var(--border); background: var(--bg);">
+  <div class="container">
+    <div style="padding-top: 2.5rem;">
+      <div class="section-label">Impact</div>
+     <!-- <div style="margin-bottom: 2rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border);"> -->
+        <div class="screenshot-wrap modal-trigger" style="margin-bottom: 2rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border);">
+        <img src="/hifi-meta.jpg" alt="High-fidelity design" style="width: 100%; height: 480px; object-fit: contain; background: #1a1a1a; display: block; cursor: zoom-in;"/>
+        <div class="screenshot-caption">Final design showing the dashboard view for a repair technician</div>
+</div>
+    </div>
+    <div class="metrics-strip" style="display: flex; align-items: center; padding: 0 0 2.5rem 0; gap: 0;">
+      <div style="flex: 1; padding-right: 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">22%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Reduction in average repair time</div>
+      </div>
+      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
+      <div style="flex: 1; padding: 0 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">31%</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Increase in repair accuracy</div>
+      </div>
+      <div style="width: 1px; background: var(--border); align-self: stretch;"></div>
+      <div style="flex: 1; padding-left: 2rem;">
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--text); line-height: 1;">7→1</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4;">Repair ticketing systems consolidated</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section> 
+   
 <!-- THE PROBLEM -->
 <section id="section-problem">
   <div class="container">
