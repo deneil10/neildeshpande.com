@@ -536,6 +536,11 @@
     height: auto;
     display: block;
   }
+
+ #actioner-carousel .carousel-viewport {
+  height: auto;
+  transition: height 0.35s ease;
+ }
   .carousel-caption {
     padding: 0.875rem 1.25rem;
     font-size: 13px;
@@ -1780,9 +1785,22 @@
     ]
   };
 
-  function carouselInit(id) {
+function carouselInit(id) {
     const slides = document.querySelectorAll('#' + id + '-track .carousel-slide');
     carousels[id] = { index: 0, total: slides.length };
+
+    // Set initial viewport height to first slide's image
+    var firstImg = slides[0] && slides[0].querySelector('img');
+    var viewport = document.querySelector('#' + id + ' .carousel-viewport');
+    if (firstImg && viewport) {
+      if (firstImg.complete) {
+        viewport.style.height = firstImg.offsetHeight + 'px';
+      } else {
+        firstImg.onload = function() {
+          viewport.style.height = firstImg.offsetHeight + 'px';
+        };
+      }
+    }
   }
 
   function carouselMove(id, dir) {
@@ -1798,7 +1816,7 @@
     carouselApply(id);
   }
 
-  function carouselApply(id) {
+function carouselApply(id) {
     const state = carousels[id];
     const track = document.getElementById(id + '-track');
     const viewport = track.parentElement;
@@ -1812,6 +1830,20 @@
     var captionEl = document.getElementById(id + '-caption');
     if (captionEl && captions[id]) {
       captionEl.innerHTML = captions[id][state.index];
+    }
+
+    // Resize viewport to match current slide's image height
+    var slides = track.querySelectorAll('.carousel-slide');
+    var currentSlide = slides[state.index];
+    if (currentSlide) {
+      var img = currentSlide.querySelector('img');
+      if (img && img.complete) {
+        viewport.style.height = img.offsetHeight + 'px';
+      } else if (img) {
+        img.onload = function() {
+          viewport.style.height = img.offsetHeight + 'px';
+        };
+      }
     }
   }
 
