@@ -17,6 +17,7 @@
     grid-template-columns: 1fr auto;
     gap: 3rem;
     align-items: center;
+    margin-bottom: 1.5rem;
   }
   .hero-label {
     font-size: 13px;
@@ -48,19 +49,34 @@
     height: 100%;
     object-fit: cover;
   }
-  .hero-photo-placeholder {
+
+  /* ── PREVIOUSLY AT ── */
+  .previously-at {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .previously-at-label {
     font-size: 12px;
     color: var(--text-muted);
-    text-align: center;
-    padding: 1rem;
-    line-height: 1.4;
+    margin-right: 2px;
+  }
+  .company-chip {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--border-light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 10px;
   }
 
   /* ── CASE STUDIES ── */
   .work-section { padding: 72px 0; }
   .work-grid {
     display: grid;
-    grid-template-columns: 1fr; /* update to 1fr when adding more case studies */
+    grid-template-columns: 1fr;
     gap: 1.5rem;
     margin-top: 2.5rem;
   }
@@ -81,32 +97,20 @@
 
   .case-cover {
     width: 100%;
-    aspect-ratio: 21/9;
-    background: #1a1a1a;
+    aspect-ratio: 16/9;
     overflow: hidden;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
   .case-cover img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  .case-cover-placeholder {
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    text-align: center;
-    padding: 1.5rem;
-    line-height: 1.5;
+    display: block;
   }
 
   /* Individual cover accent colors */
   .cover-meta    { background: #0f1923; }
   .cover-premera { background: #0a2240; }
-  .cover-icon    { background: #1a1035; }
-  .cover-credit  { background: #0d1f14; }
 
   .case-body { padding: 1.5rem; }
   .case-company {
@@ -120,37 +124,12 @@
     width: auto;
     opacity: 0.7;
   }
-  .case-company-placeholder {
-    font-size: 12px;
-    color: var(--text-muted);
-    background: var(--border-light);
-    padding: 2px 10px;
-    border-radius: 4px;
-  }
-  .case-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 0.4rem;
-    line-height: 1.4;
-  }
-  .case-desc {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.55;
-    margin-bottom: 1rem;
-  }
-  .case-link {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .case-link::after { content: "→"; }
 
-  /* PROJECT TAGS */
+  .case-company-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
   .case-tags {
     display: flex;
     gap: 6px;
@@ -167,6 +146,23 @@
     border-radius: 4px;
     padding: 2px 8px;
   }
+
+  .case-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+  .case-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .case-link::after { content: "→"; }
 
   /* ── FOOTER CTA ── */
   .footer-cta {
@@ -233,6 +229,13 @@
         <img src="photo-neil.jpg" alt="Neil Deshpande"/>
       </div>
     </div>
+    <div class="previously-at">
+      <span class="previously-at-label">Previously at</span>
+      <span class="company-chip">Meta</span>
+      <span class="company-chip">Amazon</span>
+      <span class="company-chip">GE Healthcare</span>
+      <span class="company-chip">Premera Blue Cross</span>
+    </div>
   </div>
 </div>
 
@@ -250,6 +253,7 @@
         <div class="case-body">
           <div class="case-company">
             <img src="meta-logo.png" alt="Meta" style="filter:none;height:16px;"/>
+            <span class="case-company-name">Meta</span>
           </div>
           <div class="case-tags">
             <span class="case-tag">Enterprise</span>
@@ -257,7 +261,6 @@
             <span class="case-tag">Internal Tools</span>
           </div>
           <div class="case-title">Redesigning how Meta repairs its global data centers</div>
-          <div class="case-desc">Unified 7 fragmented repair systems into a single platform, reducing repair time by 22%.</div>
           <div class="case-link">Read case study</div>
         </div>
       </a>
@@ -270,6 +273,7 @@
         <div class="case-body">
           <div class="case-company">
             <img src="premera-logo.png" alt="Premera Blue Cross" style="height:20px;width:auto;opacity:0.8;"/>
+            <span class="case-company-name">Premera Blue Cross</span>
           </div>
           <div class="case-tags">
             <span class="case-tag">B2C</span>
@@ -277,42 +281,9 @@
             <span class="case-tag">AI</span>
           </div>
           <div class="case-title">Making it easier to get help with your health insurance</div>
-          <div class="case-desc">Designed a chatbot that reduced customer service call time by 70% and improved satisfaction by 11%.</div>
           <div class="case-link">Read case study</div>
         </div>
       </a>
-
-      <!-- Icon Library — coming soon
-      <a href="icon-library.html" class="case-card">
-        <div class="case-cover cover-icon">
-          <div class="case-cover-placeholder">cover-icon-library.jpg<br>1600×1000px</div>
-        </div>
-        <div class="case-body">
-          <div class="case-company">
-            <span class="case-company-placeholder">Pushpay</span>
-          </div>
-          <div class="case-title">Improving a product's search functionality through a redesign</div>
-          <div class="case-desc">Redesigned an icon library of 1,500+ icons, making users find their desired icon 3x faster.</div>
-          <div class="case-link">Read case study</div>
-        </div>
-      </a>
-      -->
-
-      <!-- Credit Card — coming soon
-      <a href="creditcard.html" class="case-card">
-        <div class="case-cover cover-credit">
-          <div class="case-cover-placeholder">cover-creditcard.jpg<br>1600×1000px</div>
-        </div>
-        <div class="case-body">
-          <div class="case-company">
-            <span class="case-company-placeholder">MK Transfer</span>
-          </div>
-          <div class="case-title">Reducing the anxiety of a credit card application</div>
-          <div class="case-desc">88% of users reported no anxiety, and 100% said they trusted the app with their finances.</div>
-          <div class="case-link">Read case study</div>
-        </div>
-      </a>
-      -->
 
     </div>
   </div>
