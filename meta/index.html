@@ -1640,14 +1640,33 @@
 
   <div class="container">
     <h3>Surface 1: The Actioner's queue</h3>
-    <p>Designed for on-site repair techs who needed to know exactly what to work on, in what order, without spending time on triage first. The queue is sorted by priority and surfaced shift-aware context so technicians could orient and start a repair from a single screen.</p>
+    <p>Designed for on-site repair techs who needed to know exactly what to work on, in what order, without spending time on triage first. The queue, issue detail, and guided repair plan were designed as a single connected flow: from "what do I work on?" to "how do I fix it?" without ever leaving the platform.</p>
   </div>
 
   <div class="wide" style="margin-top:1.5rem;">
-    <div class="screenshot-wrap modal-trigger">
-      <img src="/Actioner.jpg" alt="Repair Console dashboard showing a prioritized queue of assigned issues for an on-site repair technician, with shift stats, team roster, and live alerts" style="width:100%;display:block;cursor:zoom-in;"/>
-      <div class="screenshot-caption">
-        <strong>The Actioner's queue.</strong> Issues are sorted by priority (P1 to P3) with status filters, so there is no ambiguity about what to tackle first. Each card surfaces key context inline: location, server type, time open, and event count. The "Your Shift" panel shows workload at a glance, and blocked issues like the NIC Link Down card display a blocker reason inline so the tech stays informed without chasing down status in another tool.
+    <div class="carousel carousel-landscape" id="actioner-carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="actioner-track">
+          <div class="carousel-slide">
+            <img src="/Actioner.jpg" alt="Repair Console dashboard showing a prioritized queue of assigned issues for an on-site repair technician, with shift stats, team roster, and live alerts"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="/repairtech2.jpg" alt="Issue detail view showing all events grouped under a GPU Memory Fault, with a similar case found from another data center and a recommended resolution path"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="/repairtech3.jpg" alt="Action plan execution view showing Step 3 of 4 for a GPU Memory Fault repair, with step instructions on the left and plan progress on the right"/>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-caption" id="actioner-caption"><strong>The Actioner's queue.</strong> Issues are sorted by priority (P1 to P3) with status filters, so there is no ambiguity about what to tackle first. Each card surfaces key context inline: location, server type, time open, and event count. The "Your Shift" panel shows workload at a glance, and blocked issues display a blocker reason inline so the tech stays informed without chasing down status in another tool.</div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="actioner-prev" onclick="carouselMove('actioner', -1)" disabled>&#8592;</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active" onclick="carouselGoTo('actioner', 0)"></button>
+          <button class="carousel-dot" onclick="carouselGoTo('actioner', 1)"></button>
+          <button class="carousel-dot" onclick="carouselGoTo('actioner', 2)"></button>
+        </div>
+        <button class="carousel-btn" id="actioner-next" onclick="carouselMove('actioner', 1)">&#8594;</button>
       </div>
     </div>
   </div>
