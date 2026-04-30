@@ -294,11 +294,45 @@
     margin: 2rem 0;
   }
 
+  /* USABILITY FINDING ROWS */
+  .usability-finding {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .usability-finding:last-child {
+    border-bottom: none;
+  }
+  .usability-finding .finding-text {
+    order: 1;
+  }
+  .usability-finding .screenshot-wrap {
+    margin: 0;
+    order: 2;
+  }
+  /* When image is naturally first in DOM (even findings), swap on desktop */
+  .usability-finding.image-first .finding-text {
+    order: 2;
+  }
+  .usability-finding.image-first .screenshot-wrap {
+    order: 1;
+  }
+
+  /* REFLECTION GRID */
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 2.5rem;
+    align-items: stretch;
+  }
+
   .metrics-strip > div[style*="width: 1px"] { display: none; }
 
   @media (max-width: 680px) {
     .metrics-strip { flex-direction: column !important; gap: 1.5rem; padding: 0 0 2rem 0 !important; }
-    [style*="grid-template-columns:1fr 1fr"][style*="align-items:center"] { grid-template-columns: 1fr !important; }
     .metrics-strip > div[style*="width: 1px"] { display: none; }
     .metrics-strip > div[style*="flex: 1"] { padding: 0 !important; }
     .meta-grid { grid-template-columns: 1fr 1fr; }
@@ -319,7 +353,30 @@
     [style*="grid-template-columns: 1fr 1fr"] {
       grid-template-columns: 1fr !important;
     }
+
+    /* Usability findings: always text first, image second on mobile */
+    .usability-finding {
+      grid-template-columns: 1fr !important;
+    }
+    .usability-finding .finding-text {
+      order: 1 !important;
+    }
+    .usability-finding .screenshot-wrap {
+      order: 2 !important;
+    }
+
+    /* Reflection: single column, text first, image last */
+    .reflection-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .reflection-grid .reflection-text {
+      order: 1;
+    }
+    .reflection-grid .reflection-image {
+      order: 2;
+    }
   }
+
   /* ZOOMABLE IMAGES */
   .zoomable { cursor: zoom-in; transition: opacity 0.15s; }
   .zoomable:hover { opacity: 0.9; }
@@ -772,23 +829,23 @@
     <p>After converting the user flow to a prototype, I conducted usability tests to further refine the design. Here are a few of my key findings:</p>
 
     <!-- Finding 01: text left, image right -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
-      <div>
+    <div class="usability-finding">
+      <div class="finding-text">
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 01</div>
         <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Reduce the need for typing</h4>
         <p style="font-size:14px;line-height:1.65;">Help the user quickly answer the bot's question by clicking buttons or using their voice instead of typing out responses.</p>
       </div>
-      <div class="screenshot-wrap" style="margin:0;">
+      <div class="screenshot-wrap">
         <img class="zoomable" src="/testing_buttons.png" alt="Before and after showing button options replacing free-text input"/>
       </div>
     </div>
 
-    <!-- Finding 02: image left, text right -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
-      <div class="screenshot-wrap" style="margin:0;">
+    <!-- Finding 02: image left, text right (desktop) — text always first on mobile -->
+    <div class="usability-finding image-first">
+      <div class="screenshot-wrap">
         <img class="zoomable" src="/testing_shorten.png" alt="Before and after showing shortened bot messages"/>
       </div>
-      <div>
+      <div class="finding-text">
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 02</div>
         <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Keep it short</h4>
         <p style="font-size:14px;line-height:1.65;">Users tended to only scan content and often missed information if the message was too long.</p>
@@ -796,23 +853,23 @@
     </div>
 
     <!-- Finding 03: text left, image right -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border-light);">
-      <div>
+    <div class="usability-finding">
+      <div class="finding-text">
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 03</div>
         <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Present the bot's top 3 guesses</h4>
         <p style="font-size:14px;line-height:1.65;">When clarifying the user's question, the bot should display its top 3 guesses along with a "Something else" option, so that the user is never trapped.</p>
       </div>
-      <div class="screenshot-wrap" style="margin:0;">
+      <div class="screenshot-wrap">
         <img class="zoomable" src="/testing_guess.png" alt="Bot presenting top 3 guesses to the user"/>
       </div>
     </div>
 
-    <!-- Finding 04: image left, text right -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:2rem 0;">
-      <div class="screenshot-wrap" style="margin:0;">
+    <!-- Finding 04: image left, text right (desktop) — text always first on mobile -->
+    <div class="usability-finding image-first">
+      <div class="screenshot-wrap">
         <img class="zoomable" src="/testing_failedGuess.png" alt="Bot failing gracefully and routing user to a human"/>
       </div>
-      <div>
+      <div class="finding-text">
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">Finding 04</div>
         <h4 style="font-size:15px;font-weight:500;margin-bottom:0.5rem;">Fail gracefully</h4>
         <p style="font-size:14px;line-height:1.65;">If the chatbot is unable to understand the user's question the first time, don't try again. Just get them to a human.</p>
@@ -878,19 +935,19 @@
     <div class="section-label">Reflection</div>
     <h2>What I learned</h2>
 
-  <div style="display:grid;grid-template-columns:1fr 220px;gap:2.5rem;align-items:stretch;">
-    <div class="screenshot-wrap" style="margin:0;padding:1.25rem;display:flex;flex-direction:column;justify-content:center;">
-      <h3 style="margin-top:0;">Involving engineers early is critical</h3>
-      <p>Involving the engineers throughout the design process was critical in understanding technical constraints as well as promoting a culture of collaboration. This also helped reduce implementation time since they could start developing while I was still designing.</p>
+    <div class="reflection-grid">
+      <div class="screenshot-wrap reflection-text" style="margin:0;padding:1.25rem;display:flex;flex-direction:column;justify-content:center;">
+        <h3 style="margin-top:0;">Involving engineers early is critical</h3>
+        <p>Involving the engineers throughout the design process was critical in understanding technical constraints as well as promoting a culture of collaboration. This also helped reduce implementation time since they could start developing while I was still designing.</p>
 
-      <h3>Balancing today's constraints with the ideal future state</h3>
-      <p style="margin-bottom:0;">One of the biggest challenges with this project was balancing what was possible today with an ideal future state. However, the team is committed to continuously improving the chatbot's functionality so that it can answer more questions and help users without them ever needing to call.</p>
+        <h3>Balancing today's constraints with the ideal future state</h3>
+        <p style="margin-bottom:0;">One of the biggest challenges with this project was balancing what was possible today with an ideal future state. However, the team is committed to continuously improving the chatbot's functionality so that it can answer more questions and help users without them ever needing to call.</p>
+      </div>
+      <div class="screenshot-wrap reflection-image" style="margin:0;cursor:zoom-in;display:flex;flex-direction:column;">
+        <img src="/neil_premera.jpg" alt="Neil presenting Premera Scout at a Digital CX conference" style="width:100%;flex:1;object-fit:cover;object-position:center 20%;display:block;min-height:0;" class="zoomable"/>
+        <div class="screenshot-caption">Presenting Premera Scout at a Digital CX conference - one of the more memorable moments from this project.</div>
+      </div>
     </div>
-    <div class="screenshot-wrap" style="margin:0;cursor:zoom-in;display:flex;flex-direction:column;">
-      <img src="/neil_premera.jpg" alt="Neil presenting Premera Scout at a Digital CX conference" style="width:100%;flex:1;object-fit:cover;object-position:center 20%;display:block;min-height:0;" class="zoomable"/>
-      <div class="screenshot-caption">Presenting Premera Scout at a Digital CX conference - one of the more memorable moments from this project.</div>
-    </div>
-  </div>
   </div>
 </section>
 
